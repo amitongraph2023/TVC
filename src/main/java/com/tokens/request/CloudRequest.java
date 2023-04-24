@@ -1,55 +1,28 @@
 package com.tokens.request;
 
-import java.util.Date;
-
 public class CloudRequest {
 
-	// ( we have to maintain the master data for that ).
-	private Integer locationId;
-
-	// ( we have to maintain the master data for that )
-	private Integer posId;
-	private String cardNumber;
-
-	// cardNumber and masterKey are might be same entity
-	private String masterKey;
+	private String token;
+	
+	private String userId;
 	private String amount;
-	private Integer userId;
-	private Date date;
-
-	// optional
-	private String gpsLocation;
-
-	public Integer getUserId() {
-		return userId;
+	private String createdDate;
+	private String locationId;
+	//( we have to maintain the master data for that )
+	private String posId;
+	private String cardNumber;
+	
+	private String sourceIp;
+	
+	//optional
+    private String gpsLocation;
+    
+	public String getCardNumber() {
+		return cardNumber;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	public Integer getLocationId() {
-		return locationId;
-	}
-
-	public void setLocationId(Integer locationId) {
-		this.locationId = locationId;
-	}
-
-	public Integer getPosId() {
-		return posId;
-	}
-
-	public void setPosId(Integer posId) {
-		this.posId = posId;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
 	}
 
 	public String getGpsLocation() {
@@ -60,20 +33,44 @@ public class CloudRequest {
 		this.gpsLocation = gpsLocation;
 	}
 
-	public String getCardNumber() {
-		return cardNumber;
+	public String getToken() {
+		return token;
 	}
 
-	public void setCardNumber(String cardNumber) {
-		this.cardNumber = cardNumber;
+	public void setToken(String token) {
+		this.token = token;
 	}
 
-	public String getMasterKey() {
-		return masterKey;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setMasterKey(String masterKey) {
-		this.masterKey = masterKey;
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(String locationId) {
+		this.locationId = locationId;
+	}
+
+	public String getPosId() {
+		return posId;
+	}
+
+	public void setPosId(String posId) {
+		this.posId = posId;
+	}
+
+	public String getSourceIp() {
+		return sourceIp;
+	}
+
+	public void setSourceIp(String sourceIp) {
+		this.sourceIp = sourceIp;
 	}
 
 	public String getAmount() {
@@ -83,5 +80,17 @@ public class CloudRequest {
 	public void setAmount(String amount) {
 		this.amount = amount;
 	}
+
+	public String getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	
+	
+
 
 }

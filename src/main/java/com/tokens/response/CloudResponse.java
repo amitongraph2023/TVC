@@ -4,17 +4,15 @@ public class CloudResponse {
 
 	private String generatedToken;
 
-	private String masterKey;
+	private Integer transactionId;
 
-	private Integer userId;
+	public CloudResponse() {
+	}
 	
-	public CloudResponse() {}
-	
-	public CloudResponse(String generatedToken, String masterKey, Integer userId) {
+	public CloudResponse(String generatedToken, Integer transactionId) {
 		super();
 		this.generatedToken = generatedToken;
-		this.masterKey = masterKey;
-		this.userId = userId;
+		this.transactionId = transactionId;
 	}
 
 	public String getGeneratedToken() {
@@ -25,20 +23,12 @@ public class CloudResponse {
 		this.generatedToken = generatedToken;
 	}
 
-	public String getMasterKey() {
-		return masterKey;
+	public Integer getTransactionId() {
+		return transactionId;
 	}
 
-	public void setMasterKey(String masterKey) {
-		this.masterKey = masterKey;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setTransactionId(Integer transactionId) {
+		this.transactionId = transactionId;
 	}
 
 }

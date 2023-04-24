@@ -1,19 +1,48 @@
 package com.tokens.models;
 
-//Entity
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class User {
 
-	private Integer userId;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer userId;
 	private String userName;
 	private String password;
-	private String masterKey;
+	private Date lastUpdated;
+	private String role;
 	
+
 	public Integer getUserId() {
 		return userId;
 	}
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public String getUserName() {
@@ -32,11 +61,5 @@ public class User {
 		this.password = password;
 	}
 
-	public String getMasterKey() {
-		return masterKey;
-	}
 
-	public void setMasterKey(String masterKey) {
-		this.masterKey = masterKey;
-	}
 }

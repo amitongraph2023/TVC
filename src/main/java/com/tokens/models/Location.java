@@ -1,34 +1,40 @@
 package com.tokens.models;
 
-//Entity
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Location {
 
-	private Integer locationId;
+//	Station_name
+//	Merchant_ID
+//	Terminal_id
+//	GPS_coordinate
 	
-	private String locationName;
+	@Id
+	private Integer merchantId;
 	
-	public Location() {}
+	@OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+	private List<Pos> pos;
 
-	public Location(Integer locationId, String locationName) {
-		super();
-		this.locationId = locationId;
-		this.locationName = locationName;
+	public Integer getMerchantId() {
+		return merchantId;
 	}
 
-	public Integer getLocationId() {
-		return locationId;
+	public void setMerchantId(Integer merchantId) {
+		this.merchantId = merchantId;
 	}
 
-	public void setLocationId(Integer locationId) {
-		this.locationId = locationId;
+	public List<Pos> getPos() {
+		return pos;
 	}
 
-	public String getLocationName() {
-		return locationName;
-	}
-
-	public void setLocationName(String locationName) {
-		this.locationName = locationName;
+	public void setPos(List<Pos> pos) {
+		this.pos = pos;
 	}
 	
 }

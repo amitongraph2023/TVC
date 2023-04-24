@@ -16,6 +16,5 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	@Modifying
 	@Query("Update User u set u.masterKey = :masterKey where u.userId = :userId")
 	Optional<User> addUserMasterKey(@Param("userId") Integer userId,@Param("masterKey") String masterKey);
-	
 
 }

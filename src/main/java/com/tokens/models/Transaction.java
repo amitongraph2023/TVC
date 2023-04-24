@@ -2,26 +2,42 @@ package com.tokens.models;
 
 import java.util.Date;
 
-//Entity
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Transaction {
 	
-	//primary Key
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer internalTransactionId;
+	
+	private Integer transactionId;
+	
 	private String token;
 	private Integer userId;
-	private String amount;
+	private Double amount;
 	private Date createdDate;
-	private Integer locationId;
+	private String locationId;
 	//( we have to maintain the master data for that )
-	private Integer posId;
+	private String posId;
 	private String cardNumber;
+	private String sourceIp;
 	
-	//cardNumber and masterKey are might be same entity
-	private String masterKey;
+	private String status;
 	
+	private String lastUpdated;
 	
+	//optional
+    private String gpsLocation;
 	
-	public Transaction(String token, Integer userId, String amount, Date createdDate, Integer locationId, Integer posId,
-			String cardNumber, String masterKey, String gpsLocation) {
+	public Transaction(String token, Integer userId, Double amount, Date createdDate, String locationId, String posId,
+			String cardNumber, String sourceIp, String gpsLocation) {
 		super();
 		this.token = token;
 		this.userId = userId;
@@ -30,25 +46,18 @@ public class Transaction {
 		this.locationId = locationId;
 		this.posId = posId;
 		this.cardNumber = cardNumber;
-		this.masterKey = masterKey;
+		this.sourceIp = sourceIp;
 		this.gpsLocation = gpsLocation;
 	}
-
-	public Integer getLocationId() {
-		return locationId;
+	
+	public Integer getTransactionId() {
+		return transactionId;
 	}
 
-	public void setLocationId(Integer locationId) {
-		this.locationId = locationId;
+	public void setTransactionId(Integer transactionId) {
+		this.transactionId = transactionId;
 	}
 
-	public Integer getPosId() {
-		return posId;
-	}
-
-	public void setPosId(Integer posId) {
-		this.posId = posId;
-	}
 
 	public String getCardNumber() {
 		return cardNumber;
@@ -56,14 +65,6 @@ public class Transaction {
 
 	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
-	}
-
-	public String getMasterKey() {
-		return masterKey;
-	}
-
-	public void setMasterKey(String masterKey) {
-		this.masterKey = masterKey;
 	}
 
 	public String getGpsLocation() {
@@ -74,10 +75,6 @@ public class Transaction {
 		this.gpsLocation = gpsLocation;
 	}
 
-	//optional
-    private String gpsLocation;
-	
-	
 	public String getToken() {
 		return token;
 	}
@@ -94,11 +91,35 @@ public class Transaction {
 		this.userId = userId;
 	}
 
-	public String getAmount() {
+	public String getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(String locationId) {
+		this.locationId = locationId;
+	}
+
+	public String getPosId() {
+		return posId;
+	}
+
+	public void setPosId(String posId) {
+		this.posId = posId;
+	}
+
+	public String getSourceIp() {
+		return sourceIp;
+	}
+
+	public void setSourceIp(String sourceIp) {
+		this.sourceIp = sourceIp;
+	}
+
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
@@ -110,5 +131,20 @@ public class Transaction {
 		this.createdDate = createdDate;
 	}
 
-	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(String lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+
 }
