@@ -1,8 +1,10 @@
 package com.tokens.service;
 
+
 import java.util.List;
 
 import com.tokens.models.Transaction;
+import com.tokens.models.TransactionStatusLogs;
 import com.tokens.request.CloudRequest;
 import com.tokens.response.CloudResponse;
 
@@ -16,5 +18,15 @@ public interface TransactionService {
 	
 	Boolean updateTransactionStatus(Integer transactionId, String status);
 	
-	List<Transaction> logsUpdatedTransactionStatus();
+	TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated);
+	
+	List<TransactionStatusLogs> logsUpdatedTransactionStatus();
+	
+	Transaction getSuccessTransactions();
+	
+	Transaction getFailedTransactions();
+	
+	List<Transaction> logsTransactionToken();
+	
 }
+
