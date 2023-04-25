@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tokens.models.Transaction;
 import com.tokens.service.TransactionService;
 
 @Controller("/view")
@@ -30,4 +31,18 @@ public class DashBoardController {
 
 		return mvc;
 	}
+	
+	
+	@GetMapping("/getSuccessTransaction")
+	public Transaction getSuccessTransaction() {
+		Transaction transaction = transactionService.getSuccessTransactions();
+		return transaction;
+	}
+	
+	@GetMapping("/getFailedTransaction")
+	public Transaction getFailedTransaction() {
+		Transaction transaction = transactionService.getFailedTransactions();
+		return transaction;
+	}
+	
 }
