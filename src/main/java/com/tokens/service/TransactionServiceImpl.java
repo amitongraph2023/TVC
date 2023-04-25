@@ -24,11 +24,8 @@ import com.tokens.repository.TransactionRepository;
 import com.tokens.repository.UserRepository;
 import com.tokens.request.CloudRequest;
 import com.tokens.response.CloudResponse;
-import com.tokens.utils.TokenGenerator;
+import com.tokens.utils.JwtUtil;
 
-@Component
-@Repository
-@Controller
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
@@ -41,7 +38,7 @@ public class TransactionServiceImpl implements TransactionService {
 	UserRepository userRepository;
 
 	@Autowired
-	TokenGenerator tokenGenerator;
+	JwtUtil tokenGenerator;
 
 	@Autowired
 	MasterKeyRepository masterKeyRepository;
@@ -51,18 +48,12 @@ public class TransactionServiceImpl implements TransactionService {
 		CloudResponse response = null;
 		try {
 			String token = "";
-			User user = userRepository.findById(Integer.parseInt(request.getUserId())).get();
-			if (user != null) {
-				MasterKey key = masterKeyRepository.findAll().get(0);
-				if (key != null && key.getMasterKey() != null) {
-					tokenGenerator.generateToken(key.getMasterKey(), user.getUserId().toString());
-				} else {
-					logger.error("cannot generate Token Without MasterKey");
-					throw new Exception("cannot generate Token Without MasterKey");
-				}
+			MasterKey key = masterKeyRepository.findAll().get(0);
+			if (key != null && key.getMasterKey() != null) {
+				tokenGenerator.generateCloudToken(key.getMasterKey(), request.getCustomerId().toString());
 			} else {
-				logger.error("User not found");
-				throw new Exception("User not found");
+				logger.error("cannot generate Token Without MasterKey");
+				throw new Exception("cannot generate Token Without MasterKey");
 			}
 
 			// saving transactions in DB
@@ -81,11 +72,14 @@ public class TransactionServiceImpl implements TransactionService {
 		Transaction transaction = null;
 
 		try {
-			transaction = new Transaction(token, Integer.parseInt(req.getUserId()), req.getAmount(),
-					req.getCreatedDate(), req.getLocationId(), req.getPosId(), req.getCardNumber(), req.getSourceIp(),
-					req.getGpsLocation());
+
+			transaction = new Transaction(token, Integer.parseInt(req.getCustomerId()),
+					Double.parseDouble(req.getAmount()), req.getCreatedDate(), Integer.parseInt(req.getLocationId()),
+					Integer.parseInt(req.getPosId()), req.getCardNumber(), req.getSourceIp(), req.getGpsLocation());
 
 			transactionRepository.save(transaction);
+
+			// need to save data in location and pos table here
 
 		} catch (Exception e) {
 			logger.error("Exception occurred while saving Transaction");
@@ -100,33 +94,5 @@ public class TransactionServiceImpl implements TransactionService {
 		return count;
 	}
 
-	@Override
-	public Boolean updateTransactionStatus(Integer transactionId, String status) {
-
-		boolean isUpdated = false;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-
-		try {
-
-			Transaction transaction = transactionRepository.findByTransactionId(transactionId);
-			if (transaction != null) {
-
-				transaction.setStatus(status);
-				transaction.setLastUpdated(dateFormat.format(new Date()));
-				transactionRepository.save(transaction);
-
-				isUpdated = true;
-			}
-		} catch (Exception e) {
-			logger.error("Transaction not found for ID: " + transactionId);
-		}
-		return isUpdated;
-	}
-
-	@Override
-	public List<Transaction> logsUpdatedTransactionStatus() {
-		List<Transaction> transaction = transactionRepository.findAllTransactions(TransactionStatus.NONE.name());
-		return transaction;
-	}
 	
 }

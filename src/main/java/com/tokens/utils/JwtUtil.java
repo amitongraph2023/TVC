@@ -14,9 +14,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TokenGenerator {
+public class JwtUtil {
 
 	private static final long EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
+	private static final long CLOUD_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
+
 
 	@Value("${secretKey}")
     private String SECRET_KEY = "secret";
@@ -41,19 +43,33 @@ public class TokenGenerator {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(String masterKey, String userId) {
+    public String generateToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        //claims.put("userId", userId);
+        return createToken(claims, username);
+    }
+
+    private String createToken(Map<String, Object> claims, String subject) {
+
+        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
+    }
+    
+    public String generateCloudToken(String masterKey, String userId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("masterKey",masterKey);
         claims.put("userId", userId);
-        return createToken(claims, userId, masterKey);
+        return createCloudToken(claims, userId, masterKey);
     }
 
-    private String createToken(Map<String, Object> claims, String subject, String masterKey) {
+    private String createCloudToken(Map<String, Object> claims, String subject, String masterKey) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS256, masterKey).compact();
     }
+
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);

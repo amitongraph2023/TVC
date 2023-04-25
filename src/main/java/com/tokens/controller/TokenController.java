@@ -34,22 +34,4 @@ public class TokenController {
 		return ResponseEntity.badRequest().body(new CloudResponse());
 	}
 
-	@PostMapping("/updateStatus")
-    public ResponseEntity<String> updateTransactionStatus(@RequestBody TransactionStatusRequest request) {
-        boolean updated = transactionService.updateTransactionStatus(Integer.parseInt(request.getTransactionId()), request.getStatus());
-        if (updated) {
-        	return ResponseEntity.ok().body("Successfully updated");
-        }
-        
-        return ResponseEntity.ok().body("Exception during updating transaction status");
-    }
-	
-	@GetMapping("/getLogsUpdatedStatus")
-	public ResponseEntity<List<Transaction>> logsUpdatedTransactionStatus(){
-		List<Transaction> transaction = transactionService.logsUpdatedTransactionStatus();
-		if (transaction != null) {
-			return ResponseEntity.ok().body(transaction);
-		}
-		return ResponseEntity.badRequest().body(transaction);
-	}   
 }

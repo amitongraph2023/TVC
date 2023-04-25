@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -12,13 +13,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class Pos {
 
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer internalPosId;
 
 	private Integer terminalId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "merchantId")
+	@JoinColumn(name = "merchantId",referencedColumnName = "merchant_id", nullable = false)
 	@JsonBackReference
 	private Location location;
 

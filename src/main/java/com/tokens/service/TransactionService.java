@@ -14,7 +14,4 @@ public interface TransactionService {
 	
 	int countAllTransaction();
 	
-	Boolean updateTransactionStatus(Integer transactionId, String status);
-	
-	List<Transaction> logsUpdatedTransactionStatus();
 }

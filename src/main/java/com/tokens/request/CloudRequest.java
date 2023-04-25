@@ -4,7 +4,7 @@ public class CloudRequest {
 
 	private String token;
 	
-	private String userId;
+	private String customerId;
 	private String amount;
 	private String createdDate;
 	private String locationId;
@@ -41,12 +41,12 @@ public class CloudRequest {
 		this.token = token;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getCustomerId() {
+		return customerId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
 	}
 
 	public String getLocationId() {
@@ -88,9 +88,5 @@ public class CloudRequest {
 	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
-
-	
-	
-
 
 }
