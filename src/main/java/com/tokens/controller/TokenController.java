@@ -49,7 +49,7 @@ public class TokenController {
 	
 	@PostMapping("/updateStatus")
     public ResponseEntity<String> updateTransactionStatus(@RequestBody TransactionStatusRequest request) {
-        boolean updated = transactionService.updateTransactionStatus(Integer.parseInt(request.getTransactionId()), request.getStatus());
+        boolean updated = transactionService.updateTransactionStatus(request.getInternalTransactionId(), request.getTransactionId(), request.getStatus());
         if (updated) {
         	return ResponseEntity.ok().body("Successfully updated");
         }
