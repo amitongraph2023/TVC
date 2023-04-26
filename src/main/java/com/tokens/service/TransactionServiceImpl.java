@@ -9,16 +9,12 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.tokens.models.MasterKey;
 import com.tokens.models.Transaction;
 import com.tokens.models.TransactionStatus;
 import com.tokens.models.TransactionStatusLogs;
-import com.tokens.models.User;
 import com.tokens.repository.MasterKeyRepository;
 import com.tokens.repository.TransactionRepository;
 import com.tokens.repository.TrasactionStatusLogsRepository;
@@ -105,12 +101,12 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public Boolean updateTransactionStatus(Integer transactionId, String status) {
+	public Boolean updateTransactionStatus(Integer internalTransactionId, Integer transactionId, String status) {
 
 		boolean isUpdated = false;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		
-		Transaction transaction = transactionRepository.findByTransactionId(transactionId);
+		Transaction transaction = transactionRepository.findByInternalTransactionId(internalTransactionId);
 		
 		if (transaction.getTransactionId() == null) {
 			transaction.setStatus(TransactionStatus.FAILED);
@@ -130,7 +126,7 @@ public class TransactionServiceImpl implements TransactionService {
 				transaction.setLastUpdated(dateFormat.format(new Date()));
 				transactionRepository.save(transaction);
 				
-				saveTransactionStatusLogs(transactionId, transaction.getStatus().toString(), transaction.getLastUpdated());
+				saveTransactionStatusLogs(internalTransactionId, transactionId, transaction.getStatus().toString(), transaction.getLastUpdated());
 				
 				isUpdated = true;
 				
@@ -145,11 +141,11 @@ public class TransactionServiceImpl implements TransactionService {
 	
 
 	@Override
-	public TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated) {	
+	public TransactionStatusLogs saveTransactionStatusLogs(Integer internalTransactionId, Integer transactionId, String status, String lastUpdated) {	
 		TransactionStatusLogs transactionStatusLogs = null;
 		
 		try {
-			 transactionStatusLogs = new TransactionStatusLogs(transactionId, status, lastUpdated);
+			 transactionStatusLogs = new TransactionStatusLogs(internalTransactionId, transactionId, status, lastUpdated);
 			 transactionStatusLogsRepository.save(transactionStatusLogs);
 			
 		} catch (Exception e) {
