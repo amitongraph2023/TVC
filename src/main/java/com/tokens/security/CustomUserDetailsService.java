@@ -16,7 +16,8 @@ import com.tokens.repository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
+  
+	@Autowired
     private UserRepository repository;
 
     @Override

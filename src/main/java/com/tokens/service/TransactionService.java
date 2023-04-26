@@ -16,7 +16,9 @@ public interface TransactionService {
 	
 	int countAllTransaction();
 	
-	Boolean updateTransactionStatus(Integer InternalTransactionId, Integer transactionId, String status);
+	String validateCloudRequest(CloudRequest req);
+
+	Boolean updateTransactionStatus(Integer transactionId, String status);
 	
 	TransactionStatusLogs saveTransactionStatusLogs(Integer internalTransactionId, Integer transactionId, String status, String lastUpdated);
 	
@@ -27,6 +29,6 @@ public interface TransactionService {
 	Transaction getFailedTransactions();
 	
 	List<Transaction> logsTransactionToken();
-	
+  
 }
 

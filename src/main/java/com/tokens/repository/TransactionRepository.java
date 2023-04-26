@@ -21,5 +21,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
 	@Query("SELECT t FROM Transaction t WHERE t.status = :status")
 	Transaction findByStatus(@Param("status") TransactionStatus status);
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> a83f7a606f990e7278cb1ce162e13defc4d9acd1
 }

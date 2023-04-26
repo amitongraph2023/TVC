@@ -2,6 +2,7 @@ package com.tokens.models;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,11 +16,18 @@ public class User {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
-	private String userName;
-	private String password;
-	private Date lastUpdated;
-	private String role;
 	
+	@Column(name="username")
+	private String userName;
+	
+	@Column(name="password")
+	private String password;
+	
+	@Column(name="last_updated")
+	private Date lastUpdated;
+	
+	@Column(name="role")
+	private String role;
 
 	public Integer getUserId() {
 		return userId;

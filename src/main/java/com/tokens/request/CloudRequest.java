@@ -1,44 +1,54 @@
 package com.tokens.request;
 
-public class CloudRequest {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-	private String token;
+public class CloudRequest {
 	
+	@NotBlank(message = "transactionId is null")
+    @Size(min = 2, max = 30)
+	private String transactionId;
+	
+	@NotBlank(message = "customerId is null")
+    @Size(min = 2, max = 30)
 	private String customerId;
+	
+	@NotBlank(message = "amount is null")
 	private String amount;
+	
+	@NotBlank(message = "createdDate is null")
+    @Size(min = 2, max = 30)
 	private String createdDate;
-	private String locationId;
-	//( we have to maintain the master data for that )
+	
+	@NotBlank(message = "merchantId is null")
+    @Size(min = 2, max = 30)
+	private String merchantId;
+	
+	@NotBlank(message = "merchantName is null")
+    @Size(min = 2, max = 30)
+	private String merchantName;
+	
+	@NotBlank(message = "posId is null")
+    @Size(min = 2, max = 30)
 	private String posId;
+	
+	@NotBlank(message = "cardNumber is null")
+    @Size(min = 2, max = 30)
 	private String cardNumber;
 	
+	@NotBlank(message = "sourceIp is null")
+    @Size(min = 2, max = 30)
 	private String sourceIp;
-	
-	//optional
-    private String gpsLocation;
-    
-	public String getCardNumber() {
-		return cardNumber;
+
+	// optional
+	private String gpsLocation;
+
+	public String getTransactionId() {
+		return transactionId;
 	}
 
-	public void setCardNumber(String cardNumber) {
-		this.cardNumber = cardNumber;
-	}
-
-	public String getGpsLocation() {
-		return gpsLocation;
-	}
-
-	public void setGpsLocation(String gpsLocation) {
-		this.gpsLocation = gpsLocation;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
 	}
 
 	public String getCustomerId() {
@@ -47,30 +57,6 @@ public class CloudRequest {
 
 	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
-	}
-
-	public String getLocationId() {
-		return locationId;
-	}
-
-	public void setLocationId(String locationId) {
-		this.locationId = locationId;
-	}
-
-	public String getPosId() {
-		return posId;
-	}
-
-	public void setPosId(String posId) {
-		this.posId = posId;
-	}
-
-	public String getSourceIp() {
-		return sourceIp;
-	}
-
-	public void setSourceIp(String sourceIp) {
-		this.sourceIp = sourceIp;
 	}
 
 	public String getAmount() {
@@ -87,6 +73,54 @@ public class CloudRequest {
 
 	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public String getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
+	}
+
+	public String getMerchantName() {
+		return merchantName;
+	}
+
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}
+
+	public String getPosId() {
+		return posId;
+	}
+
+	public void setPosId(String posId) {
+		this.posId = posId;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+	public String getSourceIp() {
+		return sourceIp;
+	}
+
+	public void setSourceIp(String sourceIp) {
+		this.sourceIp = sourceIp;
+	}
+
+	public String getGpsLocation() {
+		return gpsLocation;
+	}
+
+	public void setGpsLocation(String gpsLocation) {
+		this.gpsLocation = gpsLocation;
 	}
 
 }

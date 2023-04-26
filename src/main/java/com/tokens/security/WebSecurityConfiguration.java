@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,23 +17,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private CustomUserDetailsService userDetailsService;
+	@Autowired
+	private CustomUserDetailsService customUserDetailsService;
 
 	@Autowired
 	private JwtFilter jwtFilter;
 
 	@Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService);
-	}
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
 	}
 
 	@Bean
@@ -53,22 +57,24 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.cors();
-		httpSecurity.csrf().disable().authorizeRequests()
-				.antMatchers("/", "/home").permitAll()
-			//	.antMatchers("/cart", "/category/{categoryId}", "/product/{productId}").permitAll()
-				.antMatchers("/authenticate", "/registerAdminUser","/registerUser").permitAll()
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/", "/home").permitAll()
+				// .antMatchers("/cart", "/category/{categoryId}",
+				// "/product/{productId}").permitAll()
+				.antMatchers("/authenticate", "/registerAdminUser", "/registerUser").permitAll()
 				.antMatchers("/updateMasterKey", "/admin/**").hasRole("Admin")
 				.antMatchers("/addMasterKey").hasRole("User")
-			//	.antMatchers("/forUser", "/payment", "/address", "/placeorder").hasRole("User")
-				.antMatchers(HttpHeaders.ALLOW).permitAll()
-				.anyRequest().authenticated()
+				// .antMatchers("/forUser", "/payment", "/address",
+				// "/placeorder").hasRole("User")
+				.antMatchers(HttpHeaders.ALLOW).permitAll().anyRequest()
+				.authenticated()
 				.and()
 				.formLogin()
-				.loginPage("/signin")
-				.permitAll()
+				.loginPage("/signin").permitAll()
 				.failureUrl("/signin?error=true")
-				.defaultSuccessUrl("/home").and()
-				.logout().logoutUrl("/logout")
+				.defaultSuccessUrl("/home")
+				.and()
+				.logout()
+				.logoutUrl("/logout")
 				.logoutSuccessUrl("/home")
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")

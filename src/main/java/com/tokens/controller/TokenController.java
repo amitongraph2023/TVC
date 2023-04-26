@@ -6,8 +6,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,12 +26,18 @@ import com.tokens.service.TransactionService;
 public class TokenController {
 	
 	@Autowired
-	@Qualifier("")
 	TransactionService transactionService;
 	
 	
 	@GetMapping("/generateToken")
-	public ResponseEntity<CloudResponse> generateTransactionToken(@RequestBody CloudRequest cloudRequest){
+	public ResponseEntity<CloudResponse> generateTransactionToken(@Validated @RequestBody CloudRequest cloudRequest, BindingResult result){
+		
+		if (result.hasErrors()) {
+            // Build error message and return bad request response
+            StringBuilder errorMessage = new StringBuilder();
+            result.getAllErrors().forEach(error -> errorMessage.append(error.getDefaultMessage()).append(". "));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new CloudResponse("", 0, errorMessage.toString()));
+        }
 		
 		CloudResponse res = transactionService.generateTransactionToken(cloudRequest);
 		if(res != null) {

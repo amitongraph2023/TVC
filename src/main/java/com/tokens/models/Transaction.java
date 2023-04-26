@@ -14,32 +14,51 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer internalTransactionId;
 	
+	@Column(name="terminal_id")
 	private Integer transactionId;
 	
+	@Column(name="token")
 	private String token;
+	
+	@Column(name="customer_id")
 	private Integer customerId;
+	
+	@Column(name="amount")
 	private Double amount;
+
+	@Column(name="created_date")
 	private String createdDate;
-	private Integer locationId;
+	
+	@Column(name="merchant_id")
+	private Integer merchantId;
+	
+	@Column(name="merchant_name")
+	private String merchantName;
 	//( we have to maintain the master data for that )
+	
+	@Column(name="pos_id")
 	private Integer posId;
+	
+	@Column(name="card_number")
 	private String cardNumber;
+	
+	@Column(name="source_ip")
 	private String sourceIp;
 	
 	//optional
+	@Column(name="gps_location")
     private String gpsLocation;
-	
-    private TransactionStatus status;
-    private String lastUpdated;
-    
-	public Transaction(String token, Integer customerId, Double amount, String createdDate, Integer locationId, Integer posId,
+
+	public Transaction(String token, Integer customerId, Double amount, String createdDate, Integer merchantId, String merchantName,Integer posId,
+
 			String cardNumber, String sourceIp, String gpsLocation) {
 		super();
 		this.token = token;
 		this.customerId = customerId;
 		this.amount = amount;
 		this.createdDate = createdDate;
-		this.locationId = locationId;
+		this.merchantId = merchantId;
+		this.merchantName = merchantName;
 		this.posId = posId;
 		this.cardNumber = cardNumber;
 		this.sourceIp = sourceIp;
@@ -88,11 +107,11 @@ public class Transaction {
 	}
 
 	public Integer getLocationId() {
-		return locationId;
+		return merchantId;
 	}
 
 	public void setLocationId(Integer locationId) {
-		this.locationId = locationId;
+		this.merchantId = locationId;
 	}
 
 	public Integer getPosId() {
@@ -127,20 +146,35 @@ public class Transaction {
 		this.createdDate = createdDate;
 	}
 
-	public TransactionStatus getStatus() {
-		return status;
+	public Integer getInternalTransactionId() {
+		return internalTransactionId;
 	}
 
-	public void setStatus(TransactionStatus status) {
-		this.status = status;
+	public void setInternalTransactionId(Integer internalTransactionId) {
+		this.internalTransactionId = internalTransactionId;
 	}
 
-	public String getLastUpdated() {
-		return lastUpdated;
+	public Integer getCustomerId() {
+		return customerId;
 	}
 
-	public void setLastUpdated(String lastUpdated) {
-		this.lastUpdated = lastUpdated;
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
 	}
-	
+
+	public Integer getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(Integer merchantId) {
+		this.merchantId = merchantId;
+	}
+
+	public String getMerchantName() {
+		return merchantName;
+	}
+
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}
 }
