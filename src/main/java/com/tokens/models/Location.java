@@ -16,10 +16,30 @@ public class Location {
 //	GPS_coordinate
 	
 	@Id
+	private Integer internalMerchantId;
+	
 	private Integer merchantId;
+	
+	private Integer merchantName;
 	
 	@OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
 	private List<Pos> pos;
+
+	public Integer getInternalMerchantId() {
+		return internalMerchantId;
+	}
+
+	public void setInternalMerchantId(Integer internalMerchantId) {
+		this.internalMerchantId = internalMerchantId;
+	}
+
+	public Integer getMerchantName() {
+		return merchantName;
+	}
+
+	public void setMerchantName(Integer merchantName) {
+		this.merchantName = merchantName;
+	}
 
 	public Integer getMerchantId() {
 		return merchantId;

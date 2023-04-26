@@ -20,27 +20,23 @@ public class Transaction {
 	private Integer transactionId;
 	
 	private String token;
-	private Integer userId;
+	private Integer customerId;
 	private Double amount;
-	private Date createdDate;
-	private String locationId;
+	private String createdDate;
+	private Integer locationId;
 	//( we have to maintain the master data for that )
-	private String posId;
+	private Integer posId;
 	private String cardNumber;
 	private String sourceIp;
-	
-	private String status;
-	
-	private String lastUpdated;
 	
 	//optional
     private String gpsLocation;
 	
-	public Transaction(String token, Integer userId, Double amount, Date createdDate, String locationId, String posId,
+	public Transaction(String token, Integer customerId, Double amount, String createdDate, Integer locationId, Integer posId,
 			String cardNumber, String sourceIp, String gpsLocation) {
 		super();
 		this.token = token;
-		this.userId = userId;
+		this.customerId = customerId;
 		this.amount = amount;
 		this.createdDate = createdDate;
 		this.locationId = locationId;
@@ -84,26 +80,26 @@ public class Transaction {
 	}
 
 	public Integer getUserId() {
-		return userId;
+		return customerId;
 	}
 
 	public void setUserId(Integer userId) {
-		this.userId = userId;
+		this.customerId = userId;
 	}
 
-	public String getLocationId() {
+	public Integer getLocationId() {
 		return locationId;
 	}
 
-	public void setLocationId(String locationId) {
+	public void setLocationId(Integer locationId) {
 		this.locationId = locationId;
 	}
 
-	public String getPosId() {
+	public Integer getPosId() {
 		return posId;
 	}
 
-	public void setPosId(String posId) {
+	public void setPosId(Integer posId) {
 		this.posId = posId;
 	}
 
@@ -123,28 +119,11 @@ public class Transaction {
 		this.amount = amount;
 	}
 
-	public Date getCreatedDate() {
+	public String getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getLastUpdated() {
-		return lastUpdated;
-	}
-
-	public void setLastUpdated(String lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
-
 }

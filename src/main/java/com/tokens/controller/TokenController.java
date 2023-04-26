@@ -66,6 +66,5 @@ public class TokenController {
 		return ResponseEntity.badRequest().body(transactionLog);
 	}   
 	
-	
-	
+
 }
