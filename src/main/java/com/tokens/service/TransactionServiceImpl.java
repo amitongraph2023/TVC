@@ -1,7 +1,6 @@
 package com.tokens.service;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +17,11 @@ import org.springframework.stereotype.Service;
 import com.tokens.models.MasterKey;
 import com.tokens.models.Transaction;
 import com.tokens.models.TransactionStatus;
+import com.tokens.models.TransactionStatusLogs;
 import com.tokens.models.User;
 import com.tokens.repository.MasterKeyRepository;
 import com.tokens.repository.TransactionRepository;
+import com.tokens.repository.TrasactionStatusLogsRepository;
 import com.tokens.repository.UserRepository;
 import com.tokens.request.CloudRequest;
 import com.tokens.response.CloudResponse;
@@ -43,6 +44,9 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	MasterKeyRepository masterKeyRepository;
 
+	@Autowired
+	TrasactionStatusLogsRepository transactionStatusLogsRepository;
+	
 	@Override
 	public CloudResponse generateTransactionToken(CloudRequest request) {
 		CloudResponse response = null;
@@ -89,10 +93,90 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
+	public List<Transaction> logsTransactionToken() {
+		List<Transaction> transactionTokenLog = transactionRepository.findAll();
+		return transactionTokenLog;
+	}
+	
+	@Override
 	public int countAllTransaction() {
 		int count = (int) transactionRepository.count();
 		return count;
 	}
 
+	@Override
+	public Boolean updateTransactionStatus(Integer transactionId, String status) {
+
+		boolean isUpdated = false;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		
+		Transaction transaction = transactionRepository.findByTransactionId(transactionId);
+		
+		if (transaction.getTransactionId() == null) {
+			transaction.setStatus(TransactionStatus.FAILED);
+		}
+		
+		try {
+
+			if (transaction != null) {
+
+				if (status.equals("SUCCESS")) {
+					transaction.setStatus(TransactionStatus.COMPLETED);
+
+				} else if ((status.equals("") || status == null) && transaction.getStatus() != TransactionStatus.COMPLETED) {
+					transaction.setStatus(TransactionStatus.PENDING);					
+				} 
+				
+				transaction.setLastUpdated(dateFormat.format(new Date()));
+				transactionRepository.save(transaction);
+				
+				saveTransactionStatusLogs(transactionId, transaction.getStatus().toString(), transaction.getLastUpdated());
+				
+				isUpdated = true;
+				
+			}
+		} catch (Exception e) {
+			logger.error("Transaction not found for ID: " + transactionId);
+			
+		}
+		return isUpdated;
+		
+	}
+	
+
+	@Override
+	public TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated) {	
+		TransactionStatusLogs transactionStatusLogs = null;
+		
+		try {
+			 transactionStatusLogs = new TransactionStatusLogs(transactionId, status, lastUpdated);
+			 transactionStatusLogsRepository.save(transactionStatusLogs);
+			
+		} catch (Exception e) {
+			logger.error("Exception occurred while saving TransactionStatusLogs");
+		}
+		
+		return transactionStatusLogs;
+		
+	}
+	
+	@Override
+	public List<TransactionStatusLogs> logsUpdatedTransactionStatus() {
+		List<TransactionStatusLogs> transactionLog = transactionStatusLogsRepository.findAll();
+		return transactionLog;
+		
+	}
+
+	@Override
+	public Transaction getSuccessTransactions() {
+		Transaction transaction = transactionRepository.findByStatus(TransactionStatus.COMPLETED);
+		return transaction;
+	}
+
+	@Override
+	public Transaction getFailedTransactions() {
+		Transaction transaction = transactionRepository.findByStatus(TransactionStatus.FAILED);
+		return transaction;
+	}
 	
 }
