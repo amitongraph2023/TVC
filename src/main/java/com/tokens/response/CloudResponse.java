@@ -6,13 +6,21 @@ public class CloudResponse {
 
 	private Integer transactionId;
 
-	public CloudResponse() {
-	}
-	
+	private String message;
+
+	public CloudResponse() { }
+
 	public CloudResponse(String generatedToken, Integer transactionId) {
 		super();
 		this.generatedToken = generatedToken;
 		this.transactionId = transactionId;
+	}
+
+	public CloudResponse(String generatedToken, Integer transactionId, String message) {
+		super();
+		this.generatedToken = generatedToken;
+		this.transactionId = transactionId;
+		this.message = message;
 	}
 
 	public String getGeneratedToken() {
@@ -31,4 +39,11 @@ public class CloudResponse {
 		this.transactionId = transactionId;
 	}
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 }

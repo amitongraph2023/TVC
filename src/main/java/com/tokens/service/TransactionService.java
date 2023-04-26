@@ -14,4 +14,6 @@ public interface TransactionService {
 	
 	int countAllTransaction();
 	
+	String validateCloudRequest(CloudRequest req);
+
 }

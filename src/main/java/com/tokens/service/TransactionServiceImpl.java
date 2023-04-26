@@ -15,10 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.tokens.models.Location;
 import com.tokens.models.MasterKey;
 import com.tokens.models.Transaction;
 import com.tokens.models.TransactionStatus;
 import com.tokens.models.User;
+import com.tokens.repository.LocationRepository;
 import com.tokens.repository.MasterKeyRepository;
 import com.tokens.repository.TransactionRepository;
 import com.tokens.repository.UserRepository;
@@ -43,11 +45,16 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	MasterKeyRepository masterKeyRepository;
 
+	@Autowired
+	LocationRepository locationRepository;
+
 	@Override
 	public CloudResponse generateTransactionToken(CloudRequest request) {
 		CloudResponse response = null;
+		Transaction transaction = null;
 		try {
 			String token = "";
+
 			MasterKey key = masterKeyRepository.findAll().get(0);
 			if (key != null && key.getMasterKey() != null) {
 				tokenGenerator.generateCloudToken(key.getMasterKey(), request.getCustomerId().toString());
@@ -57,9 +64,13 @@ public class TransactionServiceImpl implements TransactionService {
 			}
 
 			// saving transactions in DB
-			Transaction transaction = saveTransaction(request, token);
-			// Transaction_ID
-			response = new CloudResponse(token, transaction.getTransactionId());
+			transaction = saveTransaction(request, token);
+
+			if (transaction != null) {
+				response = new CloudResponse(token, transaction.getTransactionId());
+			} else {
+				return new CloudResponse();
+			}
 		} catch (Exception e) {
 			logger.error("Exception occurred while generation Token");
 		}
@@ -70,21 +81,34 @@ public class TransactionServiceImpl implements TransactionService {
 	public Transaction saveTransaction(CloudRequest req, String token) {
 
 		Transaction transaction = null;
+		String exceptionMessage = validateCloudRequest(req);
+		logger.info("exceptionMessage : " + exceptionMessage);
+		if (exceptionMessage.length() == 0) {
+			try {
 
-		try {
+				transaction = new Transaction(token, Integer.parseInt(req.getCustomerId()),
+						Double.parseDouble(req.getAmount()), req.getCreatedDate(),
+						Integer.parseInt(req.getMerchantId()), req.getMerchantName(), Integer.parseInt(req.getPosId()),
+						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation());
 
-			transaction = new Transaction(token, Integer.parseInt(req.getCustomerId()),
-					Double.parseDouble(req.getAmount()), req.getCreatedDate(), Integer.parseInt(req.getLocationId()),
-					Integer.parseInt(req.getPosId()), req.getCardNumber(), req.getSourceIp(), req.getGpsLocation());
+//				if(checkLocationIfExsists(transaction.getMerchantId(),transaction.getMerchantName())){
+//				    transactionRepository.save(transaction);
+//				}else {
+//					throw new Exception("Location Does Not Esists");
+//				}
+			
+				// need to save data in location and pos table here - not sure for it
+				// as we will be having merchant details in our db to validate req with merchant Id and name
+				// so we need it before in order to valdiate and no need to save location then
+				//saveLocation(transaction);
 
-			transactionRepository.save(transaction);
+			} catch (Exception e) {
+				logger.error("Exception occurred while saving Transaction");
+			}
 
-			// need to save data in location and pos table here
-
-		} catch (Exception e) {
-			logger.error("Exception occurred while saving Transaction");
+		} else {
+			logger.error("Invalidate Request, Error :" + exceptionMessage);
 		}
-
 		return transaction;
 	}
 
@@ -94,5 +118,61 @@ public class TransactionServiceImpl implements TransactionService {
 		return count;
 	}
 
-	
+	public String validateCloudRequest(CloudRequest req) {
+		String exceptionMessage = "";
+
+		if (req.getTransactionId() == null) {
+			exceptionMessage = "TransactionId is null";
+			return exceptionMessage;
+		} else if (req.getAmount() == null || Integer.parseInt(req.getAmount()) < 0) {
+
+			exceptionMessage = "Amount is null or less than 0";
+			return exceptionMessage;
+		} else if (req.getCardNumber() == null) {
+
+			exceptionMessage = "CardNumber is null";
+			return exceptionMessage;
+		} else if (req.getCustomerId() == null) {
+
+			exceptionMessage = "CustomerId is null";
+			return exceptionMessage;
+		} else if (req.getMerchantId() == null) {
+
+			exceptionMessage = "MerchantId is null";
+			return exceptionMessage;
+		} else if (req.getMerchantName() == null) {
+
+			exceptionMessage = "MerchantName is null";
+			return exceptionMessage;
+		} else if (req.getPosId() == null) {
+
+			exceptionMessage = "PosId is null";
+			return exceptionMessage;
+		} else if (req.getSourceIp() == null) {
+
+			exceptionMessage = "SourceIp is null";
+			return exceptionMessage;
+		}
+		return exceptionMessage;
+	}
+
+	public void saveLocation(Transaction transaction) {
+
+	}
+
+	public Boolean checkLocationIfExsists(Integer merchantId, String merchantName) {
+
+		Location location = locationRepository.findLocationByMerchantId(merchantId).get();
+		if (location == null) {
+			logger.info("location does not esists");
+			return false;
+		}else if(!location.getMerchantName().equalsIgnoreCase(merchantName)) {
+			logger.info("location does not esists");
+			return false;
+		}
+
+		return true;
+
+	}
+
 }

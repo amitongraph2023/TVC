@@ -18,7 +18,4 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
 
 	Transaction findByTransactionId(Integer transactionId);
 
-	@Query("SELECT tr FROM Transaction tr where tr.status not in :status")
-	List<Transaction> findAllTransactions(@Param("status") String status);
-
 }

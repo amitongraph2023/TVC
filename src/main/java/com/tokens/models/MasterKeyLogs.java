@@ -1,5 +1,6 @@
 package com.tokens.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,35 +14,39 @@ public class MasterKeyLogs {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer Id;
+	private Integer id;
 	
 	@NotNull
-	private Integer masterKeyId;
+	@Column(name="masterkey_id")
+	private Integer masterkeyId;
 	
 	@NotNull
+	@Column(name="master_key")
 	private String masterKey;
 	
 	@NotNull
+	@Column(name="user_id")
 	private Integer userId;
 	
 	@NotNull
+	@Column(name="created_on")
 	private String createdOn;
 
 
 	public Integer getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Integer id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public Integer getMasterKeyId() {
-		return masterKeyId;
+		return masterkeyId;
 	}
 
 	public void setMasterKeyId(Integer masterKeyId) {
-		this.masterKeyId = masterKeyId;
+		this.masterkeyId = masterKeyId;
 	}
 
 	public String getMasterKey() {

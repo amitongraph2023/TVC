@@ -1,5 +1,6 @@
 package com.tokens.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ public class Pos {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer internalPosId;
 
+	@Column(name="terminal_id")
 	private Integer terminalId;
 
 	@ManyToOne(fetch = FetchType.LAZY)

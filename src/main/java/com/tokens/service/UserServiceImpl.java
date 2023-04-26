@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	MasterKeyLogsRepository masterKeyLogsRepository;
 
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	@Autowired(required=true)
+	BCryptPasswordEncoder passwordEncoder;
 
 	@Override
 	@Transactional

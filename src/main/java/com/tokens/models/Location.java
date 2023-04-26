@@ -3,6 +3,7 @@ package com.tokens.models;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -18,9 +19,11 @@ public class Location {
 	@Id
 	private Integer internalMerchantId;
 	
+	@Column(name="merchant_id")
 	private Integer merchantId;
 	
-	private Integer merchantName;
+	@Column(name="merchant_name")
+	private String merchantName;
 	
 	@OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
 	private List<Pos> pos;
@@ -33,11 +36,11 @@ public class Location {
 		this.internalMerchantId = internalMerchantId;
 	}
 
-	public Integer getMerchantName() {
+	public String getMerchantName() {
 		return merchantName;
 	}
 
-	public void setMerchantName(Integer merchantName) {
+	public void setMerchantName(String merchantName) {
 		this.merchantName = merchantName;
 	}
 
