@@ -1,8 +1,5 @@
 package com.tokens.models;
 
-import java.util.Date;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,6 +29,9 @@ public class Transaction {
 	//optional
     private String gpsLocation;
 	
+    private TransactionStatus status;
+    private String lastUpdated;
+    
 	public Transaction(String token, Integer customerId, Double amount, String createdDate, Integer locationId, Integer posId,
 			String cardNumber, String sourceIp, String gpsLocation) {
 		super();
@@ -126,4 +126,21 @@ public class Transaction {
 	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
+
+	public TransactionStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(TransactionStatus status) {
+		this.status = status;
+	}
+
+	public String getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(String lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+	
 }
