@@ -1,5 +1,6 @@
 package com.tokens.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +15,13 @@ public class TransactionStatusLogs {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
+	@Column(name = "transaction_id")
 	private Integer transactionId;
+	
+	@Column(name = "status")
 	private String status;
+	
+	@Column(name = "last_updated")
 	private String lastUpdated;
 	
 	public Integer getId() {
@@ -43,14 +49,11 @@ public class TransactionStatusLogs {
 		this.lastUpdated = lastUpdated;
 	}
 
-	
 	public TransactionStatusLogs(Integer transactionId, String status, String lastUpdated) {
 		super();
 		this.transactionId = transactionId;
 		this.status = status;
 		this.lastUpdated = lastUpdated;
 	}
-	
-	
 	
 }

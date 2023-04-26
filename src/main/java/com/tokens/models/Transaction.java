@@ -52,6 +52,11 @@ public class Transaction {
 	@Column(name="gps_location")
     private String gpsLocation;
 	
+	private String status;
+	
+	private String lastUpdated;
+	
+	public Transaction() {}
 	public Transaction(String token, Integer customerId, Double amount, String createdDate, Integer merchantId, String merchantName,Integer posId,
 			String cardNumber, String sourceIp, String gpsLocation) {
 		super();
@@ -170,6 +175,22 @@ public class Transaction {
 
 	public void setMerchantId(Integer merchantId) {
 		this.merchantId = merchantId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(String lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 
 	public String getMerchantName() {

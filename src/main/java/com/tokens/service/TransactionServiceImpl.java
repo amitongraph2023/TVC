@@ -47,13 +47,10 @@ public class TransactionServiceImpl implements TransactionService {
 	MasterKeyRepository masterKeyRepository;
 
 	@Autowired
-<<<<<<< HEAD
 	LocationRepository locationRepository;
 
-=======
 	TrasactionStatusLogsRepository transactionStatusLogsRepository;
-	
->>>>>>> a83f7a606f990e7278cb1ce162e13defc4d9acd1
+
 	@Override
 	public CloudResponse generateTransactionToken(CloudRequest request) {
 		CloudResponse response = null;
@@ -102,11 +99,12 @@ public class TransactionServiceImpl implements TransactionService {
 //				}else {
 //					throw new Exception("Location Does Not Esists");
 //				}
-			
+
 				// need to save data in location and pos table here - not sure for it
-				// as we will be having merchant details in our db to validate req with merchant Id and name
+				// as we will be having merchant details in our db to validate req with merchant
+				// Id and name
 				// so we need it before in order to valdiate and no need to save location then
-				//saveLocation(transaction);
+				// saveLocation(transaction);
 
 			} catch (Exception e) {
 				logger.error("Exception occurred while saving Transaction");
@@ -123,14 +121,13 @@ public class TransactionServiceImpl implements TransactionService {
 		List<Transaction> transactionTokenLog = transactionRepository.findAll();
 		return transactionTokenLog;
 	}
-	
+
 	@Override
 	public int countAllTransaction() {
 		int count = (int) transactionRepository.count();
 		return count;
 	}
 
-<<<<<<< HEAD
 	public String validateCloudRequest(CloudRequest req) {
 		String exceptionMessage = "";
 
@@ -179,7 +176,7 @@ public class TransactionServiceImpl implements TransactionService {
 		if (location == null) {
 			logger.info("location does not esists");
 			return false;
-		}else if(!location.getMerchantName().equalsIgnoreCase(merchantName)) {
+		} else if (!location.getMerchantName().equalsIgnoreCase(merchantName)) {
 			logger.info("location does not esists");
 			return false;
 		}
@@ -188,81 +185,71 @@ public class TransactionServiceImpl implements TransactionService {
 
 	}
 
-=======
-	@Override
+	@Transactional
 	public Boolean updateTransactionStatus(Integer transactionId, String status) {
 
 		boolean isUpdated = false;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-		
 		Transaction transaction = transactionRepository.findByTransactionId(transactionId);
-		
-		if (transaction.getTransactionId() == null) {
-			transaction.setStatus(TransactionStatus.FAILED);
+
+		if (transaction == null) {
+			transaction = new Transaction();
+			transaction.setStatus(TransactionStatus.FAILED.name());
 		}
-		
+
 		try {
-
 			if (transaction != null) {
-
 				if (status.equals("SUCCESS")) {
-					transaction.setStatus(TransactionStatus.COMPLETED);
-
-				} else if ((status.equals("") || status == null) && transaction.getStatus() != TransactionStatus.COMPLETED) {
-					transaction.setStatus(TransactionStatus.PENDING);					
-				} 
-				
+					transaction.setStatus(TransactionStatus.COMPLETED.name());
+				} else if ((status.equals("") || status == null) && transaction.getStatus() != TransactionStatus.COMPLETED.name()) {
+					transaction.setStatus(TransactionStatus.PENDING.name());
+				}
 				transaction.setLastUpdated(dateFormat.format(new Date()));
-				transactionRepository.save(transaction);
-				
-				saveTransactionStatusLogs(transactionId, transaction.getStatus().toString(), transaction.getLastUpdated());
-				
+				if (!transaction.getStatus().equalsIgnoreCase("failed")) {
+					transactionRepository.save(transaction);
+				}
+				saveTransactionStatusLogs(transactionId, transaction.getStatus().toString(),transaction.getLastUpdated());
 				isUpdated = true;
-				
 			}
 		} catch (Exception e) {
 			logger.error("Transaction not found for ID: " + transactionId);
-			
 		}
 		return isUpdated;
-		
 	}
-	
 
 	@Override
-	public TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated) {	
+	@Transactional
+	public TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated) {
 		TransactionStatusLogs transactionStatusLogs = null;
-		
+
 		try {
-			 transactionStatusLogs = new TransactionStatusLogs(transactionId, status, lastUpdated);
-			 transactionStatusLogsRepository.save(transactionStatusLogs);
-			
+			transactionStatusLogs = new TransactionStatusLogs(transactionId, status, lastUpdated);
+			transactionStatusLogsRepository.save(transactionStatusLogs);
+
 		} catch (Exception e) {
 			logger.error("Exception occurred while saving TransactionStatusLogs");
 		}
-		
 		return transactionStatusLogs;
-		
 	}
-	
+
 	@Override
-	public List<TransactionStatusLogs> logsUpdatedTransactionStatus() {
+	public List<TransactionStatusLogs> getTransactionStatusLogs() {
 		List<TransactionStatusLogs> transactionLog = transactionStatusLogsRepository.findAll();
 		return transactionLog;
-		
 	}
 
 	@Override
 	public Transaction getSuccessTransactions() {
-		Transaction transaction = transactionRepository.findByStatus(TransactionStatus.COMPLETED);
-		return transaction;
+		// Transaction transaction =
+		// transactionRepository.findByStatus(TransactionStatus.COMPLETED);
+		return null;
 	}
 
 	@Override
 	public Transaction getFailedTransactions() {
-		Transaction transaction = transactionRepository.findByStatus(TransactionStatus.FAILED);
-		return transaction;
+		// Transaction transaction =
+		// transactionRepository.findByStatus(TransactionStatus.FAILED);
+		return null;
 	}
-	
->>>>>>> a83f7a606f990e7278cb1ce162e13defc4d9acd1
+
 }

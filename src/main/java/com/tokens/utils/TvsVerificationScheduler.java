@@ -14,7 +14,7 @@ public class TvsVerificationScheduler {
 	@Scheduled(fixedRate = 5000) // run every 5 seconds
     public void Verification() {
         // code to be executed at the scheduled time
-        System.out.println("Job executed at " + new Date());
+        //System.out.println("Job executed at " + new Date());
     }
 
 }

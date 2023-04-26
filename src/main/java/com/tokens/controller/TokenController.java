@@ -56,19 +56,18 @@ public class TokenController {
 	}
 	
 	
-	@PostMapping("/updateStatus")
+	@PostMapping("/updateTransactionStatus")
     public ResponseEntity<String> updateTransactionStatus(@RequestBody TransactionStatusRequest request) {
         boolean updated = transactionService.updateTransactionStatus(Integer.parseInt(request.getTransactionId()), request.getStatus());
         if (updated) {
         	return ResponseEntity.ok().body("Successfully updated");
         }
-        
         return ResponseEntity.ok().body("Exception during updating transaction status");
     }
 	
-	@GetMapping("/getLogsUpdatedStatus")
-	public ResponseEntity<List<TransactionStatusLogs>> logsUpdatedTransactionStatus(){
-		List<TransactionStatusLogs> transactionLog = transactionService.logsUpdatedTransactionStatus();
+	@GetMapping("/getTransactionStatusLogs")
+	public ResponseEntity<List<TransactionStatusLogs>> getTransactionStatusLogs(){
+		List<TransactionStatusLogs> transactionLog = transactionService.getTransactionStatusLogs();
 		if (transactionLog != null) {
 			return ResponseEntity.ok().body(transactionLog);
 		}

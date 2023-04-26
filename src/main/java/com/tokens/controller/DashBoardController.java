@@ -32,17 +32,17 @@ public class DashBoardController {
 		return mvc;
 	}
 	
-	
-	@GetMapping("/getSuccessTransaction")
-	public Transaction getSuccessTransaction() {
-		Transaction transaction = transactionService.getSuccessTransactions();
-		return transaction;
-	}
-	
-	@GetMapping("/getFailedTransaction")
-	public Transaction getFailedTransaction() {
-		Transaction transaction = transactionService.getFailedTransactions();
-		return transaction;
-	}
+//	
+//	@GetMapping("/getSuccessTransaction")
+//	public Transaction getSuccessTransaction() {
+//		Transaction transaction = transactionService.getSuccessTransactions();
+//		return transaction;
+//	}
+//	
+//	@GetMapping("/getFailedTransaction")
+//	public Transaction getFailedTransaction() {
+//		Transaction transaction = transactionService.getFailedTransactions();
+//		return transaction;
+//	}
 	
 }

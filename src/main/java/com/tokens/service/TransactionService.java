@@ -16,15 +16,13 @@ public interface TransactionService {
 	
 	int countAllTransaction();
 	
-<<<<<<< HEAD
 	String validateCloudRequest(CloudRequest req);
 
-=======
 	Boolean updateTransactionStatus(Integer transactionId, String status);
 	
 	TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated);
 	
-	List<TransactionStatusLogs> logsUpdatedTransactionStatus();
+	List<TransactionStatusLogs> getTransactionStatusLogs();
 	
 	Transaction getSuccessTransactions();
 	
@@ -32,6 +30,5 @@ public interface TransactionService {
 	
 	List<Transaction> logsTransactionToken();
 	
->>>>>>> a83f7a606f990e7278cb1ce162e13defc4d9acd1
 }
 
