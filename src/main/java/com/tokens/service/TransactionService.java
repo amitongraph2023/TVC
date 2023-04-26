@@ -16,9 +16,9 @@ public interface TransactionService {
 	
 	int countAllTransaction();
 	
-	Boolean updateTransactionStatus(Integer transactionId, String status);
+	Boolean updateTransactionStatus(Integer InternalTransactionId, Integer transactionId, String status);
 	
-	TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated);
+	TransactionStatusLogs saveTransactionStatusLogs(Integer internalTransactionId, Integer transactionId, String status, String lastUpdated);
 	
 	List<TransactionStatusLogs> logsUpdatedTransactionStatus();
 	
