@@ -10,19 +10,18 @@ import javax.persistence.Table;
 @Table
 public class TransactionStatusLogs {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Integer internalTransactionId;
 	
 	private Integer transactionId;
 	private String status;
 	private String lastUpdated;
 	
-	public Integer getId() {
-		return id;
+
+	public Integer getInternalTransactionId() {
+		return internalTransactionId;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setInternalTransactionId(Integer internalTransactionId) {
+		this.internalTransactionId = internalTransactionId;
 	}
 	public Integer getTransactionId() {
 		return transactionId;
@@ -44,8 +43,9 @@ public class TransactionStatusLogs {
 	}
 
 	
-	public TransactionStatusLogs(Integer transactionId, String status, String lastUpdated) {
+	public TransactionStatusLogs(Integer internalTransactionId, Integer transactionId, String status, String lastUpdated) {
 		super();
+		this.internalTransactionId = internalTransactionId;
 		this.transactionId = transactionId;
 		this.status = status;
 		this.lastUpdated = lastUpdated;
