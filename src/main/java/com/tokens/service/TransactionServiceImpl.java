@@ -49,6 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	LocationRepository locationRepository;
 
+	@Autowired
 	TrasactionStatusLogsRepository transactionStatusLogsRepository;
 
 	@Override
@@ -58,9 +59,9 @@ public class TransactionServiceImpl implements TransactionService {
 		try {
 			String token = "";
 
-			MasterKey key = masterKeyRepository.findAll().get(0);
+			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(request.getSystemId());
 			if (key != null && key.getMasterKey() != null) {
-				tokenGenerator.generateCloudToken(key.getMasterKey(), request.getCustomerId().toString());
+				token = tokenGenerator.generateCloudToken(key.getMasterKey(), request.getCustomerId().toString());
 			} else {
 				logger.error("cannot generate Token Without MasterKey");
 				throw new Exception("cannot generate Token Without MasterKey");
@@ -70,7 +71,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transaction = saveTransaction(request, token);
 
 			if (transaction != null) {
-				response = new CloudResponse(token, transaction.getTransactionId());
+				response = new CloudResponse(token, transaction.getTransactionId(), "");
 			} else {
 				return new CloudResponse();
 			}
@@ -89,11 +90,12 @@ public class TransactionServiceImpl implements TransactionService {
 		if (exceptionMessage.length() == 0) {
 			try {
 
-				transaction = new Transaction(token, Integer.parseInt(req.getCustomerId()),
+				transaction = new Transaction( Integer.parseInt(req.getTransactionId()),token, Integer.parseInt(req.getCustomerId()),
 						Double.parseDouble(req.getAmount()), req.getCreatedDate(),
 						Integer.parseInt(req.getMerchantId()), req.getMerchantName(), Integer.parseInt(req.getPosId()),
 						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation());
 
+				transaction = transactionRepository.save(transaction);
 //				if(checkLocationIfExsists(transaction.getMerchantId(),transaction.getMerchantName())){
 //				    transactionRepository.save(transaction);
 //				}else {
@@ -106,8 +108,8 @@ public class TransactionServiceImpl implements TransactionService {
 				// so we need it before in order to valdiate and no need to save location then
 				// saveLocation(transaction);
 
-			} catch (Exception e) {
-				logger.error("Exception occurred while saving Transaction");
+			} catch (Exception ex) {
+				logger.error("Exception occurred while saving Transaction, Error :"+ex.getMessage());
 			}
 
 		} else {
@@ -134,7 +136,7 @@ public class TransactionServiceImpl implements TransactionService {
 		if (req.getTransactionId() == null) {
 			exceptionMessage = "TransactionId is null";
 			return exceptionMessage;
-		} else if (req.getAmount() == null || Integer.parseInt(req.getAmount()) < 0) {
+		} else if (req.getAmount() == null || Double.parseDouble(req.getAmount()) < 0) {
 
 			exceptionMessage = "Amount is null or less than 0";
 			return exceptionMessage;
@@ -199,9 +201,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 		try {
 			if (transaction != null) {
-				if (status.equals("SUCCESS")) {
+				if (status.equalsIgnoreCase("Success")) {
 					transaction.setStatus(TransactionStatus.COMPLETED.name());
-				} else if ((status.equals("") || status == null) && transaction.getStatus() != TransactionStatus.COMPLETED.name()) {
+				} else if (transaction.getStatus() == null || !transaction.getStatus().equalsIgnoreCase("COMPLETED")) {
 					transaction.setStatus(TransactionStatus.PENDING.name());
 				}
 				transaction.setLastUpdated(dateFormat.format(new Date()));
@@ -226,8 +228,8 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionStatusLogs = new TransactionStatusLogs(transactionId, status, lastUpdated);
 			transactionStatusLogsRepository.save(transactionStatusLogs);
 
-		} catch (Exception e) {
-			logger.error("Exception occurred while saving TransactionStatusLogs");
+		} catch (Exception ex) {
+			logger.error("Exception occurred while saving TransactionStatusLogs, Error :"+ex.getMessage());
 		}
 		return transactionStatusLogs;
 	}

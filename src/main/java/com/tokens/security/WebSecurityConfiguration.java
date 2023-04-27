@@ -56,36 +56,47 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.cors();
-		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/", "/home").permitAll()
-				// .antMatchers("/cart", "/category/{categoryId}",
-				// "/product/{productId}").permitAll()
-				.antMatchers("/authenticate", "/registerAdminUser", "/registerUser").permitAll()
-				.antMatchers("/updateMasterKey", "/admin/**").hasRole("Admin")
-				.antMatchers("/addMasterKey").hasRole("User")
-				// .antMatchers("/forUser", "/payment", "/address",
-				// "/placeorder").hasRole("User")
-				.antMatchers(HttpHeaders.ALLOW).permitAll().anyRequest()
-				.authenticated()
-				.and()
-				.formLogin()
-				.loginPage("/signin").permitAll()
-				.failureUrl("/signin?error=true")
-				.defaultSuccessUrl("/home")
-				.and()
-				.logout()
-				.logoutUrl("/logout")
-				.logoutSuccessUrl("/home")
-				.invalidateHttpSession(true)
-				.deleteCookies("JSESSIONID")
-				.deleteCookies("id-token")
-				.deleteCookies("refresh-token")
-				.and()
-				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
-				.exceptionHandling()
-				.authenticationEntryPoint(jwtAuthenticationEntryPoint);
+		
+		httpSecurity.csrf().disable().authorizeRequests()
+		            .antMatchers("/user/registerUser").permitAll()
+		            .antMatchers("/user/authenticate").permitAll()
+		            .anyRequest().authenticated()
+                    .and()
+                    .exceptionHandling()
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//		httpSecurity.cors();
+//		httpSecurity.csrf().disable(). authorizeRequests()
+//		        // .antMatchers("/", "/home").permitAll()
+//				// .antMatchers("/cart", "/category/{categoryId}",
+//				// "/product/{productId}").permitAll()
+//				.antMatchers("/user/registerAdminUser").permitAll()
+//				.antMatchers("/user/registerUser").permitAll()
+//
+//				.antMatchers("/updateMasterKey", "/admin/**").hasRole("Admin")
+//				.antMatchers("/addMasterKey").hasRole("User")
+//				.antMatchers(HttpHeaders.ALLOW).permitAll().anyRequest()
+//				.authenticated()
+//				.and()
+//				.formLogin()
+//				.loginPage("/signin").permitAll()
+//				.failureUrl("/signin?error=true")
+//				.defaultSuccessUrl("/home")
+//				.and()
+//				.logout()
+//				.logoutUrl("/logout")
+//				.logoutSuccessUrl("/home")
+//    			.invalidateHttpSession(true)
+//				.deleteCookies("JSESSIONID")
+//				.deleteCookies("id-token")
+//				.deleteCookies("refresh-token")
+//				.and()
+//				.sessionManagement()
+//				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//				.and()
+//				.exceptionHandling()
+//				.authenticationEntryPoint(jwtAuthenticationEntryPoint);
 
 		httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 	}

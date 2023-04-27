@@ -31,7 +31,9 @@ public class MasterKey {
 	@Column(name="last_updated")
 	private String lastUpdated;
 	
-	
+	@Column(name="system_id")
+	private String systemId;
+
 	public Integer getMasterKeyId() {
 		return masterkeyId;
 	}
@@ -71,6 +73,22 @@ public class MasterKey {
 
 	public void setLastUpdated(String lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+
+	public Integer getMasterkeyId() {
+		return masterkeyId;
+	}
+
+	public void setMasterkeyId(Integer masterkeyId) {
+		this.masterkeyId = masterkeyId;
+	}
+
+	public String getSystemId() {
+		return systemId;
+	}
+
+	public void setSystemId(String systemId) {
+		this.systemId = systemId;
 	}
 	
 	

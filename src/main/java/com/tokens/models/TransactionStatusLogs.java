@@ -48,6 +48,8 @@ public class TransactionStatusLogs {
 	public void setLastUpdated(String lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
+	
+	public TransactionStatusLogs() {}
 
 	public TransactionStatusLogs(Integer transactionId, String status, String lastUpdated) {
 		super();

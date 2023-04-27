@@ -17,7 +17,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer internalTransactionId;
 	
-	@Column(name="terminal_id")
+	@Column(name="transaction_id")
 	private Integer transactionId;
 	
 	@Column(name="token")
@@ -57,9 +57,10 @@ public class Transaction {
 	private String lastUpdated;
 	
 	public Transaction() {}
-	public Transaction(String token, Integer customerId, Double amount, String createdDate, Integer merchantId, String merchantName,Integer posId,
+	public Transaction(Integer transactionId,String token, Integer customerId, Double amount, String createdDate, Integer merchantId, String merchantName,Integer posId,
 			String cardNumber, String sourceIp, String gpsLocation) {
 		super();
+		this.transactionId = transactionId;
 		this.token = token;
 		this.customerId = customerId;
 		this.amount = amount;

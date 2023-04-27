@@ -38,66 +38,42 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public boolean addOrUpdateAdminMasterKey(int userId, String masterKey) {
-		Boolean isUpdated = false;
+	public boolean addOrUpdateMasterKey(int userId, String masterKey) {
+		boolean isUpdated = false;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-
 		try {
-			Optional<User> user = userRepository.findById(userId);
-
-			if (user.get().getRole().equalsIgnoreCase("Admin")) {
-
-				MasterKey key = masterKeyRepository.findAll().get(0);
+			User user = userRepository.findById(userId).get();
+			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(user.getSystemId());
+            if(key != null && user.getRole().equals("Admin")) {
+                key.setMasterKey(masterKey);
+                key.setSystemId(user.getSystemId());
+                key.setLastUpdated(dateFormat.format(new Date()));
+                masterKeyRepository.save(key);
+            	saveMasterKeyLogs(key);
+				isUpdated = true;
+            }else if(key == null){
+				key = new MasterKey();
 				key.setMasterKey(masterKey);
 				key.setUserId(userId);
 				key.setCreatedOn(dateFormat.format(new Date()));
-				key.setLastUpdated(dateFormat.format(new Date()));
+				key.setSystemId(user.getSystemId());
 				key = masterKeyRepository.save(key);
 				saveMasterKeyLogs(key);
 				isUpdated = true;
+			}else if(user.getRole().equals("User")) {
+				logger.error("User cannot update MasterKey");
+				isUpdated = false;
 			}
+			
 		} catch (Exception e) {
-			logger.error("Exception got while adding User MasterKey, UserId : " + userId);
+			logger.error("Exception got while adding User MasterKey, Error :"+e.getMessage());
 		}
 		return isUpdated;
 	}
 
 	@Override
-	@Transactional
-	public boolean addUserMasterKey(int userId, String masterKey) {
-		Boolean isUpdated = false;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-
-		try {
-			Optional<User> user = userRepository.findById(userId);
-
-			MasterKey key = masterKeyRepository.findAll().get(0);
-			if (key != null && key.getUserId() == user.get().getUserId()) {
-				logger.error("User cannont update the masterKey");
-				throw new Exception("User cannont update the masterKey");
-			} else {
-
-				key.setMasterKey(masterKey);
-				key.setUserId(userId);
-				key.setCreatedOn(dateFormat.format(new Date()));
-				key = masterKeyRepository.save(key);
-				saveMasterKeyLogs(key);
-
-				isUpdated = true;
-			}
-		} catch (Exception e) {
-			logger.error("Exception got while adding User MasterKey, UserId : " + userId);
-		}
-		return isUpdated;
-	}
-
-	@Override
-	public void registerAdminOrUser(String userName, String password, String role) {
-
-		User user = new User();
-		user.setUserName(userName);
-		user.setPassword(getEncodedPassword(password));
-		user.setRole(role);
+	public void registerAdminOrUser(User user) {
+		user.setPassword(getEncodedPassword(user.getPassword()));
 		userRepository.save(user);
 	}
 
@@ -119,5 +95,7 @@ public class UserServiceImpl implements UserService {
 		logs.setMasterKey(masterKey.getMasterKey());
 		logs.setUserId(masterKey.getUserId());
 		logs.setCreatedOn(dateFormat.format(new Date()));
+		masterKeyLogsRepository.save(logs);
+		
 	}
 }

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtUtil {
 
-	private static final long EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
+	private static final long EXPIRATION_TIME = 4 * 60 * 60 * 1000; // 4 hr in milliseconds
 	private static final long CLOUD_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 
@@ -53,7 +53,7 @@ public class JwtUtil {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
     }
     
     public String generateCloudToken(String masterKey, String userId) {

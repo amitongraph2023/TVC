@@ -23,11 +23,14 @@ public class User {
 	@Column(name="password")
 	private String password;
 	
-	@Column(name="last_updated")
-	private Date lastUpdated;
+	@Column(name="email")
+	private String email;
 	
 	@Column(name="role")
 	private String role;
+	
+	@Column(name="systemId")
+	private String systemId;
 
 	public Integer getUserId() {
 		return userId;
@@ -35,14 +38,6 @@ public class User {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
-	}
-
-	public Date getLastUpdated() {
-		return lastUpdated;
-	}
-
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
 	}
 
 	public String getRole() {
@@ -69,5 +64,20 @@ public class User {
 		this.password = password;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSystemId() {
+		return systemId;
+	}
+
+	public void setSystemId(String systemId) {
+		this.systemId = systemId;
+	}
 
 }
