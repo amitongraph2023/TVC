@@ -55,22 +55,7 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
     }
-    
-    public String generateCloudToken(String masterKey, String userId) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("masterKey",masterKey);
-        claims.put("userId", userId);
-        return createCloudToken(claims, userId, masterKey);
-    }
-
-    private String createCloudToken(Map<String, Object> claims, String subject, String masterKey) {
-
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, masterKey).compact();
-    }
-
-
+   
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));

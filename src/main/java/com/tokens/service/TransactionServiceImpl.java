@@ -27,6 +27,7 @@ import com.tokens.repository.TrasactionStatusLogsRepository;
 import com.tokens.repository.UserRepository;
 import com.tokens.request.CloudRequest;
 import com.tokens.response.CloudResponse;
+import com.tokens.utils.CodeGenerator;
 import com.tokens.utils.JwtUtil;
 
 @Service
@@ -61,7 +62,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(request.getSystemId());
 			if (key != null && key.getMasterKey() != null) {
-				token = tokenGenerator.generateCloudToken(key.getMasterKey(), request.getCustomerId().toString());
+				
+			//	token = tokenGenerator.generateCloudToken(key.getMasterKey(), request.getCustomerId().toString());
+			    token = CodeGenerator.generateHashCode(key.getMasterKey());
+	          		
 			} else {
 				logger.error("cannot generate Token Without MasterKey");
 				throw new Exception("cannot generate Token Without MasterKey");
