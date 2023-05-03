@@ -17,11 +17,9 @@ import org.springframework.stereotype.Service;
 public class JwtUtil {
 
 	private static final long EXPIRATION_TIME = 4 * 60 * 60 * 1000; // 4 hr in milliseconds
-	private static final long CLOUD_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
-
 
 	@Value("${secretKey}")
-    private String SECRET_KEY = "secret";
+    private String SECRET_KEY;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

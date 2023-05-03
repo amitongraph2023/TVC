@@ -63,7 +63,6 @@ public class TransactionServiceImpl implements TransactionService {
 			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(request.getSystemId());
 			if (key != null && key.getMasterKey() != null) {
 				
-			//	token = tokenGenerator.generateCloudToken(key.getMasterKey(), request.getCustomerId().toString());
 			    token = CodeGenerator.generateHashCode(key.getMasterKey());
 	          		
 			} else {

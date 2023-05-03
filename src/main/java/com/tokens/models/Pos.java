@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 public class Pos {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer internalPosId;
 
 	@Column(name="terminal_id")
