@@ -8,14 +8,12 @@ public class CodeGenerator {
 
 	private static final String HASH_ALGORITHM = "SHA-256";
 	private static final int RANDOM_BYTES = 16;
-	private static final long CLOUD_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
-
 
 	public static String generateHashCode(String masterKey) {
 		SecureRandom random = new SecureRandom();
 		byte[] randomBytes = new byte[RANDOM_BYTES];
 		random.nextBytes(randomBytes);
-		long timestamp = System.currentTimeMillis() + CLOUD_EXPIRATION_TIME;
+		long timestamp = System.currentTimeMillis() + 5 * 60 * 1000;
 		String input = masterKey + new String(randomBytes)+Long.toString(timestamp);
 		try {
 			MessageDigest digest = MessageDigest.getInstance(HASH_ALGORITHM);

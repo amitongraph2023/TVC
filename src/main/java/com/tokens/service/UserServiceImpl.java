@@ -98,4 +98,15 @@ public class UserServiceImpl implements UserService {
 		masterKeyLogsRepository.save(logs);
 		
 	}
+
+	@Override
+	public User findUserByUserName(String username) {
+		User user = null;
+		try {
+			user = userRepository.findByUserEmail(username).get();
+		} catch (Exception ex) {
+			logger.error("Exception occurred while getting user by username from DB, Error : " + ex.getMessage());
+		}
+		return user;
+	}
 }

@@ -14,11 +14,14 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
 	
-	@Column(name="username")
-	private String userName;
+	@Column(name="userFirstName")
+	private String userFirstName;
+	
+	@Column(name="userLastName")
+	private String userLastName;
 	
 	@Column(name="password")
 	private String password;
@@ -48,12 +51,20 @@ public class User {
 		this.role = role;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUserFirstName() {
+		return userFirstName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserFirstName(String userFirstName) {
+		this.userFirstName = userFirstName;
+	}
+
+	public String getUserLastName() {
+		return userLastName;
+	}
+
+	public void setUserLastName(String userLastName) {
+		this.userLastName = userLastName;
 	}
 
 	public String getPassword() {
