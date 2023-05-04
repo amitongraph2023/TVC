@@ -52,9 +52,12 @@ public class Transaction {
 	
 	private String lastUpdated;
 	
+	@Column(name="system_id")
+	private String systemId;
+	
 	public Transaction() {}
 	public Transaction(Integer transactionId,String token, Integer customerId, Double amount, String createdDate, Integer merchantId, Integer posId,
-			String cardNumber, String sourceIp, String gpsLocation) {
+			String cardNumber, String sourceIp, String gpsLocation, String systemId) {
 		super();
 		this.transactionId = transactionId;
 		this.token = token;
@@ -66,6 +69,7 @@ public class Transaction {
 		this.cardNumber = cardNumber;
 		this.sourceIp = sourceIp;
 		this.gpsLocation = gpsLocation;
+		this.systemId = systemId;
 	}
 	
 	public Integer getTransactionId() {
@@ -187,6 +191,12 @@ public class Transaction {
 
 	public void setLastUpdated(String lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+	public String getSystemId() {
+		return systemId;
+	}
+	public void setSystemId(String systemId) {
+		this.systemId = systemId;
 	}
 
 }

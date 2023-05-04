@@ -97,7 +97,7 @@ public class TransactionServiceImpl implements TransactionService {
 				transaction = new Transaction( Integer.parseInt(req.getTransactionId()),token, Integer.parseInt(req.getCustomerId()),
 						Double.parseDouble(req.getAmount()), req.getCreatedDate(),
 						Integer.parseInt(req.getMerchantId()), Integer.parseInt(req.getPosId()),
-						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation());
+						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation(), req.getSystemId());
 
 				transaction = transactionRepository.save(transaction);
 //				if(checkLocationIfExsists(transaction.getMerchantId(),transaction.getMerchantName())){
