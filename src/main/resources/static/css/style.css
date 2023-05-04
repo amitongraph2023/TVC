@@ -322,9 +322,10 @@ section {
 }
 
 .transaction-count {
-  margin: 30px;
+  margin-left: 50px;
   font-size: 22px;
   color: #0b7827;
   font-weight: 600;
+  margin-top: 20px;
 }
 
