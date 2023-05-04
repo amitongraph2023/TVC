@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+	<section>
+	
+		<div class="container">
+			<div class="card" style="position: absolute; top: 25%;">
+				<div>
+					<h3 class = "regDetails">Add Master Key</h3>
+				</div>
+				<form class = "register" th:object="${user}">
+					<div class="mb-4">
+						<input id = "userId" type = "hidden" th:field = "*{userId}"> 
+						<label for="masterKey" class="form-label">Enter Master Key:</label>
+						 <input type="text" class="form-control" id="masterKey" required th:value="${masterKeyRequest.masterKey}">
+					</div>
+
+					<button id="addKey" type="submit">Add</button>
+
+				</form>
+			</div>
+		</div>
+
+	</section>
+	
+</body>
+</html>

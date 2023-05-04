@@ -3,7 +3,6 @@ package com.tokens.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -58,45 +56,29 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		
 		httpSecurity.csrf().disable().authorizeRequests()
-		            .antMatchers("/user/registerUser").permitAll()
-		            .antMatchers("/user/authenticate").permitAll()
+		            .antMatchers("/user/registerUser", "/user/authenticate").permitAll()
+		            .antMatchers("/**/*.*", "/signin").permitAll()
+		            .antMatchers("/addMasterKey", "/transaction/generateToken", 
+		            		"/transaction/getLogsTransactionToken").hasAnyRole("Admin", "User")
 		            .anyRequest().authenticated()
                     .and()
-                    .exceptionHandling()
+                    .formLogin()
+                    .loginPage("/signin")
+                    .permitAll()
+                    .failureUrl("/signin?error=true")
+                    .defaultSuccessUrl("/home")
                     .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//		httpSecurity.cors();
-//		httpSecurity.csrf().disable(). authorizeRequests()
-//		        // .antMatchers("/", "/home").permitAll()
-//				// .antMatchers("/cart", "/category/{categoryId}",
-//				// "/product/{productId}").permitAll()
-//				.antMatchers("/user/registerAdminUser").permitAll()
-//				.antMatchers("/user/registerUser").permitAll()
-//
-//				.antMatchers("/updateMasterKey", "/admin/**").hasRole("Admin")
-//				.antMatchers("/addMasterKey").hasRole("User")
-//				.antMatchers(HttpHeaders.ALLOW).permitAll().anyRequest()
-//				.authenticated()
-//				.and()
-//				.formLogin()
-//				.loginPage("/signin").permitAll()
-//				.failureUrl("/signin?error=true")
-//				.defaultSuccessUrl("/home")
-//				.and()
-//				.logout()
-//				.logoutUrl("/logout")
-//				.logoutSuccessUrl("/home")
-//    			.invalidateHttpSession(true)
-//				.deleteCookies("JSESSIONID")
-//				.deleteCookies("id-token")
-//				.deleteCookies("refresh-token")
-//				.and()
-//				.sessionManagement()
-//				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//				.and()
-//				.exceptionHandling()
-//				.authenticationEntryPoint(jwtAuthenticationEntryPoint);
+                    .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/home")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                    .deleteCookies("id-token")
+                    .deleteCookies("refresh-token")
+    				.and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                    .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
 
 		httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 	}

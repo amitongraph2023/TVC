@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+	<section>
+		<div class="transaction-count">
+			<p>
+				Transaction Count: <span th:text="${transactionCount}"></span>
+			</p>
+		</div>
+
+		<div class="transaction-count">
+			<p>
+				Amount Per Location: <span th:text="${amountPerLocation}"></span>
+			</p>
+		</div>
+
+		<div class=" transaction-count">
+			<p>
+				Top Customer: <span th:text="${topCustomer}"></span>
+			</p>
+		</div>
+
+		<div class="transaction-count">
+			<p>
+				Top Location: <span th:text="${topLocation}"></span>
+			</p>
+		</div>
+
+	</section>
+
+</body>
+</html>
