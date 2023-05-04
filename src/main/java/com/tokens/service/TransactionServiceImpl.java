@@ -9,9 +9,6 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.tokens.models.Location;
@@ -19,7 +16,6 @@ import com.tokens.models.MasterKey;
 import com.tokens.models.Transaction;
 import com.tokens.models.TransactionStatus;
 import com.tokens.models.TransactionStatusLogs;
-import com.tokens.models.User;
 import com.tokens.repository.LocationRepository;
 import com.tokens.repository.MasterKeyRepository;
 import com.tokens.repository.TransactionRepository;
