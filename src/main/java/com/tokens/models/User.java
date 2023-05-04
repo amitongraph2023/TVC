@@ -1,35 +1,40 @@
 package com.tokens.models;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
 public class User {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
 	
-	@Column(name="username")
-	private String userName;
+	@Column(name="userFirstName")
+	private String userFirstName;
+	
+	@Column(name="userLastName")
+	private String userLastName;
 	
 	@Column(name="password")
 	private String password;
 	
+	@NotBlank(message = "email is null")
 	@Column(name="email")
 	private String email;
 	
 	@Column(name="role")
 	private String role;
 	
+	@NotBlank(message = "systemId is null")
 	@Column(name="systemId")
+	
 	private String systemId;
 
 	public Integer getUserId() {
@@ -48,12 +53,20 @@ public class User {
 		this.role = role;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUserFirstName() {
+		return userFirstName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserFirstName(String userFirstName) {
+		this.userFirstName = userFirstName;
+	}
+
+	public String getUserLastName() {
+		return userLastName;
+	}
+
+	public void setUserLastName(String userLastName) {
+		this.userLastName = userLastName;
 	}
 
 	public String getPassword() {

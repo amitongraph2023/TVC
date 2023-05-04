@@ -2,7 +2,6 @@ package com.tokens.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService {
                 masterKeyRepository.save(key);
             	saveMasterKeyLogs(key);
 				isUpdated = true;
-            }else if(key == null){
+            }else if(key == null && user.getSystemId() != null){
 				key = new MasterKey();
 				key.setMasterKey(masterKey);
 				key.setUserId(userId);
@@ -97,5 +96,16 @@ public class UserServiceImpl implements UserService {
 		logs.setCreatedOn(dateFormat.format(new Date()));
 		masterKeyLogsRepository.save(logs);
 		
+	}
+
+	@Override
+	public User findUserByUserName(String username) {
+		User user = null;
+		try {
+			user = userRepository.findByUserEmail(username).get();
+		} catch (Exception ex) {
+			logger.error("Exception occurred while getting user by username from DB, Error : " + ex.getMessage());
+		}
+		return user;
 	}
 }

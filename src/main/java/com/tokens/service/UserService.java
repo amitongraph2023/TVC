@@ -8,5 +8,6 @@ public interface UserService {
 
 	public void registerAdminOrUser(User user);
 	
+	 public User findUserByUserName(String username);
 	
 }
