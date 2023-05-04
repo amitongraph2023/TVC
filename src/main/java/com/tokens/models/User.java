@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -26,13 +28,16 @@ public class User {
 	@Column(name="password")
 	private String password;
 	
+	@NotBlank(message = "email is null")
 	@Column(name="email")
 	private String email;
 	
 	@Column(name="role")
 	private String role;
 	
+	@NotBlank(message = "systemId is null")
 	@Column(name="systemId")
+	
 	private String systemId;
 
 	public Integer getUserId() {

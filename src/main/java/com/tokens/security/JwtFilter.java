@@ -41,9 +41,10 @@ public class JwtFilter extends OncePerRequestFilter {
     	String userName = null;
     	Optional<Cookie> tokenCookie = jwtCookieUtil.getTokenCookieByName(httpServletRequest, JwtCookieUtil.ID_TOKEN_COOKIE_NAME);
 
+        String token = null; 
+        
     	if (tokenCookie.isPresent()) {
-    		HttpHeaders headers = new HttpHeaders();
-    		headers.add("Authorization", "Bearer " + tokenCookie.get().getValue());
+    		httpServletResponse.setHeader("Authorization", "Bearer " + tokenCookie.get().getValue());
     		try {
     			userName = jwtUtil.extractUsername(tokenCookie.get().getValue());
     		} catch (IllegalArgumentException e) {
@@ -51,6 +52,12 @@ public class JwtFilter extends OncePerRequestFilter {
     		} catch (ExpiredJwtException e) {
     			System.out.println("JWT Token has expired");
     		}
+    	}else {
+    		String authorizationHeader = httpServletRequest.getHeader("Authorization");
+    		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+                token = authorizationHeader.substring(7);
+                userName = jwtUtil.extractUsername(token);
+            }
     	}
     	
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {

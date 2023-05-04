@@ -8,11 +8,14 @@
 </head>
 <body>
 	<section>
-		<div class = "p-5">
-			<a id = "key" class = "btn btn-success btn-md active" th:href = "@{'/addMasterKey'}">Add master key</a>
+		<div class="text-center transaction-count">
+			<p>
+				Transaction Count: <span th:text="${transactionCount}"></span>
+			</p>
 		</div>
-		
+
+
 	</section>
-	
+
 </body>
 </html>

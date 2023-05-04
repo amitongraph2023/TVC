@@ -76,11 +76,11 @@ $('#addKey').click(function(e) {
 			data: JSON.stringify({ userId: userId, masterKey: masterKey }),
 			contentType: 'application/json',
 			success: function() {
-				alert("Successfully added User MasterKey");
+				alert("Successfully added MasterKey");
 				window.location.href = "/home";
 			},
 			error: function() {
-				alert("Error occurred while added MasterKey");
+				alert("User can't update MasterKey");
 			}
 		});
 

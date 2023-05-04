@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
                 masterKeyRepository.save(key);
             	saveMasterKeyLogs(key);
 				isUpdated = true;
-            }else if(key == null){
+            }else if(key == null && user.getSystemId() != null){
 				key = new MasterKey();
 				key.setMasterKey(masterKey);
 				key.setUserId(userId);

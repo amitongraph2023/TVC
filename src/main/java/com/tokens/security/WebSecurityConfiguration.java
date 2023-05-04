@@ -58,9 +58,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		
 		httpSecurity.csrf().disable().authorizeRequests()
-		            .antMatchers("/", "/home", "/user/registerUser", "/user/authenticate", "/signin", "/user/updateMasterKey").permitAll()
-		            .antMatchers("/**/*.*").permitAll()
-		            .antMatchers("/addMasterKey").hasRole("user")
+		            .antMatchers("/", "/home", "/user/registerUser", "/user/authenticate").permitAll()
+		            .antMatchers("/**/*.*", "/signin").permitAll()
+		            .antMatchers("/addMasterKey", "/transaction/generateToken", 
+		            		"/transaction/getLogsTransactionToken").hasAnyRole("Admin", "User")
 		            .anyRequest().authenticated()
                     .and()
                     .formLogin()

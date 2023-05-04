@@ -23,7 +23,7 @@ a:link {
 
 .login {
     color: #0b7827;
-    font-weight: 500;
+    font-weight: 600;
     background-color: #fff;
     cursor: pointer;
     border-radius: 2px;
@@ -319,5 +319,12 @@ section {
     height: 32px;
     padding: 5px 40px;
     border: 1px solid #dbdbdb;
+}
+
+.transaction-count {
+  margin-top: 22px;
+  font-size: 22px;
+  color: #0b7827;
+  font-weight: 600;
 }
 

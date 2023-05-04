@@ -77,7 +77,7 @@ public class TransactionServiceImpl implements TransactionService {
 			if (transaction != null) {
 				response = new CloudResponse(token, transaction.getTransactionId(), "");
 			} else {
-				return new CloudResponse();
+				return new CloudResponse(token, transaction.getTransactionId(),"Exception occured");
 			}
 		} catch (Exception e) {
 			logger.error("Exception occurred while generation Token");

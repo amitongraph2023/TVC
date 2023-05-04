@@ -64,7 +64,6 @@ public class DashBoardController {
 		return modelView;
 	}
 	
-	@PreAuthorize("hasRole('user')")
 	@GetMapping("/addMasterKey")
 	public ModelAndView addMasterKey() {
 		ModelAndView modelView = new ModelAndView();
