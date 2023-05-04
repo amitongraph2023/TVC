@@ -25,8 +25,8 @@ public class MasterKeyLogs {
 	private String masterKey;
 	
 	@NotNull
-	@Column(name="user_id")
-	private Integer userId;
+	@Column(name="system_id")
+	private String systemId;
 	
 	@NotNull
 	@Column(name="created_on")
@@ -56,13 +56,21 @@ public class MasterKeyLogs {
 	public void setMasterKey(String masterKey) {
 		this.masterKey = masterKey;
 	}
-
-	public Integer getUserId() {
-		return userId;
+	
+	public Integer getMasterkeyId() {
+		return masterkeyId;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setMasterkeyId(Integer masterkeyId) {
+		this.masterkeyId = masterkeyId;
+	}
+
+	public String getSystemId() {
+		return systemId;
+	}
+
+	public void setSystemId(String systemId) {
+		this.systemId = systemId;
 	}
 
 	public String getCreatedOn() {

@@ -43,22 +43,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		http.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll().anyRequest().authenticated()
-//				.and().exceptionHandling().and().sessionManagement()
-//				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//	}
-
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		
 		httpSecurity.csrf().disable().authorizeRequests()
 		            .antMatchers("/user/registerUser", "/user/authenticate").permitAll()
 		            .antMatchers("/**/*.*", "/signin").permitAll()
-		            .antMatchers("/addMasterKey", "/transaction/generateToken", 
+		            .antMatchers("/addMasterKey", "/user/getMasterKeyLogs/**","/transaction/generateToken", 
 		            		"/transaction/getLogsTransactionToken").hasAnyRole("Admin", "User")
 		            .anyRequest().authenticated()
                     .and()

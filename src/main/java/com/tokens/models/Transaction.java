@@ -35,10 +35,6 @@ public class Transaction {
 	@Column(name="merchant_id")
 	private Integer merchantId;
 	
-	@Column(name="merchant_name")
-	private String merchantName;
-	//( we have to maintain the master data for that )
-	
 	@Column(name="pos_id")
 	private Integer posId;
 	
@@ -57,7 +53,7 @@ public class Transaction {
 	private String lastUpdated;
 	
 	public Transaction() {}
-	public Transaction(Integer transactionId,String token, Integer customerId, Double amount, String createdDate, Integer merchantId, String merchantName,Integer posId,
+	public Transaction(Integer transactionId,String token, Integer customerId, Double amount, String createdDate, Integer merchantId, Integer posId,
 			String cardNumber, String sourceIp, String gpsLocation) {
 		super();
 		this.transactionId = transactionId;
@@ -66,7 +62,6 @@ public class Transaction {
 		this.amount = amount;
 		this.createdDate = createdDate;
 		this.merchantId = merchantId;
-		this.merchantName = merchantName;
 		this.posId = posId;
 		this.cardNumber = cardNumber;
 		this.sourceIp = sourceIp;
@@ -194,11 +189,4 @@ public class Transaction {
 		this.lastUpdated = lastUpdated;
 	}
 
-	public String getMerchantName() {
-		return merchantName;
-	}
-
-	public void setMerchantName(String merchantName) {
-		this.merchantName = merchantName;
-	}
 }

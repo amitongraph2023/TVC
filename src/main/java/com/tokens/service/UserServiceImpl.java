@@ -2,6 +2,7 @@ package com.tokens.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -92,10 +93,16 @@ public class UserServiceImpl implements UserService {
 		MasterKeyLogs logs = new MasterKeyLogs();
 		logs.setMasterKeyId(masterKey.getMasterKeyId());
 		logs.setMasterKey(masterKey.getMasterKey());
-		logs.setUserId(masterKey.getUserId());
+		logs.setSystemId(masterKey.getSystemId());
 		logs.setCreatedOn(dateFormat.format(new Date()));
 		masterKeyLogsRepository.save(logs);
 		
+	}
+	
+	public List<MasterKeyLogs> getAllMasterKeyLogs(int userId){
+		User user = userRepository.findById(userId).get();
+		List<MasterKeyLogs> list = masterKeyLogsRepository.findMasterKeyLogs(user.getSystemId());
+		return list;
 	}
 
 	@Override

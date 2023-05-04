@@ -24,10 +24,6 @@ public class CloudRequest {
     @Size(min = 2, max = 30)
 	private String merchantId;
 	
-	@NotBlank(message = "merchantName is null")
-    @Size(min = 2, max = 30)
-	private String merchantName;
-	
 	@NotBlank(message = "posId is null")
     @Size(min = 2, max = 30)
 	private String posId;
@@ -85,14 +81,6 @@ public class CloudRequest {
 
 	public void setMerchantId(String merchantId) {
 		this.merchantId = merchantId;
-	}
-
-	public String getMerchantName() {
-		return merchantName;
-	}
-
-	public void setMerchantName(String merchantName) {
-		this.merchantName = merchantName;
 	}
 
 	public String getPosId() {

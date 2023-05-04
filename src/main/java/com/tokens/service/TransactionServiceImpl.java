@@ -48,7 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Autowired
 	TrasactionStatusLogsRepository transactionStatusLogsRepository;
-
+	
 	@Override
 	public CloudResponse generateTransactionToken(CloudRequest request) {
 		CloudResponse response = null;
@@ -56,24 +56,28 @@ public class TransactionServiceImpl implements TransactionService {
 		try {
 			String token = "";
 
+			if (request.getMerchantId() != null) {
+				Location location = locationRepository.findLocationByMerchantId(Integer.parseInt(request.getMerchantId())).get();
+				if(location == null) {
+					return new CloudResponse("", 000, "MerchantId doesn't Exists");
+				}
+			}
+			
 			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(request.getSystemId());
 			if (key != null && key.getMasterKey() != null) {
-				
-			//	token = tokenGenerator.generateCloudToken(key.getMasterKey(), request.getCustomerId().toString());
 			    token = CodeGenerator.generateHashCode(key.getMasterKey());
-	          		
 			} else {
 				logger.error("cannot generate Token Without MasterKey");
-				throw new Exception("cannot generate Token Without MasterKey");
+				return new CloudResponse("", 000, "SystemId doesn't Exists");
 			}
-
+			
 			// saving transactions in DB
 			transaction = saveTransaction(request, token);
 
 			if (transaction != null) {
 				response = new CloudResponse(token, transaction.getTransactionId(), "");
 			} else {
-				return new CloudResponse(token, transaction.getTransactionId(),"Exception occured");
+				return new CloudResponse("", 000,"Something got wrong, Exception occured. Try after some Time");
 			}
 		} catch (Exception e) {
 			logger.error("Exception occurred while generation Token");
@@ -92,7 +96,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 				transaction = new Transaction( Integer.parseInt(req.getTransactionId()),token, Integer.parseInt(req.getCustomerId()),
 						Double.parseDouble(req.getAmount()), req.getCreatedDate(),
-						Integer.parseInt(req.getMerchantId()), req.getMerchantName(), Integer.parseInt(req.getPosId()),
+						Integer.parseInt(req.getMerchantId()), Integer.parseInt(req.getPosId()),
 						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation());
 
 				transaction = transactionRepository.save(transaction);
@@ -151,10 +155,6 @@ public class TransactionServiceImpl implements TransactionService {
 		} else if (req.getMerchantId() == null) {
 
 			exceptionMessage = "MerchantId is null";
-			return exceptionMessage;
-		} else if (req.getMerchantName() == null) {
-
-			exceptionMessage = "MerchantName is null";
 			return exceptionMessage;
 		} else if (req.getPosId() == null) {
 
