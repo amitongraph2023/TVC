@@ -31,9 +31,9 @@ public class DashBoardController {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("home.html");;
 		modelView.addObject("transactionCount", transactionService.countAllTransaction());
-		modelView.addObject("amountPerLocation","50");
+		modelView.addObject("amountPerLocation","50" );
 		modelView.addObject("topCustomer","5");
-		modelView.addObject("topLocation","5");
+		modelView.addObject("topLocation",transactionService.getTopLocations());
 		return modelView;
 	}
 	

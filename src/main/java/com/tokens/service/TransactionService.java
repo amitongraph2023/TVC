@@ -3,6 +3,7 @@ package com.tokens.service;
 
 import java.util.List;
 
+import com.tokens.models.Location;
 import com.tokens.models.Transaction;
 import com.tokens.models.TransactionStatusLogs;
 import com.tokens.request.CloudRequest;
@@ -24,11 +25,9 @@ public interface TransactionService {
 	
 	List<TransactionStatusLogs> getTransactionStatusLogs();
 	
-	Transaction getSuccessTransactions();
-	
-	Transaction getFailedTransactions();
-	
 	List<Transaction> logsTransactionToken();
+	
+	List<Location> getTopLocations();
 	
 }
 

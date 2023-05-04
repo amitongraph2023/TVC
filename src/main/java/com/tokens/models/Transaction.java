@@ -53,6 +53,7 @@ public class Transaction {
 	private String lastUpdated;
 	
 	public Transaction() {}
+	
 	public Transaction(Integer transactionId,String token, Integer customerId, Double amount, String createdDate, Integer merchantId, Integer posId,
 			String cardNumber, String sourceIp, String gpsLocation) {
 		super();

@@ -16,11 +16,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
 	
-	@Column(name="userFirstName")
-	private String userFirstName;
-	
-	@Column(name="userLastName")
-	private String userLastName;
+	@Column(name="userName")
+	private String userName;
 	
 	@Column(name="password")
 	private String password;
@@ -53,20 +50,12 @@ public class User {
 		this.role = role;
 	}
 
-	public String getUserFirstName() {
-		return userFirstName;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUserFirstName(String userFirstName) {
-		this.userFirstName = userFirstName;
-	}
-
-	public String getUserLastName() {
-		return userLastName;
-	}
-
-	public void setUserLastName(String userLastName) {
-		this.userLastName = userLastName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {

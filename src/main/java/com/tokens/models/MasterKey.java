@@ -42,7 +42,6 @@ public class MasterKey {
 		this.masterkeyId = masterKeyId;
 	}
 
-
 	public String getMasterKey() {
 		return masterKey;
 	}

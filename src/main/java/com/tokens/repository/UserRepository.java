@@ -12,7 +12,8 @@ import com.tokens.models.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 
-	//User findByUserName(String username);
+	@Query("Select u from User u where u.userName = :username")
+	User findByUserName(@Param("username") String username);
 	
 	@Query("Select u from User u where u.email = :email")
 	Optional<User> findByUserEmail(@Param("email") String email);

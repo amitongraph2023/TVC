@@ -1,6 +1,7 @@
 package com.tokens.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,9 @@ import com.tokens.utils.JwtUtil;
 public class TransactionServiceImpl implements TransactionService {
 
 	Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
+	
+	@Autowired
+	TvsCsvReader reader;
 
 	@Autowired
 	TransactionRepository transactionRepository;
@@ -48,36 +52,39 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Autowired
 	TrasactionStatusLogsRepository transactionStatusLogsRepository;
-	
+
 	@Override
 	public CloudResponse generateTransactionToken(CloudRequest request) {
+		
+		saveLocationFromCSV();
 		CloudResponse response = null;
 		Transaction transaction = null;
 		try {
 			String token = "";
 
 			if (request.getMerchantId() != null) {
-				Location location = locationRepository.findLocationByMerchantId(Integer.parseInt(request.getMerchantId())).get();
-				if(location == null) {
+				Location location = locationRepository
+						.findLocationByMerchantId(Integer.parseInt(request.getMerchantId())).get();
+				if (location == null) {
 					return new CloudResponse("", 000, "MerchantId doesn't Exists");
 				}
 			}
-			
+
 			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(request.getSystemId());
 			if (key != null && key.getMasterKey() != null) {
-			    token = CodeGenerator.generateHashCode(key.getMasterKey());
+				token = CodeGenerator.generateHashCode(key.getMasterKey());
 			} else {
 				logger.error("cannot generate Token Without MasterKey");
 				return new CloudResponse("", 000, "SystemId doesn't Exists");
 			}
-			
+
 			// saving transactions in DB
 			transaction = saveTransaction(request, token);
 
 			if (transaction != null) {
 				response = new CloudResponse(token, transaction.getTransactionId(), "");
 			} else {
-				return new CloudResponse("", 000,"Something got wrong, Exception occured. Try after some Time");
+				return new CloudResponse("", 000, "Something got wrong, Exception occured. Try after some Time");
 			}
 		} catch (Exception e) {
 			logger.error("Exception occurred while generation Token");
@@ -94,17 +101,18 @@ public class TransactionServiceImpl implements TransactionService {
 		if (exceptionMessage.length() == 0) {
 			try {
 
-				transaction = new Transaction( Integer.parseInt(req.getTransactionId()),token, Integer.parseInt(req.getCustomerId()),
-						Double.parseDouble(req.getAmount()), req.getCreatedDate(),
-						Integer.parseInt(req.getMerchantId()), Integer.parseInt(req.getPosId()),
+				transaction = new Transaction(Integer.parseInt(req.getTransactionId()), token,
+						Integer.parseInt(req.getCustomerId()), Double.parseDouble(req.getAmount()),
+						req.getCreatedDate(), Integer.parseInt(req.getMerchantId()), Integer.parseInt(req.getPosId()),
 						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation());
 
 				transaction = transactionRepository.save(transaction);
-//				if(checkLocationIfExsists(transaction.getMerchantId(),transaction.getMerchantName())){
-//				    transactionRepository.save(transaction);
-//				}else {
-//					throw new Exception("Location Does Not Esists");
-//				}
+
+				if (checkLocationIfExsists(transaction.getMerchantId())) {
+					transactionRepository.save(transaction);
+				} else {
+					throw new Exception("Location Does Not Esists");
+				}
 
 				// need to save data in location and pos table here - not sure for it
 				// as we will be having merchant details in our db to validate req with merchant
@@ -113,7 +121,7 @@ public class TransactionServiceImpl implements TransactionService {
 				// saveLocation(transaction);
 
 			} catch (Exception ex) {
-				logger.error("Exception occurred while saving Transaction, Error :"+ex.getMessage());
+				logger.error("Exception occurred while saving Transaction, Error :" + ex.getMessage());
 			}
 
 		} else {
@@ -172,19 +180,14 @@ public class TransactionServiceImpl implements TransactionService {
 
 	}
 
-	public Boolean checkLocationIfExsists(Integer merchantId, String merchantName) {
+	public Boolean checkLocationIfExsists(Integer merchantId) {
 
 		Location location = locationRepository.findLocationByMerchantId(merchantId).get();
 		if (location == null) {
 			logger.info("location does not esists");
 			return false;
-		} else if (!location.getMerchantName().equalsIgnoreCase(merchantName)) {
-			logger.info("location does not esists");
-			return false;
 		}
-
 		return true;
-
 	}
 
 	@Transactional
@@ -210,7 +213,8 @@ public class TransactionServiceImpl implements TransactionService {
 				if (!transaction.getStatus().equalsIgnoreCase("failed")) {
 					transactionRepository.save(transaction);
 				}
-				saveTransactionStatusLogs(transactionId, transaction.getStatus().toString(),transaction.getLastUpdated());
+				saveTransactionStatusLogs(transactionId, transaction.getStatus().toString(),
+						transaction.getLastUpdated());
 				isUpdated = true;
 			}
 		} catch (Exception e) {
@@ -229,7 +233,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionStatusLogsRepository.save(transactionStatusLogs);
 
 		} catch (Exception ex) {
-			logger.error("Exception occurred while saving TransactionStatusLogs, Error :"+ex.getMessage());
+			logger.error("Exception occurred while saving TransactionStatusLogs, Error :" + ex.getMessage());
 		}
 		return transactionStatusLogs;
 	}
@@ -241,17 +245,18 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public Transaction getSuccessTransactions() {
-		// Transaction transaction =
-		// transactionRepository.findByStatus(TransactionStatus.COMPLETED);
-		return null;
+	public List<Location> getTopLocations() {
+		List<Location> locationList = new ArrayList<Location>();
+		try {
+			locationList = locationRepository.findTopLocations();
+		} catch (Exception ex) {
+            logger.error("Exception : "+ex.getMessage());
+		}
+		return locationList;
 	}
 
-	@Override
-	public Transaction getFailedTransactions() {
-		// Transaction transaction =
-		// transactionRepository.findByStatus(TransactionStatus.FAILED);
-		return null;
+	public void saveLocationFromCSV() {
+		List<Location> locationList = reader.saveLocations();
+		locationRepository.saveAll(locationList);
 	}
-
 }
