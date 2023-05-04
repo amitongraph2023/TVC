@@ -101,10 +101,11 @@ public class TransactionServiceImpl implements TransactionService {
 		if (exceptionMessage.length() == 0) {
 			try {
 
-				transaction = new Transaction(Integer.parseInt(req.getTransactionId()), token,
-						Integer.parseInt(req.getCustomerId()), Double.parseDouble(req.getAmount()),
-						req.getCreatedDate(), Integer.parseInt(req.getMerchantId()), Integer.parseInt(req.getPosId()),
-						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation());
+
+				transaction = new Transaction( Integer.parseInt(req.getTransactionId()),token, Integer.parseInt(req.getCustomerId()),
+						Double.parseDouble(req.getAmount()), req.getCreatedDate(),
+						Integer.parseInt(req.getMerchantId()), Integer.parseInt(req.getPosId()),
+						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation(), req.getSystemId());
 
 				transaction = transactionRepository.save(transaction);
 

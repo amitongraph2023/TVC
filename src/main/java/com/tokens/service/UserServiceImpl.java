@@ -88,6 +88,7 @@ public class UserServiceImpl implements UserService {
 		return pass;
 	}
 	
+	@Transactional
 	public void saveMasterKeyLogs(MasterKey masterKey) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		MasterKeyLogs logs = new MasterKeyLogs();

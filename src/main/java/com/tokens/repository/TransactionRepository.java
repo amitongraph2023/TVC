@@ -14,7 +14,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
 //	
 //	List<Transaction> getAmountPerLocation
 
-	@Query("Select tr from Transaction tr where tr.transactionId = :transactionId")
+	@Query("SELECT tr FROM Transaction tr WHERE tr.transactionId = :transactionId AND "
+			+ "tr.id = (SELECT MIN(t.id) FROM Transaction t WHERE t.transactionId = :transactionId)")
 	Transaction findByTransactionId(@Param("transactionId") Integer transactionId);
 	
 }
