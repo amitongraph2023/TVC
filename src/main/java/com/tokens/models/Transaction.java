@@ -1,7 +1,5 @@
 package com.tokens.models;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +12,7 @@ import javax.persistence.Table;
 public class Transaction {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer internalTransactionId;
 	
 	@Column(name="transaction_id")
@@ -48,8 +46,10 @@ public class Transaction {
 	@Column(name="gps_location")
     private String gpsLocation;
 	
+	@Column(name="status")
 	private String status;
 	
+	@Column(name="lastUpdated")
 	private String lastUpdated;
 	
 	@Column(name="system_id")

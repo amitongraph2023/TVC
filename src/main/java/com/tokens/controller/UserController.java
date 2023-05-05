@@ -46,13 +46,17 @@ public class UserController {
 	@PostMapping("/user/registerUser")
 	public ResponseEntity<String> regsiterUser(@RequestBody User user) {
 
-		userService.registerAdminOrUser(user);
+		try {
+			userService.registerAdminOrUser(user);
+		} catch (Exception ex) {
+			return ResponseEntity.ok().body(ex.getMessage());
+		}
 
 		return ResponseEntity.ok().body("SuccessFully Registered User");
 	}
 
 	@PostMapping("/user/authenticate")
-	public AuthResponse generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+	public ResponseEntity<?> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
 		if (authRequest.getUserName() == null || authRequest.getUserName().trim().equals("")) {
 			throw new com.tokens.exceptions.InvalidAuthStringException();
 		}
@@ -61,15 +65,15 @@ public class UserController {
 					new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
 		} catch (BadCredentialsException e) {
 			log.error("Error because of Invalid credentials");
-			return new AuthResponse();
+            return ResponseEntity.badRequest().body("Invalid username/password");
 		} catch (DisabledException e) {
 			log.error("Error because the User is disabled");
-			return new AuthResponse();
+            return ResponseEntity.badRequest().body("Error because the User is disabled");
 		} catch (Exception e) {
 			log.error("Exception occurred");
-			return new AuthResponse();
+            return ResponseEntity.badRequest().body("Exception occurred");
 		}
-		return createJwtToken(authRequest.getUserName());
+		return ResponseEntity.ok(createJwtToken(authRequest.getUserName()));
 	}
 
 	public AuthResponse createJwtToken(String userName) throws CredentialValidationException {

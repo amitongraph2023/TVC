@@ -56,18 +56,6 @@ public class DashBoardController {
 		modelView.addObject("masterKeyRequest", new MasterKeyRequest());
 		return modelView;
 	}
-	
-//	
-//	@GetMapping("/getSuccessTransaction")
-//	public Transaction getSuccessTransaction() {
-//		Transaction transaction = transactionService.getSuccessTransactions();
-//		return transaction;
-//	}
-//	
-//	@GetMapping("/getFailedTransaction")
-//	public Transaction getFailedTransaction() {
-//		Transaction transaction = transactionService.getFailedTransactions();
-//		return transaction;
-//	}
+
 	
 }

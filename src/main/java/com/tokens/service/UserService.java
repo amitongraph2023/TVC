@@ -9,7 +9,7 @@ public interface UserService {
 
 	public boolean addOrUpdateMasterKey(int userId, String masterKey);
 
-	public void registerAdminOrUser(User user);
+	public void registerAdminOrUser(User user) throws Exception;
 
 	public User findUserByUserName(String username);
 

@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class MasterKey {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer masterkeyId;
 
 	@NotNull

@@ -13,17 +13,17 @@ import javax.validation.constraints.NotBlank;
 public class User {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 	
-	@Column(name="userName")
+	@Column(name="userName", nullable = false, unique = true)
 	private String userName;
 	
 	@Column(name="password")
 	private String password;
 	
 	@NotBlank(message = "email is null")
-	@Column(name="email")
+	@Column(name="email", nullable = false, unique = true)
 	private String email;
 	
 	@Column(name="role")

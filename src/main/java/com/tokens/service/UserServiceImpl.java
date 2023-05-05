@@ -29,11 +29,11 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	MasterKeyRepository masterKeyRepository;
-	
+
 	@Autowired
 	MasterKeyLogsRepository masterKeyLogsRepository;
 
-	@Autowired(required=true)
+	@Autowired(required = true)
 	BCryptPasswordEncoder passwordEncoder;
 
 	@Override
@@ -44,14 +44,14 @@ public class UserServiceImpl implements UserService {
 		try {
 			User user = userRepository.findById(userId).get();
 			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(user.getSystemId());
-            if(key != null && user.getRole().equals("Admin")) {
-                key.setMasterKey(masterKey);
-                key.setSystemId(user.getSystemId());
-                key.setLastUpdated(dateFormat.format(new Date()));
-                masterKeyRepository.save(key);
-            	saveMasterKeyLogs(key);
+			if (key != null && user.getRole().equals("Admin")) {
+				key.setMasterKey(masterKey);
+				key.setSystemId(user.getSystemId());
+				key.setLastUpdated(dateFormat.format(new Date()));
+				masterKeyRepository.save(key);
+				saveMasterKeyLogs(key);
 				isUpdated = true;
-            }else if(key == null && user.getSystemId() != null){
+			} else if (key == null && user.getSystemId() != null) {
 				key = new MasterKey();
 				key.setMasterKey(masterKey);
 				key.setUserId(userId);
@@ -60,19 +60,22 @@ public class UserServiceImpl implements UserService {
 				key = masterKeyRepository.save(key);
 				saveMasterKeyLogs(key);
 				isUpdated = true;
-			}else if(user.getRole().equals("User")) {
+			} else if (user.getRole().equals("User")) {
 				logger.error("User cannot update MasterKey");
 				isUpdated = false;
 			}
-			
+
 		} catch (Exception e) {
-			logger.error("Exception got while adding User MasterKey, Error :"+e.getMessage());
+			logger.error("Exception got while adding User MasterKey, Error :" + e.getMessage());
 		}
 		return isUpdated;
 	}
 
 	@Override
-	public void registerAdminOrUser(User user) {
+	public void registerAdminOrUser(User user) throws Exception {
+		if (userRepository.findByUserName(user.getUserName()) != null) {
+			throw new Exception("usernmae is taken");
+		}
 		user.setPassword(getEncodedPassword(user.getPassword()));
 		userRepository.save(user);
 	}
@@ -87,7 +90,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return pass;
 	}
-	
+
 	@Transactional
 	public void saveMasterKeyLogs(MasterKey masterKey) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
@@ -97,10 +100,10 @@ public class UserServiceImpl implements UserService {
 		logs.setSystemId(masterKey.getSystemId());
 		logs.setCreatedOn(dateFormat.format(new Date()));
 		masterKeyLogsRepository.save(logs);
-		
+
 	}
-	
-	public List<MasterKeyLogs> getAllMasterKeyLogs(int userId){
+
+	public List<MasterKeyLogs> getAllMasterKeyLogs(int userId) {
 		User user = userRepository.findById(userId).get();
 		List<MasterKeyLogs> list = masterKeyLogsRepository.findMasterKeyLogs(user.getSystemId());
 		return list;
