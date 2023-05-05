@@ -48,7 +48,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		httpSecurity.csrf().disable().authorizeRequests()
 		            .antMatchers("/user/registerUser", "/user/authenticate").permitAll()
-		            .antMatchers("/**/*.*", "/signin").permitAll()
+		            .antMatchers("/**/*.*", "/signin", "/register").permitAll()
 		            .antMatchers("/addMasterKey", "/user/getMasterKeyLogs/**","/transaction/generateToken", 
 		            		"/transaction/getLogsTransactionToken").hasAnyRole("Admin", "User")
 		            .anyRequest().authenticated()

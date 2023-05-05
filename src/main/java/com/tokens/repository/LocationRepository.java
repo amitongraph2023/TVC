@@ -14,10 +14,10 @@ import com.tokens.models.Transaction;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Integer>{
 
-	@Query("Select loc from Location loc where loc.merchantId = :merchantId")
-	Optional<Location> findLocationByMerchantId(@Param("merchantId") Integer merchantId);
+	@Query(value="Select * from Location loc where loc.merchant_id = :merchantId", nativeQuery = true)
+	Optional<Location> findByMerchantId(@Param("merchantId") int merchantId);
 	
-	@Query("SELECT lc.merchantId, lc.merchantName FROM Location lc where lc.merchantId IN " 
+	@Query("SELECT lc FROM Location lc where lc.merchantId IN " 
 			+ "( Select tr.merchantId FROM Transaction tr GROUP BY merchantId "
 			+ "ORDER BY SUM(tr.amount) DESC)")
 	List<Location> findTopLocations();

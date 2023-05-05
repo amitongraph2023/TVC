@@ -28,7 +28,11 @@
 
 		<div class="transaction-count">
 			<p>
-				Top Location: <span th:text="${topLocation}"></span>
+				Top Location:
+				<tr th:each="loc : ${topLocation}">
+					<td th:text="${loc.merchantName}">Location</td>
+				</tr>
+				
 			</p>
 		</div>
 

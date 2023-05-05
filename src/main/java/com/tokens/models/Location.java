@@ -9,8 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table
 public class Location {
 
 //	Station_name
@@ -28,8 +30,13 @@ public class Location {
 	@Column(name="merchant_name")
 	private String merchantName;
 	
-	@OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-	private List<Pos> pos;
+//	@Override
+//	public String toString() {
+//		return "Location [merchantId=" + merchantId + ", merchantName=" + merchantName + ", pos=" + pos + "]";
+//	}
+
+//	@OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+//	private List<Pos> pos;
 
 	public Integer getInternalMerchantId() {
 		return internalMerchantId;
@@ -55,12 +62,12 @@ public class Location {
 		this.merchantId = merchantId;
 	}
 
-	public List<Pos> getPos() {
-		return pos;
-	}
-
-	public void setPos(List<Pos> pos) {
-		this.pos = pos;
-	}
+//	public List<Pos> getPos() {
+//		return pos;
+//	}
+//
+//	public void setPos(List<Pos> pos) {
+//		this.pos = pos;
+//	}
 	
 }

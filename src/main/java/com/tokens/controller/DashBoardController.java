@@ -57,5 +57,12 @@ public class DashBoardController {
 		return modelView;
 	}
 
+	@GetMapping("/register")
+	public ModelAndView register() {
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("register.html");
+		modelView.addObject("user", new User());
+		return modelView;
+	}
 	
 }

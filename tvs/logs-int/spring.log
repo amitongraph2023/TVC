@@ -1,0 +1,211 @@
+2023-May-05 11:01:56.695 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 11.0.2 on DESKTOP-RK99JDJ with PID 16672 (E:\TokenVerificationSystem\TokenVerificationSystem\target\classes started by yaman in E:\TokenVerificationSystem\TokenVerificationSystem)
+2023-May-05 11:01:56.701 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-05 11:01:57.659 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-05 11:01:57.744 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 74 ms. Found 6 JPA repository interfaces.
+2023-May-05 11:01:58.730 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-May-05 11:01:58.744 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-05 11:01:58.745 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-May-05 11:01:58.869 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-05 11:01:58.869 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2096 ms
+2023-May-05 11:01:59.070 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-05 11:01:59.127 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-05 11:01:59.330 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-05 11:01:59.457 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-05 11:01:59.854 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-05 11:01:59.872 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-05 11:02:00.886 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-05 11:02:00.897 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-05 11:02:01.664 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-05 11:02:01.977 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@c6653e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@435e224d, org.springframework.security.web.context.SecurityContextPersistenceFilter@649a6d88, org.springframework.security.web.header.HeaderWriterFilter@18711946, org.springframework.security.web.authentication.logout.LogoutFilter@2ef812b, com.tokens.security.JwtFilter@136a4800, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@72321701, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@55c78556, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3ce4eb42, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@788fa91f, org.springframework.security.web.session.SessionManagementFilter@9e092b5, org.springframework.security.web.access.ExceptionTranslationFilter@18174bd9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3f910f36]
+2023-May-05 11:02:02.572 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-May-05 11:02:02.585 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 6.44 seconds (JVM running for 7.053)
+2023-May-05 11:02:07.007 INFO  [http-nio-8080-exec-2] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-05 11:02:07.008 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-05 11:02:07.010 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Completed initialization in 2 ms
+2023-May-05 11:03:38.632 INFO  [http-nio-8080-exec-9] c.t.s.UserServiceImpl - getting password encoded
+2023-May-05 11:04:02.384 ERROR [http-nio-8080-exec-7] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:04:04.084 ERROR [http-nio-8080-exec-1] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:04:08.771 ERROR [http-nio-8080-exec-8] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:04:09.366 ERROR [http-nio-8080-exec-5] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:04:09.499 ERROR [http-nio-8080-exec-6] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:04:15.106 ERROR [http-nio-8080-exec-10] c.t.s.TransactionServiceImpl - Exception : Failed to convert from type [java.lang.Object[]] to type [@org.springframework.data.jpa.repository.Query com.tokens.models.Location] for value [java.lang.Object[]@4f61dc91]; nested exception is org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [java.lang.Integer] to type [@org.springframework.data.jpa.repository.Query com.tokens.models.Location]
+2023-May-05 11:08:58.725 ERROR [http-nio-8080-exec-3] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:08:59.651 ERROR [http-nio-8080-exec-7] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:09:18.644 ERROR [http-nio-8080-exec-8] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:11:14.606 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 11.0.2 on DESKTOP-RK99JDJ with PID 20040 (E:\TokenVerificationSystem\TokenVerificationSystem\target\classes started by yaman in E:\TokenVerificationSystem\TokenVerificationSystem)
+2023-May-05 11:11:14.612 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-05 11:11:15.485 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-05 11:11:15.564 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 69 ms. Found 6 JPA repository interfaces.
+2023-May-05 11:11:16.515 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-May-05 11:11:16.527 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-05 11:11:16.527 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-May-05 11:11:16.668 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-05 11:11:16.668 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2000 ms
+2023-May-05 11:11:16.859 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-05 11:11:16.916 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-05 11:11:17.109 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-05 11:11:17.233 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-05 11:11:17.606 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-05 11:11:17.626 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-05 11:11:18.490 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-05 11:11:18.499 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-05 11:11:19.190 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-05 11:11:19.449 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2f83467, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@182469d0, org.springframework.security.web.context.SecurityContextPersistenceFilter@6a3c1b56, org.springframework.security.web.header.HeaderWriterFilter@649a6d88, org.springframework.security.web.authentication.logout.LogoutFilter@7bdaf563, com.tokens.security.JwtFilter@504274c1, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@49c72fb7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3ce4eb42, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1002c49e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@62aefc75, org.springframework.security.web.session.SessionManagementFilter@55c78556, org.springframework.security.web.access.ExceptionTranslationFilter@52737c1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@a3e458]
+2023-May-05 11:11:19.951 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-May-05 11:11:19.960 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 5.836 seconds (JVM running for 6.426)
+2023-May-05 11:11:27.410 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-05 11:11:27.411 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-05 11:11:27.413 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 1 ms
+2023-May-05 11:11:30.292 ERROR [http-nio-8080-exec-7] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:11:31.056 ERROR [http-nio-8080-exec-6] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:12:51.228 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 11.0.2 on DESKTOP-RK99JDJ with PID 11256 (E:\TokenVerificationSystem\TokenVerificationSystem\target\classes started by yaman in E:\TokenVerificationSystem\TokenVerificationSystem)
+2023-May-05 11:12:51.234 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-05 11:12:52.064 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-05 11:12:52.138 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 64 ms. Found 6 JPA repository interfaces.
+2023-May-05 11:12:53.048 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-May-05 11:12:53.065 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-05 11:12:53.066 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-May-05 11:12:53.192 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-05 11:12:53.193 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1906 ms
+2023-May-05 11:12:53.386 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-05 11:12:53.456 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-05 11:12:53.631 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-05 11:12:53.744 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-05 11:12:54.143 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-05 11:12:54.163 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-05 11:12:55.110 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-05 11:12:55.122 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-05 11:12:55.948 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-05 11:12:56.210 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6c3627c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@e5d9fa7, org.springframework.security.web.context.SecurityContextPersistenceFilter@51d6c42d, org.springframework.security.web.header.HeaderWriterFilter@514c6ca0, org.springframework.security.web.authentication.logout.LogoutFilter@528ef230, com.tokens.security.JwtFilter@6067e7c1, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2f51b100, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1104cf3a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6b8a9e1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4010f232, org.springframework.security.web.session.SessionManagementFilter@40ef385f, org.springframework.security.web.access.ExceptionTranslationFilter@7bdaf563, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2a5c115b]
+2023-May-05 11:12:56.706 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-May-05 11:12:56.715 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 5.962 seconds (JVM running for 6.56)
+2023-May-05 11:13:00.268 INFO  [http-nio-8080-exec-2] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-05 11:13:00.269 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-05 11:13:00.271 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Completed initialization in 2 ms
+2023-May-05 11:13:03.209 ERROR [http-nio-8080-exec-6] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:13:03.832 ERROR [http-nio-8080-exec-7] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:14:13.391 ERROR [http-nio-8080-exec-10] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:15:40.542 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 11.0.2 on DESKTOP-RK99JDJ with PID 8484 (E:\TokenVerificationSystem\TokenVerificationSystem\target\classes started by yaman in E:\TokenVerificationSystem\TokenVerificationSystem)
+2023-May-05 11:15:40.548 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-05 11:15:41.395 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-05 11:15:41.484 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 6 JPA repository interfaces.
+2023-May-05 11:15:42.468 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-May-05 11:15:42.483 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-05 11:15:42.483 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-May-05 11:15:42.617 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-05 11:15:42.617 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2012 ms
+2023-May-05 11:15:42.812 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-05 11:15:42.861 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-05 11:15:43.076 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-05 11:15:43.186 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-05 11:15:43.574 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-05 11:15:43.596 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-05 11:15:44.602 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-05 11:15:44.613 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-05 11:15:45.434 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-05 11:15:45.692 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2a5c115b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@49b6373f, org.springframework.security.web.context.SecurityContextPersistenceFilter@7bdaf563, org.springframework.security.web.header.HeaderWriterFilter@2ef812b, org.springframework.security.web.authentication.logout.LogoutFilter@1c3400df, com.tokens.security.JwtFilter@15254569, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1fb379e4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@514c6ca0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@51d6c42d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@20f3291d, org.springframework.security.web.session.SessionManagementFilter@1a865ebf, org.springframework.security.web.access.ExceptionTranslationFilter@4981b83, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@76ccde41]
+2023-May-05 11:15:46.276 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-May-05 11:15:46.287 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 6.233 seconds (JVM running for 6.84)
+2023-May-05 11:15:49.442 INFO  [http-nio-8080-exec-2] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-05 11:15:49.443 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-05 11:15:49.445 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Completed initialization in 2 ms
+2023-May-05 11:15:54.314 ERROR [http-nio-8080-exec-4] c.t.c.UserController - Error because of Invalid credentials
+2023-May-05 11:16:10.812 ERROR [http-nio-8080-exec-6] c.t.s.TransactionServiceImpl - Exception : Failed to convert from type [java.lang.Object[]] to type [@org.springframework.data.jpa.repository.Query com.tokens.models.Location] for value [java.lang.Object[]@60fa0557]; nested exception is org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [java.lang.Integer] to type [@org.springframework.data.jpa.repository.Query com.tokens.models.Location]
+2023-May-05 11:22:05.595 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 11.0.2 on DESKTOP-RK99JDJ with PID 16304 (E:\TokenVerificationSystem\TokenVerificationSystem\target\classes started by yaman in E:\TokenVerificationSystem\TokenVerificationSystem)
+2023-May-05 11:22:05.600 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-05 11:22:06.847 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-05 11:22:06.959 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 101 ms. Found 6 JPA repository interfaces.
+2023-May-05 11:22:07.901 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-May-05 11:22:07.913 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-05 11:22:07.913 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-May-05 11:22:08.037 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-05 11:22:08.038 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2361 ms
+2023-May-05 11:22:08.242 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-05 11:22:08.311 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-05 11:22:08.532 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-05 11:22:08.647 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-05 11:22:09.058 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-05 11:22:09.078 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-05 11:22:10.335 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-05 11:22:10.344 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-05 11:22:11.304 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-05 11:22:11.624 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@27d44578, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2446597e, org.springframework.security.web.context.SecurityContextPersistenceFilter@6a827b0c, org.springframework.security.web.header.HeaderWriterFilter@5d94c50e, org.springframework.security.web.authentication.logout.LogoutFilter@13da6bc9, com.tokens.security.JwtFilter@242c4a94, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1e186006, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4cff38ff, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6a9a6a0c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@8dd0c70, org.springframework.security.web.session.SessionManagementFilter@230e163b, org.springframework.security.web.access.ExceptionTranslationFilter@50bc0bbd, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1a0e5c0c]
+2023-May-05 11:22:12.232 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-May-05 11:22:12.240 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 7.213 seconds (JVM running for 7.851)
+2023-May-05 11:24:01.279 INFO  [http-nio-8080-exec-2] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-05 11:24:01.281 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-05 11:24:01.282 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Completed initialization in 1 ms
+2023-May-05 11:24:01.496 ERROR [http-nio-8080-exec-2] c.t.s.TransactionServiceImpl - Exception : Failed to convert from type [java.lang.Object[]] to type [@org.springframework.data.jpa.repository.Query com.tokens.models.Location] for value [java.lang.Object[]@1334345]; nested exception is org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [java.lang.Integer] to type [@org.springframework.data.jpa.repository.Query com.tokens.models.Location]
+2023-May-05 11:24:42.892 ERROR [http-nio-8080-exec-7] c.t.s.TransactionServiceImpl - Exception : Failed to convert from type [java.lang.Object[]] to type [@org.springframework.data.jpa.repository.Query com.tokens.models.Location] for value [java.lang.Object[]@614a4c0e]; nested exception is org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [java.lang.Integer] to type [@org.springframework.data.jpa.repository.Query com.tokens.models.Location]
+2023-May-05 11:26:05.354 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 11.0.2 on DESKTOP-RK99JDJ with PID 8800 (E:\TokenVerificationSystem\TokenVerificationSystem\target\classes started by yaman in E:\TokenVerificationSystem\TokenVerificationSystem)
+2023-May-05 11:26:05.361 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-05 11:26:06.252 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-05 11:26:06.345 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 81 ms. Found 6 JPA repository interfaces.
+2023-May-05 11:26:07.270 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-May-05 11:26:07.285 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-05 11:26:07.286 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-May-05 11:26:07.421 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-05 11:26:07.421 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2002 ms
+2023-May-05 11:26:07.615 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-05 11:26:07.679 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-05 11:26:07.877 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-05 11:26:07.987 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-05 11:26:08.368 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-05 11:26:08.385 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-05 11:26:09.330 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-05 11:26:09.340 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-05 11:26:10.040 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-05 11:26:10.294 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1cf7c055, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4b6fc231, org.springframework.security.web.context.SecurityContextPersistenceFilter@29f86630, org.springframework.security.web.header.HeaderWriterFilter@7bdaf563, org.springframework.security.web.authentication.logout.LogoutFilter@33b4c775, com.tokens.security.JwtFilter@6bbb3280, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4010f232, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4c51fc9a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@718e700c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6b7ebac1, org.springframework.security.web.session.SessionManagementFilter@514c6ca0, org.springframework.security.web.access.ExceptionTranslationFilter@6b3d3e57, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@24381e4a]
+2023-May-05 11:26:10.794 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-May-05 11:26:10.804 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 5.955 seconds (JVM running for 6.559)
+2023-May-05 11:26:13.829 INFO  [http-nio-8080-exec-2] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-05 11:26:13.831 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-05 11:26:13.833 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Completed initialization in 2 ms
+2023-May-05 11:29:11.310 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 11.0.2 on DESKTOP-RK99JDJ with PID 9784 (E:\TokenVerificationSystem\TokenVerificationSystem\target\classes started by yaman in E:\TokenVerificationSystem\TokenVerificationSystem)
+2023-May-05 11:29:11.315 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-05 11:29:12.210 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-05 11:29:12.296 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 76 ms. Found 6 JPA repository interfaces.
+2023-May-05 11:29:13.357 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-May-05 11:29:13.375 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-05 11:29:13.376 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-May-05 11:29:13.535 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-05 11:29:13.535 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2162 ms
+2023-May-05 11:29:13.760 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-05 11:29:13.844 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-05 11:29:14.102 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-05 11:29:14.216 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-05 11:29:14.651 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-05 11:29:14.678 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-05 11:29:15.699 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-05 11:29:15.707 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-05 11:29:16.492 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-05 11:29:16.773 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@93c66ef, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7e916dc2, org.springframework.security.web.context.SecurityContextPersistenceFilter@5fcff272, org.springframework.security.web.header.HeaderWriterFilter@78723798, org.springframework.security.web.authentication.logout.LogoutFilter@3e7da4cb, com.tokens.security.JwtFilter@8de4206, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@493489dd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3514df8d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7004cd44, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1a18e68a, org.springframework.security.web.session.SessionManagementFilter@35d62807, org.springframework.security.web.access.ExceptionTranslationFilter@1454339d, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4767be27]
+2023-May-05 11:29:17.293 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-May-05 11:29:17.306 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 6.501 seconds (JVM running for 7.116)
+2023-May-05 11:29:17.368 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-05 11:29:17.369 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-05 11:29:17.374 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 5 ms
+2023-May-05 11:33:30.375 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 11.0.2 on DESKTOP-RK99JDJ with PID 19068 (E:\TokenVerificationSystem\TokenVerificationSystem\target\classes started by yaman in E:\TokenVerificationSystem\TokenVerificationSystem)
+2023-May-05 11:33:30.381 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-05 11:33:31.316 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-05 11:33:31.397 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 68 ms. Found 6 JPA repository interfaces.
+2023-May-05 11:33:32.269 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-May-05 11:33:32.282 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-05 11:33:32.282 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-May-05 11:33:32.421 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-05 11:33:32.422 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1981 ms
+2023-May-05 11:33:32.641 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-05 11:33:32.701 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-05 11:33:32.890 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-05 11:33:33.009 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-05 11:33:33.390 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-05 11:33:33.408 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-05 11:33:34.357 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-05 11:33:34.372 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-05 11:33:35.124 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-05 11:33:35.426 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@13288174, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@24ae2183, org.springframework.security.web.context.SecurityContextPersistenceFilter@ccea4be, org.springframework.security.web.header.HeaderWriterFilter@452d6fd, org.springframework.security.web.authentication.logout.LogoutFilter@5c8d685e, com.tokens.security.JwtFilter@1390a415, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@663cc8c9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@40f931ec, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5f3fafca, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5b697993, org.springframework.security.web.session.SessionManagementFilter@38dc1c50, org.springframework.security.web.access.ExceptionTranslationFilter@7e864fa4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1254a3cd]
+2023-May-05 11:33:35.955 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-May-05 11:33:35.968 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 6.139 seconds (JVM running for 6.839)
+2023-May-05 11:33:52.617 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-05 11:33:52.618 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-05 11:33:52.620 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 1 ms

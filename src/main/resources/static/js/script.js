@@ -1,6 +1,5 @@
 $(document).ready(function() {
 	$('#login').click(function(e) {
-		debugger;
 		e.preventDefault();
 
 		let userName = document.getElementById('userName').value;
@@ -17,17 +16,17 @@ $(document).ready(function() {
 					"Content-type": "application/json",
 				},
 				success: function(data) {
-					if (data.jwtToken == null) {
-						$(".error-msg").show();
-					} else {
-						$(".error-msg").hide();
-						console.log("success");
+					if (data.jwtToken != null) {
+						$("#loginCheck").hide();
 						localStorage.setItem("status", "loggedIn");
 						window.location.href = "/home";
+					} else {
+						$("#loginCheck").show();
 					}
 
 				},
 				error: function(data) {
+					$("#loginCheck").show();
 					console.log("error");
 				}
 			});
@@ -93,5 +92,37 @@ $('#addKey').click(function(e) {
 
 });
 
-     
-      
+$('#registerUser').click(function(e) {
+	debugger;
+	e.preventDefault();
+
+	let userName = document.getElementById('userName').value;
+	let password = document.getElementById('password').value;
+	let email = document.getElementById('email').value;
+	let role = document.getElementById('role').value;
+	let systemId = document.getElementById('systemId').value;
+
+	if (userName != null && userName != "" && password != null && password != "" && email != null && email != ""
+		&& role != null && role != "" && systemId != null && systemId != "") {
+
+		$.ajax({
+			url: "/user/registerUser",
+			type: 'POST',
+			data: JSON.stringify({ userName: userName, password: password, email: email, role: role, systemId: systemId }),
+			contentType: 'application/json',
+			success: function() {
+				alert("Successfully Register");
+				window.location.href = "/signin";
+			},
+			error: function() {
+				alert("Error occurred during register");
+			}
+		});
+		return false;
+
+	} else {
+		alert("Please Enter Register Details");
+	}
+
+
+});

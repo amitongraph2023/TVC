@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -56,16 +57,15 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public CloudResponse generateTransactionToken(CloudRequest request) {
 		
-		saveLocationFromCSV();
 		CloudResponse response = null;
 		Transaction transaction = null;
 		try {
 			String token = "";
 
 			if (request.getMerchantId() != null) {
-				Location location = locationRepository
-						.findLocationByMerchantId(Integer.parseInt(request.getMerchantId())).get();
-				if (location == null) {
+				int merchantId = Integer.parseInt(request.getMerchantId());
+				Optional<Location> location = locationRepository.findByMerchantId(merchantId);
+				if (location.isEmpty()) {
 					return new CloudResponse("", 000, "MerchantId doesn't Exists");
 				}
 			}
@@ -87,7 +87,7 @@ public class TransactionServiceImpl implements TransactionService {
 				return new CloudResponse("", 000, "Something got wrong, Exception occured. Try after some Time");
 			}
 		} catch (Exception e) {
-			logger.error("Exception occurred while generation Token");
+			logger.error("Exception occurred while generation Token, Error : "+e.getMessage());
 		}
 		return response;
 	}
@@ -183,7 +183,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	public Boolean checkLocationIfExsists(Integer merchantId) {
 
-		Location location = locationRepository.findLocationByMerchantId(merchantId).get();
+		Location location = locationRepository.findByMerchantId(merchantId).get();
 		if (location == null) {
 			logger.info("location does not esists");
 			return false;
