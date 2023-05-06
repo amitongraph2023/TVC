@@ -16,7 +16,7 @@ public class Transaction {
 	private Integer internalTransactionId;
 	
 	@Column(name="transaction_id")
-	private Integer transactionId;
+	private Long transactionId;
 	
 	@Column(name="token")
 	private String token;
@@ -57,7 +57,7 @@ public class Transaction {
 	
 	public Transaction() {}
 	
-	public Transaction(Integer transactionId,String token, Integer customerId, Double amount, String createdDate, Integer merchantId, Integer posId,
+	public Transaction(Long transactionId,String token, Integer customerId, Double amount, String createdDate, Integer merchantId, Integer posId,
 			String cardNumber, String sourceIp, String gpsLocation, String systemId) {
 		super();
 		this.transactionId = transactionId;
@@ -73,11 +73,11 @@ public class Transaction {
 		this.systemId = systemId;
 	}
 	
-	public Integer getTransactionId() {
+	public Long getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(Integer transactionId) {
+	public void setTransactionId(Long transactionId) {
 		this.transactionId = transactionId;
 	}
 

@@ -6,7 +6,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.tokens.models.MasterKey;
 import com.tokens.models.User;
+import com.tokens.repository.MasterKeyRepository;
 import com.tokens.request.AuthRequest;
 import com.tokens.request.MasterKeyRequest;
 import com.tokens.service.TransactionService;
@@ -26,14 +29,21 @@ public class DashBoardController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	MasterKeyRepository masterKeyRepository;
+	
 	@GetMapping({ "/", "/home" })
 	public ModelAndView home() {
 		ModelAndView modelView = new ModelAndView();
-		modelView.setViewName("home.html");;
-		modelView.addObject("transactionCount", transactionService.countAllTransaction());
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		
+		modelView.setViewName("home.html");
+		modelView.addObject("transactionCount", transactionService.countAllTransactionofSystem(username));
 		modelView.addObject("amountPerLocation","50" );
-		modelView.addObject("topCustomer","5");
-		modelView.addObject("topLocation",transactionService.getTopLocations());
+		modelView.addObject("topCustomer",transactionService.getTopCustomer(username));
+		modelView.addObject("topLocation",transactionService.getTopLocations(username));
 		return modelView;
 	}
 	
@@ -52,8 +62,9 @@ public class DashBoardController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName();
 		User user = userService.findUserByUserName(username);
-		modelView.addObject("user",user);
-		modelView.addObject("masterKeyRequest", new MasterKeyRequest());
+		MasterKey key = masterKeyRepository.findMasterKeyBySystemId(user.getSystemId());
+		modelView.addObject("userId",user.getUserId());
+		modelView.addObject("masterKey", key.getMasterKey());
 		return modelView;
 	}
 

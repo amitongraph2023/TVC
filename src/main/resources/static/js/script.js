@@ -62,7 +62,6 @@ if (localStorage.getItem('status') == "loggedIn") {
 
 
 $('#addKey').click(function(e) {
-	debugger;
 	e.preventDefault();
 
 	let userId = document.getElementById('userId').value;
@@ -93,7 +92,6 @@ $('#addKey').click(function(e) {
 });
 
 $('#registerUser').click(function(e) {
-	debugger;
 	e.preventDefault();
 
 	let userName = document.getElementById('userName').value;

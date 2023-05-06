@@ -15,7 +15,7 @@ public interface TransactionService {
 	
 	Transaction saveTransaction(CloudRequest req, String token);
 	
-	int countAllTransaction();
+	int countAllTransactionofSystem(String username);
 	
 	String validateCloudRequest(CloudRequest req);
 
@@ -27,7 +27,9 @@ public interface TransactionService {
 	
 	List<Transaction> logsTransactionToken();
 	
-	List<Location> getTopLocations();
+	List<Location> getTopLocations(String username);
+	
+	 List<Transaction> getTopCustomer(String username);
 	
 }
 

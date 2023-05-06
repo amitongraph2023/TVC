@@ -14,15 +14,13 @@
 				<div>
 					<h3 class = "regDetails">Add Master Key</h3>
 				</div>
-				<form class = "register" th:object="${user}">
+				<form class = "register">
 					<div class="mb-4">
-						<input id = "userId" type = "hidden" th:field = "*{userId}"> 
-						<label for="masterKey" class="form-label">Enter Master Key:</label>
-						 <input type="text" class="form-control" id="masterKey" required th:value="${masterKeyRequest.masterKey}">
+						<input type="hidden" id="userId" name="userId" th:value="${userId}" />
+						<label for="masterKey" class="form-label">Enter Master Key </label>
+						<input type="text" id="masterKey" name="masterKey" style="width: 68%; border-radius:5px; padding: 5px;" th:value="${masterKey}" />
 					</div>
-
 					<button id="addKey" type="submit">Add</button>
-
 				</form>
 			</div>
 		</div>

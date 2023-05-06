@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -18,6 +17,7 @@ import com.tokens.models.MasterKey;
 import com.tokens.models.Transaction;
 import com.tokens.models.TransactionStatus;
 import com.tokens.models.TransactionStatusLogs;
+import com.tokens.models.User;
 import com.tokens.repository.LocationRepository;
 import com.tokens.repository.MasterKeyRepository;
 import com.tokens.repository.TransactionRepository;
@@ -56,7 +56,6 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public CloudResponse generateTransactionToken(CloudRequest request) {
-		
 		CloudResponse response = null;
 		Transaction transaction = null;
 		try {
@@ -64,9 +63,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 			if (request.getMerchantId() != null) {
 				int merchantId = Integer.parseInt(request.getMerchantId());
-				Optional<Location> location = locationRepository.findByMerchantId(merchantId);
-				if (location.isEmpty()) {
-					return new CloudResponse("", 000, "MerchantId doesn't Exists");
+				Location location = locationRepository.findByMerchantId(merchantId);
+				if (location == null) {
+					return new CloudResponse("", (long)0, "MerchantId doesn't Exists");
 				}
 			}
 
@@ -75,7 +74,7 @@ public class TransactionServiceImpl implements TransactionService {
 				token = CodeGenerator.generateHashCode(key.getMasterKey());
 			} else {
 				logger.error("cannot generate Token Without MasterKey");
-				return new CloudResponse("", 000, "SystemId doesn't Exists");
+				return new CloudResponse("", Long.MIN_VALUE, "SystemId doesn't Exists");
 			}
 
 			// saving transactions in DB
@@ -84,7 +83,7 @@ public class TransactionServiceImpl implements TransactionService {
 			if (transaction != null) {
 				response = new CloudResponse(token, transaction.getTransactionId(), "");
 			} else {
-				return new CloudResponse("", 000, "Something got wrong, Exception occured. Try after some Time");
+				return new CloudResponse("", (long) 0, "Something got wrong, Exception occured. Try after some Time");
 			}
 		} catch (Exception e) {
 			logger.error("Exception occurred while generation Token, Error : "+e.getMessage());
@@ -102,7 +101,7 @@ public class TransactionServiceImpl implements TransactionService {
 			try {
 
 
-				transaction = new Transaction( Integer.parseInt(req.getTransactionId()),token, Integer.parseInt(req.getCustomerId()),
+				transaction = new Transaction( Long.parseLong(req.getTransactionId()),token, Integer.parseInt(req.getCustomerId()),
 						Double.parseDouble(req.getAmount()), req.getCreatedDate(),
 						Integer.parseInt(req.getMerchantId()), Integer.parseInt(req.getPosId()),
 						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation(), req.getSystemId());
@@ -135,12 +134,6 @@ public class TransactionServiceImpl implements TransactionService {
 	public List<Transaction> logsTransactionToken() {
 		List<Transaction> transactionTokenLog = transactionRepository.findAll();
 		return transactionTokenLog;
-	}
-
-	@Override
-	public int countAllTransaction() {
-		int count = (int) transactionRepository.count();
-		return count;
 	}
 
 	public String validateCloudRequest(CloudRequest req) {
@@ -183,7 +176,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	public Boolean checkLocationIfExsists(Integer merchantId) {
 
-		Location location = locationRepository.findByMerchantId(merchantId).get();
+		Location location = locationRepository.findByMerchantId(merchantId);
 		if (location == null) {
 			logger.info("location does not esists");
 			return false;
@@ -246,16 +239,37 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public List<Location> getTopLocations() {
+	public List<Location> getTopLocations(String username) {
+		User user = userRepository.findByUserName(username);
 		List<Location> locationList = new ArrayList<Location>();
 		try {
-			locationList = locationRepository.findTopLocations();
+			locationList = locationRepository.findTopLocations(user.getSystemId());
 		} catch (Exception ex) {
             logger.error("Exception : "+ex.getMessage());
 		}
 		return locationList;
 	}
 
+	@Override
+	public int countAllTransactionofSystem(String username) {
+		User user = userRepository.findByUserName(username);
+		int count = (int) transactionRepository.findTransactionCountofSystem(user.getSystemId());
+		return count;
+	}
+	
+	@Override
+	public List<Transaction> getTopCustomer(String username) {
+		User user = userRepository.findByUserName(username);
+		List<Transaction> transactionList = new ArrayList<>();
+		try {
+			transactionList = transactionRepository.findTopCustomers(user.getSystemId());
+		} catch (Exception ex) {
+			logger.error("Exception : " + ex.getMessage());
+		}
+
+		return transactionList;
+	}
+	
 	public void saveLocationFromCSV() {
 		List<Location> locationList = reader.saveLocations();
 		locationRepository.saveAll(locationList);

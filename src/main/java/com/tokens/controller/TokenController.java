@@ -33,7 +33,7 @@ public class TokenController {
             // Build error message and return bad request response
             StringBuilder errorMessage = new StringBuilder();
             result.getAllErrors().forEach(error -> errorMessage.append(error.getDefaultMessage()).append(". "));
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new CloudResponse("", 0, errorMessage.toString()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new CloudResponse("", (long)0, errorMessage.toString()));
         }
 		
 		CloudResponse res = transactionService.generateTransactionToken(cloudRequest);
