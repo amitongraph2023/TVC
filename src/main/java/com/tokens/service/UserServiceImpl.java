@@ -73,6 +73,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void registerAdminOrUser(User user) throws Exception {
+		if(user.getSystemId() == null) {
+			throw new Exception("SystemId can't be null");
+		}
 		if (userRepository.findByUserName(user.getUserName()) != null) {
 			throw new Exception("usernmae is taken");
 		}
@@ -113,7 +116,7 @@ public class UserServiceImpl implements UserService {
 	public User findUserByUserName(String username) {
 		User user = null;
 		try {
-			user = userRepository.findByUserEmail(username).get();
+			user = userRepository.findByUserName(username);
 		} catch (Exception ex) {
 			logger.error("Exception occurred while getting user by username from DB, Error : " + ex.getMessage());
 		}

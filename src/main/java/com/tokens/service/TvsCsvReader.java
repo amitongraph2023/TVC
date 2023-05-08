@@ -22,7 +22,7 @@ public class TvsCsvReader {
 	public List<Location> saveLocations() {
 
 		// change the path
-		String csvFilePath = "C:/Users/yaman/OneDrive/Desktop/merchant.csv";
+		String csvFilePath = "merchant.csv";
 
 //		Map<String, String> mapping = new HashMap<String, String>();
 //		mapping.put("merchantId", "merchantId");

@@ -1,0 +1,45 @@
+package com.tokens.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.tokens.models.CustomerDto;
+import com.tokens.models.User;
+import com.tokens.repository.UserRepository;
+
+@Service
+public class CustomerService {
+
+	Logger logger = LoggerFactory.getLogger(CustomerService.class);
+
+	@Autowired
+	EntityManager entityManager;
+
+	@Autowired
+	UserRepository userRepository;
+
+	public List<CustomerDto> getTopCustomer(String username) {
+		User user = userRepository.findByUserName(username);
+		List<CustomerDto> customerList = new ArrayList<>();
+		String sql = "SELECT tc.customer_id as customer_id, SUM(tc.amount) as total_amount FROM transaction tc"
+				+ " WHERE tc.system_id = :systemId GROUP BY tc.customer_id ORDER BY total_amount DESC";
+		try {
+			customerList = entityManager.createNativeQuery(sql, "CustomerDtoMapping")
+					.setParameter("systemId", user.getSystemId()).setMaxResults(5).getResultList();
+
+		} catch (Exception ex) {
+			logger.error("Exception while getting Top Customers: " + ex.getMessage());
+		}
+
+		return customerList;
+	}
+
+}
