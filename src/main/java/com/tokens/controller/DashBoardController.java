@@ -104,7 +104,7 @@ public class DashBoardController {
 	@GetMapping("/transactionLogs/{id}")
 	public ModelAndView tranLogs(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
-		modelView.setViewName("tranLogs.html");
+		modelView.setViewName("transactionLogs.html");
 		modelView.addObject("TransactionLogs", transactionService.logsTransactionToken(userId));
 		return modelView;
 	}
