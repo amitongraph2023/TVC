@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class=" transaction-count">
+			<p>Transaction Status Logs</p>
+			<table class="table" style="width: 70%;">
+				<thead>
+					<tr>
+						<th>Transaction ID</th>
+						<th>Status</th>
+						<th>SystemId</th>
+						<th>lastUpdated</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="tsl : ${TransactionStatusLogs}">
+						<td th:text="${tsl.transactionId}"></td>
+						<td th:text="${tsl.status}"></td>
+						<td th:text="${tsl.systemId}"></td>
+						<td th:text="${tsl.lastUpdated}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+</body>
+</html>

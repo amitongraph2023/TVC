@@ -1,6 +1,5 @@
 package com.tokens.models;
 
-import javax.persistence.Entity;
 
 public class CustomerDto {
 

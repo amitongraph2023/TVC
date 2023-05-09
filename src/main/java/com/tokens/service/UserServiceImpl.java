@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 			throw new Exception("SystemId can't be null");
 		}
 		if (userRepository.findByUserName(user.getUserName()) != null) {
-			throw new Exception("usernmae is taken");
+			throw new Exception("Username is already taken");
 		}
 		user.setPassword(getEncodedPassword(user.getPassword()));
 		userRepository.save(user);

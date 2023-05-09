@@ -21,11 +21,11 @@ public interface TransactionService {
 
 	Boolean updateTransactionStatus(Integer transactionId, String status);
 	
-	TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated);
+	TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated, String systemId);
 	
-	List<TransactionStatusLogs> getTransactionStatusLogs();
+	List<TransactionStatusLogs> getTransactionStatusLogs(int userId);
 	
-	List<Transaction> logsTransactionToken();
+	List<Transaction> logsTransactionToken(int userId);
 	
 	List<Location> getTopLocations(String username);
 	

@@ -61,13 +61,13 @@ public class TransactionServiceImpl implements TransactionService {
 		try {
 			String token = "";
 
-			if (request.getMerchantId() != null) {
+			/*if (request.getMerchantId() != null) {
 				int merchantId = Integer.parseInt(request.getMerchantId());
 				Location location = locationRepository.findByMerchantId(merchantId);
 				if (location == null) {
 					return new CloudResponse("", (long)0, "MerchantId doesn't Exists");
 				}
-			}
+			}*/
 
 			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(request.getSystemId());
 			if (key != null && key.getMasterKey() != null) {
@@ -131,8 +131,9 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public List<Transaction> logsTransactionToken() {
-		List<Transaction> transactionTokenLog = transactionRepository.findAll();
+	public List<Transaction> logsTransactionToken(int userId) {
+		User user = userRepository.findById(userId).get();
+		List<Transaction> transactionTokenLog = transactionRepository.findTransactionLogs(user.getSystemId());
 		return transactionTokenLog;
 	}
 
@@ -189,7 +190,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 		boolean isUpdated = false;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-		Transaction transaction = transactionRepository.findByTransactionId(transactionId);
+		Transaction transaction = transactionRepository.findByTransactionId(transactionId.longValue());
 
 		if (transaction == null) {
 			transaction = new Transaction();
@@ -208,7 +209,7 @@ public class TransactionServiceImpl implements TransactionService {
 					transactionRepository.save(transaction);
 				}
 				saveTransactionStatusLogs(transactionId, transaction.getStatus().toString(),
-						transaction.getLastUpdated());
+						transaction.getLastUpdated(), transaction.getSystemId());
 				isUpdated = true;
 			}
 		} catch (Exception e) {
@@ -219,11 +220,11 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	@Transactional
-	public TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated) {
+	public TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated, String systemId) {
 		TransactionStatusLogs transactionStatusLogs = null;
 
 		try {
-			transactionStatusLogs = new TransactionStatusLogs(transactionId, status, lastUpdated);
+			transactionStatusLogs = new TransactionStatusLogs(transactionId, status, lastUpdated, systemId);
 			transactionStatusLogsRepository.save(transactionStatusLogs);
 
 		} catch (Exception ex) {
@@ -233,8 +234,9 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public List<TransactionStatusLogs> getTransactionStatusLogs() {
-		List<TransactionStatusLogs> transactionLog = transactionStatusLogsRepository.findAll();
+	public List<TransactionStatusLogs> getTransactionStatusLogs(int userId) {
+		User user = userRepository.findById(userId).get();
+		List<TransactionStatusLogs> transactionLog = transactionStatusLogsRepository.findTransactionStatusLogs(user.getSystemId());
 		return transactionLog;
 	}
 

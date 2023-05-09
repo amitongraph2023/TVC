@@ -43,12 +43,12 @@ public class UserController {
 	UserService userService;
 
 	@PostMapping("/user/registerUser")
-	public ResponseEntity<String> regsiterUser(@RequestBody User user) {
+	public ResponseEntity<String> registerUser(@RequestBody User user) {
 
 		try {
 			userService.registerAdminOrUser(user);
 		} catch (Exception ex) {
-			return ResponseEntity.ok().body(ex.getMessage());
+			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
 
 		return ResponseEntity.ok().body("SuccessFully Registered User");
@@ -80,12 +80,15 @@ public class UserController {
 		try {
 			String newGeneratedToken = jwtUtil.generateToken(userName);
 			JwtCookieUtil.addTokenCookies(attr, newGeneratedToken, "true");
-			return new AuthResponse(newGeneratedToken);
+			User user = userService.findUserByUserName(userName);
+			return new AuthResponse(user,newGeneratedToken);
+			
 		} catch (Exception ex) {
 			log.error("User = {} failed auth", userName, ex);
 			JwtCookieUtil.clearTokenCookies(attr);
 			throw new CredentialValidationException("incorrect credentials");
 		}
+		
 	}
 
 	@PostMapping("/user/updateMasterKey")

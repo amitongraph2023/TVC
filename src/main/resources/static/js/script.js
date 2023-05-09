@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	$('#login').click(function(e) {
+		debugger;
 		e.preventDefault();
 
 		let userName = document.getElementById('userName').value;
@@ -19,6 +20,8 @@ $(document).ready(function() {
 					if (data.jwtToken != null) {
 						$("#loginCheck").hide();
 						localStorage.setItem("status", "loggedIn");
+						localStorage.setItem("role", data.user.role);
+	
 						window.location.href = "/home";
 					} else {
 						$("#loginCheck").show();
@@ -46,6 +49,7 @@ $('#out').click(function(e){
 	debugger;
 	e.preventDefault();
 	localStorage.setItem("status", "loggedOut");
+	localStorage.setItem("role", "Norole");
 	window.location.href = "/logout";
 	
 });
@@ -54,10 +58,17 @@ $('#out').click(function(e){
 if (localStorage.getItem('status') == "loggedIn") {
 	$('#log').hide();
 	$('#out').show();
+	$("#home").show();
 
 } else {
 	$('#log').show();
 	$('#out').hide();
+	$("#home").hide();
+}
+
+if (localStorage.getItem('role') == "Admin") {
+	$("#key").show();
+	$("#reg").show();
 }
 
 
@@ -93,11 +104,19 @@ $('#addKey').click(function(e) {
 
 $('#registerUser').click(function(e) {
 	e.preventDefault();
-
+	debugger;
 	let userName = document.getElementById('userName').value;
 	let password = document.getElementById('password').value;
 	let email = document.getElementById('email').value;
-	let role = document.getElementById('role').value;
+	let roleSize  = document.getElementsByName('role');
+	let role = null;
+	
+	roleSize.forEach(val => {
+		if(val.checked==true) {
+			role = val.value;
+		}
+	});
+	
 	let systemId = document.getElementById('systemId').value;
 
 	if (userName != null && userName != "" && password != null && password != "" && email != null && email != ""
@@ -112,8 +131,13 @@ $('#registerUser').click(function(e) {
 				alert("Successfully Register");
 				window.location.href = "/signin";
 			},
-			error: function() {
-				alert("Error occurred during register");
+			error: function(xhr) {
+				if (xhr.responseText == null) {
+					alert("Error occurred during register");
+				} else {
+					alert(xhr.responseText);
+				}
+				
 			}
 		});
 		return false;

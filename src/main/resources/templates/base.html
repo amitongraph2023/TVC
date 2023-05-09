@@ -26,11 +26,13 @@
 		</div>
 		<div>
 			<ul class="navbar-nav gap-4">
-				<li class="align-self-sm-center"><a id = "key" class = "login text-success" th:href = "@{'/addMasterKey'}">Add Master Key</a></li>			
-				<li class="navbar-text"><a style = "font-weight:bold" class="nav-link text-white" href="/home">HOME</a></li>
-				<li class = "align-self-sm-center"><a id = "reg" class = "login text-success" th:href = "@{'/register'}">Register</a></li>
+				<li class="align-self-sm-center"><a id = "key" style = "display:none" class = "login text-success" 
+					th:href = "@{'/addMasterKey'}">Add Master Key</a></li>			
+				<li class="navbar-text"><a id ="home" style="font-weight:bold; display:none" class="nav-link text-white" href="/home">HOME</a></li>
+				<li class = "align-self-sm-center"><a id = "reg" style = "display:none" class = "login text-success" 
+					th:href = "@{'/register'}">Register</a></li>
 				<li class = "align-self-sm-center"><a id = "log" class = "login text-success" th:href = "@{'/signin'}">Login</a></li>
-				<li class = "align-self-sm-center"><button id = "out" class = "login text-success" style = "display:none">Log Out</button></li>
+				<li class = "align-self-sm-center"><button id = "out" class = "login" style = "display:none">Log Out</button></li>
 			</ul>
 		</div>
 	</div>

@@ -7,76 +7,92 @@
 
 <style>
 table {
-  border-collapse: collapse;
-  width: 50%;
+	border-collapse: collapse;
+	width: 50%;
 }
+
 th, td {
-  text-align: left;
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+	text-align: left;
+	padding: 8px;
+	border-bottom: 1px solid #ddd;
 }
+
 th {
-  background-color: #4CAF50;
-  color: white;
+	background-color: #4CAF50;
+	color: white;
 }
-tr:nth-child(even) {background-color: #f2f2f2;}
-tr:hover {background-color: #ddd;}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+tr:hover {
+	background-color: #ddd;
+}
 </style>
 </head>
 <body>
 	<section>
-		<div class="transaction-count">
-			<p>
-				Transaction Count: <span th:text="${transactionCount}"></span>
-			</p>
-		</div>
+		<div style = "display: flex;">
 
-		<div class="transaction-count">
-			<p>
-				Amount Per Location: <span th:text="${amountPerLocation}"></span>
-			</p>
-		</div>
+			<div class = "card-body">
+				<div class="transaction-count">
+					<p>
+						Transaction Count: <span th:text="${transactionCount}"></span>
+					</p>
+				</div>
 
-		<div class=" transaction-count">
-			<p>
-				Top 5 Customer:
-			</p>	
-			<table class="table" style="width: 50%;">
-			<thead>
-            <tr>
-                <th>Customer ID</th>
-                <th>Amount</th>
-            </tr>
-            </thead> 
-            <tbody>
-				<tr th:each="cus : ${Customer}">
-					<td th:text="${cus.customerId}"></td>
-					<td th:text="${cus.totalAmount}"></td>
-				</tr>
-			</tbody>
-			</table>	
-		</div>
-        <br>
-		<div class="transaction-count" style="width: 50%;">
-			<p>
-				Top 5 Location:
-			</p>
-			<table class="table">
-			<thead>
-            <tr>
-                <th>Location Id</th>
-                <th>Location Name</th>
-            </tr>
-            </thead> 
-            <tbody>
-				<tr th:each="loc : ${topLocation}">
-					<td th:text="${loc.merchantId}"></td>
-					<td th:text="${loc.merchantName}"></td>
-				</tr>
-			</tbody>
-			</table>		
-		</div>
+				<div class="transaction-count">
+					<p>
+						Amount Per Location: <span th:text="${amountPerLocation}"></span>
+					</p>
+				</div>
 
+				<div class=" transaction-count">
+					<p>Top 5 Customer:</p>
+					<table class="table" style="width: 50%;">
+						<thead>
+							<tr>
+								<th>Customer ID</th>
+								<th>Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="cus : ${Customer}">
+								<td th:text="${cus.customerId}"></td>
+								<td th:text="${cus.totalAmount}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<br>
+				<div class="transaction-count" style="width: 50%;">
+					<p>Top 5 Location:</p>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Location Id</th>
+								<th>Location Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="loc : ${topLocation}">
+								<td th:text="${loc.merchantId}"></td>
+								<td th:text="${loc.merchantName}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			<div class="p-4" style="text-align: right;">
+				<a id="slog" class="addKey text-white" th:href="@{/transactionStatusLogs/{userId}(userId=${userId})}">Transaction Status logs</a> 
+				<a id="klog" class="addKey text-white" th:href="@{/masterKeyLogs/{userId}(userId=${userId})}">Master Key Logs</a>
+				<a id="tlog" class="addKey text-white" th:href="@{/transactionLogs/{userId}(userId=${userId})}">Transaction Logs</a>
+			</div>
+			
+			
+		</div>
 	</section>
 
 </body>

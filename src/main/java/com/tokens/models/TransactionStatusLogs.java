@@ -24,6 +24,9 @@ public class TransactionStatusLogs {
 	@Column(name = "last_updated")
 	private String lastUpdated;
 	
+	@Column(name="system_id")
+	private String systemId;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -49,13 +52,24 @@ public class TransactionStatusLogs {
 		this.lastUpdated = lastUpdated;
 	}
 	
-	public TransactionStatusLogs() {}
-
-	public TransactionStatusLogs(Integer transactionId, String status, String lastUpdated) {
+	public String getSystemId() {
+		return systemId;
+	}
+	public void setSystemId(String systemId) {
+		this.systemId = systemId;
+	}
+	
+	public TransactionStatusLogs() {
+		super();
+	}
+	
+	public TransactionStatusLogs(Integer transactionId, String status, String lastUpdated,
+			String systemId) {
 		super();
 		this.transactionId = transactionId;
 		this.status = status;
 		this.lastUpdated = lastUpdated;
+		this.systemId = systemId;
 	}
 	
 }

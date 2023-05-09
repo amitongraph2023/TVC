@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,9 +44,9 @@ public class TokenController {
 		return ResponseEntity.badRequest().body(new CloudResponse());
 	}
 
-	@GetMapping("/transaction/getLogsTransactionToken")
-	public ResponseEntity<List<Transaction>> logsTransactionToken(){
-		List<Transaction> transactionTokenLog = transactionService.logsTransactionToken();
+	@GetMapping("/transaction/getLogsTransactionToken/{id}")
+	public ResponseEntity<List<Transaction>> logsTransactionToken(@PathVariable("id") int userId){
+		List<Transaction> transactionTokenLog = transactionService.logsTransactionToken(userId);
 		if (transactionTokenLog != null) {
 			return ResponseEntity.ok().body(transactionTokenLog);
 		}
@@ -62,9 +63,9 @@ public class TokenController {
         return ResponseEntity.ok().body("Exception during updating transaction status");
     }
 	
-	@GetMapping("/transaction/getTransactionStatusLogs")
-	public ResponseEntity<List<TransactionStatusLogs>> getTransactionStatusLogs(){
-		List<TransactionStatusLogs> transactionLog = transactionService.getTransactionStatusLogs();
+	@GetMapping("/transaction/getTransactionStatusLogs/{id}")
+	public ResponseEntity<List<TransactionStatusLogs>> getTransactionStatusLogs(@PathVariable("id") int userId){
+		List<TransactionStatusLogs> transactionLog = transactionService.getTransactionStatusLogs(userId);
 		if (transactionLog != null) {
 			return ResponseEntity.ok().body(transactionLog);
 		}

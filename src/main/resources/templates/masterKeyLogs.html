@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class=" transaction-count">
+			<p>
+				Master Key Logs
+			</p>	
+			<table class="table" style="width: 70%;">
+			<thead>
+            <tr>
+                <th>Master key Id</th>
+                <th>Master Key</th>
+                <th>SystemId</th>
+                <th>CreatedOn</th>
+            </tr>
+            </thead> 
+            <tbody>
+				<tr th:each="mkl : ${MasterKeyLogs}">
+					<td th:text="${mkl.masterkeyId}"></td>
+					<td th:text="${mkl.masterKey}"></td>
+					<td th:text="${mkl.systemId}"></td>
+					<td th:text="${mkl.createdOn}"></td>
+				</tr>
+			</tbody>
+			</table>	
+		</div>
+	</section>
+</body>
+</html>
