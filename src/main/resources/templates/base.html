@@ -20,14 +20,14 @@
 <nav class="p-2 navbar navbar-expand-lg bg-success shadow">
 	<div class="container-fluid">
 		<div class = "me-auto" >
-			<ul class="navbar-nav gap-4">
+			<ul class="navbar-nav">
 				<li class="navbar-text"><a style = "font-weight:bold" class="fa-1x nav-link text-white">TOKEN VERIFICATION SYSTEM</a></li>
 			</ul>
 		</div>
 		<div>
-			<ul class="navbar-nav gap-4">
+			<ul class="navbar-nav gap-3">
 				<li class="align-self-sm-center"><a id = "key" style = "display:none" class = "login text-success" 
-					th:href = "@{'/addMasterKey'}">Add Master Key</a></li>			
+					th:href = "@{/addMasterKey/{userId}(userId=${userId})}">Add Master Key</a></li>			
 				<li class="navbar-text"><a id ="home" style="font-weight:bold; display:none" class="nav-link text-white" href="/home">HOME</a></li>
 				<li class = "align-self-sm-center"><a id = "reg" style = "display:none" class = "login text-success" 
 					th:href = "@{'/register'}">Register</a></li>

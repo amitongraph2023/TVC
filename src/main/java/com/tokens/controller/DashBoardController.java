@@ -15,6 +15,7 @@ import com.tokens.request.AuthRequest;
 import com.tokens.service.TransactionService;
 import com.tokens.service.UserService;
 import com.tokens.service.CustomerService;
+import com.tokens.service.LocationService;
 
 @Controller
 public class DashBoardController {
@@ -34,6 +35,9 @@ public class DashBoardController {
 	CustomerService customerService;
 	
 	@Autowired
+	LocationService locationService;
+	
+	@Autowired
 	MasterKeyRepository masterKeyRepository;
 	
 
@@ -50,7 +54,6 @@ public class DashBoardController {
 		User user = getUser();
 		modelView.setViewName("home.html");
 		modelView.addObject("transactionCount", transactionService.countAllTransactionofSystem(user.getUserName()));
-		modelView.addObject("amountPerLocation","50" );
 		modelView.addObject("Customer",customerService.getTopCustomer(user.getUserName()));
 		modelView.addObject("topLocation",transactionService.getTopLocations(user.getUserName()));
 		modelView.addObject("userId", user.getUserId());
@@ -66,13 +69,12 @@ public class DashBoardController {
 		return modelView;
 	}
 	
-	@GetMapping("/addMasterKey")
-	public ModelAndView addMasterKey() {
+	@GetMapping("/addMasterKey/{id}")
+	public ModelAndView addMasterKey(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("masterKey.html");
-		User user = getUser();
-		MasterKey key = masterKeyRepository.findMasterKeyBySystemId(user.getSystemId());
-		modelView.addObject("userId",user.getUserId());
+		MasterKey key = masterKeyRepository.findById(userId).get();
+		modelView.addObject("userId",userId);
 		modelView.addObject("masterKey", key.getMasterKey());
 		return modelView;
 	}
@@ -102,10 +104,18 @@ public class DashBoardController {
 	}
 	
 	@GetMapping("/transactionLogs/{id}")
-	public ModelAndView tranLogs(@PathVariable("id") int userId) {
+	public ModelAndView transactionLogs(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("transactionLogs.html");
 		modelView.addObject("TransactionLogs", transactionService.logsTransactionToken(userId));
+		return modelView;
+	}
+	
+	@GetMapping("/amountPerlocation/{id}")
+	public ModelAndView amountPerLocation(@PathVariable("id") int userId) {
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("amountPerLocation.html");
+		modelView.addObject("AmountPerLocation", locationService.getAmountPerLocation(userId));
 		return modelView;
 	}
 }

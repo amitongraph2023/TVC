@@ -23,6 +23,16 @@ import javax.persistence.ColumnResult;
 	        }
 	    )
 	)
+@SqlResultSetMapping(
+	    name = "LocationDtoMapping",
+	    classes = @ConstructorResult(
+	        targetClass = LocationDto.class,
+	        columns = {
+	            @ColumnResult(name = "merchant_id", type = Integer.class),
+	            @ColumnResult(name = "total_amount", type = Double.class)
+	        }
+	    )
+	)
 public class Transaction {
 	
 	@Id

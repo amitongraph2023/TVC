@@ -61,13 +61,15 @@ public class TransactionServiceImpl implements TransactionService {
 		try {
 			String token = "";
 
-			/*if (request.getMerchantId() != null) {
+			saveLocationFromCSV();
+			
+			if (request.getMerchantId() != null) {
 				int merchantId = Integer.parseInt(request.getMerchantId());
 				Location location = locationRepository.findByMerchantId(merchantId);
 				if (location == null) {
 					return new CloudResponse("", (long)0, "MerchantId doesn't Exists");
 				}
-			}*/
+			}
 
 			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(request.getSystemId());
 			if (key != null && key.getMasterKey() != null) {
@@ -79,7 +81,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 			// saving transactions in DB
 			transaction = saveTransaction(request, token);
-
+			
 			if (transaction != null) {
 				response = new CloudResponse(token, transaction.getTransactionId(), "");
 			} else {

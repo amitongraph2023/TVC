@@ -35,16 +35,14 @@ tr:hover {
 	<section>
 		<div style = "display: flex;">
 
-			<div class = "card-body">
+			<div class = "w-50">
+				<div class = "btn-group p-4">
+					<a id="slog" class="addKey text-white" th:href="@{/amountPerlocation/{userId}(userId=${userId})}">Amount Per Location</a> 
+				</div>
+				<br>
 				<div class="transaction-count">
 					<p>
 						Transaction Count: <span th:text="${transactionCount}"></span>
-					</p>
-				</div>
-
-				<div class="transaction-count">
-					<p>
-						Amount Per Location: <span th:text="${amountPerLocation}"></span>
 					</p>
 				</div>
 
@@ -83,9 +81,10 @@ tr:hover {
 						</tbody>
 					</table>
 				</div>
+				
 			</div>
 			
-			<div class="p-4" style="text-align: right;">
+			<div class="card-body p-4" >
 				<a id="slog" class="addKey text-white" th:href="@{/transactionStatusLogs/{userId}(userId=${userId})}">Transaction Status logs</a> 
 				<a id="klog" class="addKey text-white" th:href="@{/masterKeyLogs/{userId}(userId=${userId})}">Master Key Logs</a>
 				<a id="tlog" class="addKey text-white" th:href="@{/transactionLogs/{userId}(userId=${userId})}">Transaction Logs</a>

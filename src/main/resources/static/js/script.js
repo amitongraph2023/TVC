@@ -1,3 +1,5 @@
+
+
 $(document).ready(function() {
 	$('#login').click(function(e) {
 		debugger;
@@ -23,6 +25,7 @@ $(document).ready(function() {
 						localStorage.setItem("role", data.user.role);
 	
 						window.location.href = "/home";
+						
 					} else {
 						$("#loginCheck").show();
 					}

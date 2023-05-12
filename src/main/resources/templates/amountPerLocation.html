@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class=" transaction-count">
+			<p>Amount Per Location</p>
+			<table class="table" style="width: 25%;">
+				<thead>
+					<tr>
+						<th>Location ID</th>
+						<th>Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="apl : ${AmountPerLocation}">
+						<td th:text="${apl.merchantId}"></td>
+						<td th:text="${apl.totalAmount}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+</body>
+</html>

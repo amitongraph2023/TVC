@@ -49,7 +49,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests()
 		            .antMatchers("/user/registerUser", "/user/authenticate").permitAll()
 		            .antMatchers("/**/*.*", "/signin", "/register").permitAll()
-		            .antMatchers("/addMasterKey", "/user/getMasterKeyLogs/**","/transaction/generateToken", 
+		            .antMatchers("/addMasterKey/{id}", "/user/getMasterKeyLogs/**","/transaction/generateToken", 
 		            		"/transaction/getLogsTransactionToken").hasAnyRole("Admin", "User")
 		            .anyRequest().authenticated()
                     .and()

@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		try {
 			User user = userRepository.findById(userId).get();
-			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(user.getSystemId());
+			MasterKey key = masterKeyRepository.findById(userId).get();
 			if (key != null && user.getRole().equals("Admin")) {
 				key.setMasterKey(masterKey);
 				key.setSystemId(user.getSystemId());
