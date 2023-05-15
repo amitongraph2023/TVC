@@ -4,19 +4,19 @@ public class CloudResponse {
 
 	private String generatedToken;
 
-	private Long transactionId;
+	private String transactionId;
 
 	private String message;
 
 	public CloudResponse() { }
 
-	public CloudResponse(String generatedToken, Long transactionId) {
+	public CloudResponse(String generatedToken, String transactionId) {
 		super();
 		this.generatedToken = generatedToken;
 		this.transactionId = transactionId;
 	}
 
-	public CloudResponse(String generatedToken, Long transactionId, String message) {
+	public CloudResponse(String generatedToken, String transactionId, String message) {
 		super();
 		this.generatedToken = generatedToken;
 		this.transactionId = transactionId;
@@ -31,11 +31,11 @@ public class CloudResponse {
 		this.generatedToken = generatedToken;
 	}
 
-	public Long getTransactionId() {
+	public String getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(Long transactionId) {
+	public void setTransactionId(String transactionId) {
 		this.transactionId = transactionId;
 	}
 

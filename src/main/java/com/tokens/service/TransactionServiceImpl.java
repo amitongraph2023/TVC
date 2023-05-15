@@ -61,13 +61,11 @@ public class TransactionServiceImpl implements TransactionService {
 		try {
 			String token = "";
 
-			saveLocationFromCSV();
-			
-			if (request.getMerchantId() != null) {
-				int merchantId = Integer.parseInt(request.getMerchantId());
+			if(request.getStationId() != null) {
+				int merchantId = Integer.parseInt(request.getStationId());
 				Location location = locationRepository.findByMerchantId(merchantId);
 				if (location == null) {
-					return new CloudResponse("", (long)0, "MerchantId doesn't Exists");
+					return new CloudResponse("", "", "MerchantId doesn't Exists");
 				}
 			}
 
@@ -76,7 +74,7 @@ public class TransactionServiceImpl implements TransactionService {
 				token = CodeGenerator.generateHashCode(key.getMasterKey());
 			} else {
 				logger.error("cannot generate Token Without MasterKey");
-				return new CloudResponse("", Long.MIN_VALUE, "SystemId doesn't Exists");
+				return new CloudResponse("", "", "SystemId doesn't Exists");
 			}
 
 			// saving transactions in DB
@@ -85,7 +83,7 @@ public class TransactionServiceImpl implements TransactionService {
 			if (transaction != null) {
 				response = new CloudResponse(token, transaction.getTransactionId(), "");
 			} else {
-				return new CloudResponse("", (long) 0, "Something got wrong, Exception occured. Try after some Time");
+				return new CloudResponse("", " ", "Something got wrong, Exception occured. Try after some Time");
 			}
 		} catch (Exception e) {
 			logger.error("Exception occurred while generation Token, Error : "+e.getMessage());
@@ -102,10 +100,9 @@ public class TransactionServiceImpl implements TransactionService {
 		if (exceptionMessage.length() == 0) {
 			try {
 
-
-				transaction = new Transaction( Long.parseLong(req.getTransactionId()),token, Integer.parseInt(req.getCustomerId()),
+				transaction = new Transaction(req.getTransactionId(),token, Integer.parseInt(req.getCustomerId()),
 						Double.parseDouble(req.getAmount()), req.getCreatedDate(),
-						Integer.parseInt(req.getMerchantId()), Integer.parseInt(req.getPosId()),
+						Integer.parseInt(req.getStationId()), Integer.parseInt(req.getPosId()),
 						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation(), req.getSystemId());
 
 				transaction = transactionRepository.save(transaction);
@@ -124,6 +121,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 			} catch (Exception ex) {
 				logger.error("Exception occurred while saving Transaction, Error :" + ex.getMessage());
+				return null;
 			}
 
 		} else {
@@ -157,9 +155,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 			exceptionMessage = "CustomerId is null";
 			return exceptionMessage;
-		} else if (req.getMerchantId() == null) {
+		} else if (req.getStationId() == null) {
 
-			exceptionMessage = "MerchantId is null";
+			exceptionMessage = "StationId is null";
 			return exceptionMessage;
 		} else if (req.getPosId() == null) {
 

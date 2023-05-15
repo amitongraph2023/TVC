@@ -4,14 +4,14 @@ import com.tokens.models.User;
 
 public class AuthResponse {
 
-	private User user;
+	private String role;
 	
 	private String jwtToken;
 	
 
-	public AuthResponse(User user, String jwtToken) {
+	public AuthResponse(String role, String jwtToken) {
 		super();
-		this.user = user;
+		this.role = role;
 		this.jwtToken = jwtToken;
 	}
 	public AuthResponse(){
@@ -23,14 +23,13 @@ public class AuthResponse {
 	public void setJwtToken(String jwtToken) {
 		this.jwtToken = jwtToken;
 	}
-
-	public User getUser() {
-		return user;
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
 	
 	
 }

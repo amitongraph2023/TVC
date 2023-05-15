@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 public class CloudRequest {
 	
 	@NotBlank(message = "transactionId is null")
-    @Size(min = 2, max = 30)
+    @Size(min = 2, max = 60)
 	private String transactionId;
 	
 	@NotBlank(message = "customerId is null")
@@ -20,9 +20,9 @@ public class CloudRequest {
     @Size(min = 2, max = 30)
 	private String createdDate;
 	
-	@NotBlank(message = "merchantId is null")
+	@NotBlank(message = "stationId is null")
     @Size(min = 2, max = 30)
-	private String merchantId;
+	private String stationId;
 	
 	@NotBlank(message = "posId is null")
     @Size(min = 2, max = 30)
@@ -75,14 +75,6 @@ public class CloudRequest {
 		this.createdDate = createdDate;
 	}
 
-	public String getMerchantId() {
-		return merchantId;
-	}
-
-	public void setMerchantId(String merchantId) {
-		this.merchantId = merchantId;
-	}
-
 	public String getPosId() {
 		return posId;
 	}
@@ -101,6 +93,14 @@ public class CloudRequest {
 
 	public String getSourceIp() {
 		return sourceIp;
+	}
+
+	public String getStationId() {
+		return stationId;
+	}
+
+	public void setStationId(String stationId) {
+		this.stationId = stationId;
 	}
 
 	public void setSourceIp(String sourceIp) {

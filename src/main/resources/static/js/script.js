@@ -22,7 +22,7 @@ $(document).ready(function() {
 					if (data.jwtToken != null) {
 						$("#loginCheck").hide();
 						localStorage.setItem("status", "loggedIn");
-						localStorage.setItem("role", data.user.role);
+						localStorage.setItem("role", data.role);
 	
 						window.location.href = "/home";
 						

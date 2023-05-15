@@ -81,7 +81,7 @@ public class UserController {
 			String newGeneratedToken = jwtUtil.generateToken(userName);
 			JwtCookieUtil.addTokenCookies(attr, newGeneratedToken, "true");
 			User user = userService.findUserByUserName(userName);
-			return new AuthResponse(user,newGeneratedToken);
+			return new AuthResponse(user.getRole(),newGeneratedToken);
 			
 		} catch (Exception ex) {
 			log.error("User = {} failed auth", userName, ex);

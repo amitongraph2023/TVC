@@ -21,58 +21,81 @@ import com.tokens.utils.JwtCookieUtil;
 import com.tokens.utils.JwtUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtUtil jwtUtil;
-    
-    @Autowired
-    private CustomUserDetailsService service;
+	@Autowired
+	private JwtUtil jwtUtil;
+
+	@Autowired
+	private CustomUserDetailsService service;
 
 	@Autowired
 	private JwtCookieUtil jwtCookieUtil;
-	
-    @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
-    	String userName = null;
-    	Optional<Cookie> tokenCookie = jwtCookieUtil.getTokenCookieByName(httpServletRequest, JwtCookieUtil.ID_TOKEN_COOKIE_NAME);
+	@Override
+	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+			FilterChain filterChain) throws ServletException, IOException {
 
-        String token = null; 
-        
-    	if (tokenCookie.isPresent()) {
-    		httpServletResponse.setHeader("Authorization", "Bearer " + tokenCookie.get().getValue());
-    		try {
-    			userName = jwtUtil.extractUsername(tokenCookie.get().getValue());
-    		} catch (IllegalArgumentException e) {
-    			System.out.println("Unable to get JWT Token");
-    		} catch (ExpiredJwtException e) {
-    			System.out.println("JWT Token has expired");
-    		}
-    	}else {
-    		String authorizationHeader = httpServletRequest.getHeader("Authorization");
-    		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-                token = authorizationHeader.substring(7);
-                userName = jwtUtil.extractUsername(token);
-            }
-    	}
-    	
-        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+		String userName = null;
+		Optional<Cookie> tokenCookie = jwtCookieUtil.getTokenCookieByName(httpServletRequest,
+				JwtCookieUtil.ID_TOKEN_COOKIE_NAME);
 
-            UserDetails userDetails = service.loadUserByUsername(userName);
+		String token = null;
 
-            if (jwtUtil.validateToken(tokenCookie.get().getValue(), userDetails)) {
+		if (tokenCookie.isPresent()) {
+			httpServletResponse.setHeader("Authorization", "Bearer " + tokenCookie.get().getValue());
+			try {
+				userName = jwtUtil.extractUsername(tokenCookie.get().getValue());
+			} catch (IllegalArgumentException e) {
+				httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				httpServletResponse.getWriter().write("Authentication failed: Unable to get JWT Token");
+				return;
+			} catch (ExpiredJwtException e) {
+				httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				httpServletResponse.getWriter().write("Authentication failed: token expired");
+				return;
+			} catch (JwtException e) {
+				httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				httpServletResponse.getWriter().write("Authentication failed: invalid token");
+			}
+		} else {
+			String authorizationHeader = httpServletRequest.getHeader("Authorization");
+			if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+				token = authorizationHeader.substring(7);
+				try {
+					userName = jwtUtil.extractUsername(token);
+				} catch (IllegalArgumentException e) {
+					httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					httpServletResponse.getWriter().write("Authentication failed: Unable to get JWT Token");
+					return;
+				} catch (ExpiredJwtException e) {
+					httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					httpServletResponse.getWriter().write("Authentication failed: token expired");
+					return;
+				} catch (JwtException e) {
+					httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					httpServletResponse.getWriter().write("Authentication failed: invalid token");
+				}
+			}
+		}
 
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken
-                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            }
-        }
+		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
-    }
+			UserDetails userDetails = service.loadUserByUsername(userName);
+
+			if (jwtUtil.validateToken(tokenCookie.get().getValue(), userDetails)) {
+
+				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+						userDetails, null, userDetails.getAuthorities());
+				usernamePasswordAuthenticationToken
+						.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+			}
+		}
+
+		filterChain.doFilter(httpServletRequest, httpServletResponse);
+	}
 }
