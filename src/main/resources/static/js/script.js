@@ -19,7 +19,7 @@ $(document).ready(function() {
 					"Content-type": "application/json",
 				},
 				success: function(data) {
-					if (data.jwtToken != null) {
+					if (data.jwtToken != null) {						
 						$("#loginCheck").hide();
 						localStorage.setItem("status", "loggedIn");
 						localStorage.setItem("role", data.role);
@@ -62,6 +62,7 @@ if (localStorage.getItem('status') == "loggedIn") {
 	$('#log').hide();
 	$('#out').show();
 	$("#home").show();
+	
 
 } else {
 	$('#log').show();

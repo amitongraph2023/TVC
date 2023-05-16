@@ -19,9 +19,9 @@ public interface TransactionService {
 	
 	String validateCloudRequest(CloudRequest req);
 
-	Boolean updateTransactionStatus(Integer transactionId, String status);
+	Boolean updateTransactionStatus(String transactionId, String status);
 	
-	TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated, String systemId);
+	TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated, String systemId);
 	
 	List<TransactionStatusLogs> getTransactionStatusLogs(int userId);
 	

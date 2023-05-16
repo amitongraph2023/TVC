@@ -45,31 +45,31 @@ public class TokenController {
 	}
 
 	@GetMapping("/transaction/getLogsTransactionToken/{id}")
-	public ResponseEntity<List<Transaction>> logsTransactionToken(@PathVariable("id") int userId){
+	public ResponseEntity<?> logsTransactionToken(@PathVariable("id") int userId){
 		List<Transaction> transactionTokenLog = transactionService.logsTransactionToken(userId);
 		if (transactionTokenLog != null) {
 			return ResponseEntity.ok().body(transactionTokenLog);
 		}
-		return ResponseEntity.badRequest().body(transactionTokenLog);
+		return ResponseEntity.badRequest().body("Exception occurred while getting transaction logs");
 	}
 	
 	
 	@PostMapping("/transaction/updateTransactionStatus")
     public ResponseEntity<String> updateTransactionStatus(@RequestBody TransactionStatusRequest request) {
-        boolean updated = transactionService.updateTransactionStatus(Integer.parseInt(request.getTransactionId()), request.getStatus());
+        boolean updated = transactionService.updateTransactionStatus(request.getTransactionId(), request.getStatus());
         if (updated) {
         	return ResponseEntity.ok().body("Successfully updated");
         }
-        return ResponseEntity.ok().body("Exception during updating transaction status");
+        return ResponseEntity.badRequest().body("Exception during updating transaction status");
     }
 	
 	@GetMapping("/transaction/getTransactionStatusLogs/{id}")
-	public ResponseEntity<List<TransactionStatusLogs>> getTransactionStatusLogs(@PathVariable("id") int userId){
+	public ResponseEntity<?> getTransactionStatusLogs(@PathVariable("id") int userId){
 		List<TransactionStatusLogs> transactionLog = transactionService.getTransactionStatusLogs(userId);
 		if (transactionLog != null) {
 			return ResponseEntity.ok().body(transactionLog);
 		}
-		return ResponseEntity.badRequest().body(transactionLog);
+		return ResponseEntity.badRequest().body("Exception occurred while getting transaction status logs");
 	}   
 	
 

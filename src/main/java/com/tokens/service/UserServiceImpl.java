@@ -102,7 +102,12 @@ public class UserServiceImpl implements UserService {
 		logs.setMasterKey(masterKey.getMasterKey());
 		logs.setSystemId(masterKey.getSystemId());
 		logs.setCreatedOn(dateFormat.format(new Date()));
-		masterKeyLogsRepository.save(logs);
+		try {
+			masterKeyLogsRepository.save(logs);			
+		} catch (Exception e) {
+			logger.error("Exception occurred while saving masterKeyLogs in DB, Error : " + e.getMessage());
+		}
+		
 
 	}
 

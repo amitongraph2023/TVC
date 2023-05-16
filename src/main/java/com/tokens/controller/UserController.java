@@ -20,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.tokens.exceptions.CredentialValidationException;
 import com.tokens.models.MasterKeyLogs;
+import com.tokens.models.TransactionStatusLogs;
 import com.tokens.models.User;
 import com.tokens.request.AuthRequest;
 import com.tokens.request.MasterKeyRequest;
@@ -63,14 +64,14 @@ public class UserController {
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
 		} catch (BadCredentialsException e) {
-			log.error("Error because of Invalid credentials");
+			log.error("Error occurred due to Invalid credentials");
             return ResponseEntity.badRequest().body("Invalid username/password");
 		} catch (DisabledException e) {
-			log.error("Error because the User is disabled");
-            return ResponseEntity.badRequest().body("Error because the User is disabled");
+			log.error("Error occurred due to the User is disabled");
+            return ResponseEntity.badRequest().body("User is disabled");
 		} catch (Exception e) {
 			log.error("Exception occurred");
-            return ResponseEntity.badRequest().body("Exception occurred");
+            return ResponseEntity.badRequest().body("Failed to authenticate");
 		}
 		return ResponseEntity.ok(createJwtToken(authRequest.getUserName()));
 	}
@@ -104,8 +105,12 @@ public class UserController {
 	}
 
 	@GetMapping("/user/getMasterKeyLogs/{id}")
-	public ResponseEntity<List<MasterKeyLogs>> getMasterKeyLogs(@PathVariable("id") int userId) {
-		return ResponseEntity.ok().body(userService.getAllMasterKeyLogs(userId));
+	public ResponseEntity<?> getMasterKeyLogs(@PathVariable("id") int userId) {
+		List<MasterKeyLogs> masterKeyLogs = userService.getAllMasterKeyLogs(userId);
+		if (masterKeyLogs != null) {
+			return ResponseEntity.ok().body(masterKeyLogs);
+		}
+		return ResponseEntity.badRequest().body("Exception occurred while getting master key logs");
 	}
 
 }

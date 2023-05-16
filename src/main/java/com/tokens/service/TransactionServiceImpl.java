@@ -73,7 +73,7 @@ public class TransactionServiceImpl implements TransactionService {
 			if (key != null && key.getMasterKey() != null) {
 				token = CodeGenerator.generateHashCode(key.getMasterKey());
 			} else {
-				logger.error("cannot generate Token Without MasterKey");
+				logger.error("Cannot generate Token Without MasterKey");
 				return new CloudResponse("", "", "SystemId doesn't Exists");
 			}
 
@@ -83,7 +83,7 @@ public class TransactionServiceImpl implements TransactionService {
 			if (transaction != null) {
 				response = new CloudResponse(token, transaction.getTransactionId(), "");
 			} else {
-				return new CloudResponse("", " ", "Something got wrong, Exception occured. Try after some Time");
+				return new CloudResponse("", " ", "Transaction not found");
 			}
 		} catch (Exception e) {
 			logger.error("Exception occurred while generation Token, Error : "+e.getMessage());
@@ -110,7 +110,7 @@ public class TransactionServiceImpl implements TransactionService {
 				if (checkLocationIfExsists(transaction.getMerchantId())) {
 					transactionRepository.save(transaction);
 				} else {
-					throw new Exception("Location Does Not Esists");
+					throw new Exception("Location doesn't exist");
 				}
 
 				// need to save data in location and pos table here - not sure for it
@@ -121,11 +121,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 			} catch (Exception ex) {
 				logger.error("Exception occurred while saving Transaction, Error :" + ex.getMessage());
-				return null;
 			}
 
 		} else {
-			logger.error("Invalidate Request, Error :" + exceptionMessage);
+			logger.error("Cloud validation failed, Error :" + exceptionMessage);
 		}
 		return transaction;
 	}
@@ -179,18 +178,18 @@ public class TransactionServiceImpl implements TransactionService {
 
 		Location location = locationRepository.findByMerchantId(merchantId);
 		if (location == null) {
-			logger.info("location does not esists");
+			logger.info("location doesn't exist");
 			return false;
 		}
 		return true;
 	}
 
 	@Transactional
-	public Boolean updateTransactionStatus(Integer transactionId, String status) {
+	public Boolean updateTransactionStatus(String transactionId, String status) {
 
 		boolean isUpdated = false;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-		Transaction transaction = transactionRepository.findByTransactionId(transactionId.longValue());
+		Transaction transaction = transactionRepository.findByTransactionId(transactionId);
 
 		if (transaction == null) {
 			transaction = new Transaction();
@@ -220,7 +219,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	@Transactional
-	public TransactionStatusLogs saveTransactionStatusLogs(Integer transactionId, String status, String lastUpdated, String systemId) {
+	public TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated, String systemId) {
 		TransactionStatusLogs transactionStatusLogs = null;
 
 		try {
