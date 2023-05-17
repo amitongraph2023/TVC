@@ -46,7 +46,7 @@ public class Transaction {
 	private String token;
 	
 	@Column(name="customer_id")
-	private Integer customerId;
+	private String customerId;
 	
 	@Column(name="amount")
 	private Double amount;
@@ -81,7 +81,7 @@ public class Transaction {
 	
 	public Transaction() {}
 	
-	public Transaction(String transactionId,String token, Integer customerId, Double amount, String createdDate, Integer merchantId, Integer posId,
+	public Transaction(String transactionId,String token, String customerId, Double amount, String createdDate, Integer merchantId, Integer posId,
 			String cardNumber, String sourceIp, String gpsLocation, String systemId) {
 		super();
 		this.transactionId = transactionId;
@@ -130,11 +130,11 @@ public class Transaction {
 		this.token = token;
 	}
 
-	public Integer getUserId() {
+	public String getUserId() {
 		return customerId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.customerId = userId;
 	}
 
@@ -186,11 +186,11 @@ public class Transaction {
 		this.internalTransactionId = internalTransactionId;
 	}
 
-	public Integer getCustomerId() {
+	public String getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(Integer customerId) {
+	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
 

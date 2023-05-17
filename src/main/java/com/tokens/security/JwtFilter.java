@@ -38,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			FilterChain filterChain) throws ServletException, IOException {
-        
+
 		boolean isException = false;
 		String userName = null;
 		Optional<Cookie> tokenCookie = jwtCookieUtil.getTokenCookieByName(httpServletRequest,
@@ -52,6 +52,7 @@ public class JwtFilter extends OncePerRequestFilter {
 				httpServletResponse.setHeader("Authorization", "Bearer " + tokenCookie.get().getValue());
 				try {
 					userName = jwtUtil.extractUsername(tokenCookie.get().getValue());
+					token = tokenCookie.get().getValue();
 				} catch (IllegalArgumentException e) {
 					logger.error("Exception caught while checking token : " + e.getMessage());
 				} catch (ExpiredJwtException e) {
@@ -59,37 +60,38 @@ public class JwtFilter extends OncePerRequestFilter {
 				} catch (JwtException e) {
 					logger.error("Exception caught while checking token : " + e.getMessage());
 				}
-			}	
-			} else {
-				String authorizationHeader = httpServletRequest.getHeader("Authorization");
-				if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-					token = authorizationHeader.substring(7);
-					try { 
-						userName = jwtUtil.extractUsername(token);
-					} catch (IllegalArgumentException e) {
-						isException = true;
-						logger.error("Exception caught while checking token : " + e.getMessage());
-					} catch (ExpiredJwtException e) {
-						isException = true;
-						logger.error("Token Expired : " + e.getMessage());
-					} catch (JwtException e) {
-						isException = true;
-						logger.error("Exception caught while checking token : " + e.getMessage());
-					}
+			}
+		} else {
+			String authorizationHeader = httpServletRequest.getHeader("Authorization");
+			if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+				token = authorizationHeader.substring(7);
+				try {
+					userName = jwtUtil.extractUsername(token);
+				} catch (IllegalArgumentException e) {
+					isException = true;
+					logger.error("Exception caught while checking token : " + e.getMessage());
+				} catch (ExpiredJwtException e) {
+					isException = true;
+					logger.error("Token Expired : " + e.getMessage());
+				} catch (JwtException e) {
+					isException = true;
+					logger.error("Exception caught while checking token : " + e.getMessage());
 				}
 			}
-		
-		if(isException) {
+		}
+
+		if (isException) {
 			httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			httpServletResponse.getWriter().write("Authentication failed: token expired or invalid token");
 			return;
 		}
 
+		
 		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 			UserDetails userDetails = service.loadUserByUsername(userName);
 
-			if (jwtUtil.validateToken(tokenCookie.get().getValue(), userDetails)) {
+			if (jwtUtil.validateToken(token, userDetails)) {
 
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());

@@ -83,7 +83,7 @@ public class TransactionServiceImpl implements TransactionService {
 			if (transaction != null) {
 				response = new CloudResponse(token, transaction.getTransactionId(), "");
 			} else {
-				return new CloudResponse("", " ", "Transaction not found");
+				return new CloudResponse("", " ", "Exception Occurred while saving Transaction");
 			}
 		} catch (Exception e) {
 			logger.error("Exception occurred while generation Token, Error : "+e.getMessage());
@@ -100,33 +100,31 @@ public class TransactionServiceImpl implements TransactionService {
 		if (exceptionMessage.length() == 0) {
 			try {
 
-				transaction = new Transaction(req.getTransactionId(),token, Integer.parseInt(req.getCustomerId()),
+				transaction = new Transaction(req.getTransactionId(),token, req.getCustomerId(),
 						Double.parseDouble(req.getAmount()), req.getCreatedDate(),
 						Integer.parseInt(req.getStationId()), Integer.parseInt(req.getPosId()),
 						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation(), req.getSystemId());
 
-				transaction = transactionRepository.save(transaction);
 
 				if (checkLocationIfExsists(transaction.getMerchantId())) {
-					transactionRepository.save(transaction);
+					transaction = transactionRepository.save(transaction);
+					//savePos(transaction.getMerchantId(), transaction.getPosId());
+
+					return transaction;
 				} else {
 					throw new Exception("Location doesn't exist");
 				}
 
-				// need to save data in location and pos table here - not sure for it
-				// as we will be having merchant details in our db to validate req with merchant
-				// Id and name
-				// so we need it before in order to valdiate and no need to save location then
-				// saveLocation(transaction);
 
 			} catch (Exception ex) {
 				logger.error("Exception occurred while saving Transaction, Error :" + ex.getMessage());
+				return null;
 			}
 
 		} else {
 			logger.error("Cloud validation failed, Error :" + exceptionMessage);
 		}
-		return transaction;
+		return null;
 	}
 
 	@Override
@@ -170,7 +168,8 @@ public class TransactionServiceImpl implements TransactionService {
 		return exceptionMessage;
 	}
 
-	public void saveLocation(Transaction transaction) {
+	public void savePos(int merchantId, int posID) {
+		
 
 	}
 
