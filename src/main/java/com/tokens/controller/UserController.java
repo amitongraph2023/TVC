@@ -40,7 +40,7 @@ public class UserController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	@Autowired
+	@Autowired 
 	UserService userService;
 
 	@PostMapping("/user/registerUser")
@@ -101,7 +101,7 @@ public class UserController {
 			return ResponseEntity.ok().body("Successfully added User MasterKey");
 		}
 
-		return ResponseEntity.badRequest().body("Exception got while added MasterKey");
+		return ResponseEntity.badRequest().body("MasterKey not found for userId");
 	}
 
 	@GetMapping("/user/getMasterKeyLogs/{id}")
