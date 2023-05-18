@@ -47,20 +47,20 @@ public class TokenController {
 	@GetMapping("/transaction/getLogsTransactionToken/{id}")
 	public ResponseEntity<?> logsTransactionToken(@PathVariable("id") int userId){
 		List<Transaction> transactionTokenLog = transactionService.logsTransactionToken(userId);
-		if (transactionTokenLog != null) {
+		if (transactionTokenLog != null && transactionTokenLog.size() > 0) {
 			return ResponseEntity.ok().body(transactionTokenLog);
 		}
-		return ResponseEntity.badRequest().body("Exception occurred while getting transaction logs");
+		return ResponseEntity.badRequest().body("No logs exists for this user");
 	}
 	
 	
 	@PostMapping("/transaction/updateTransactionStatus")
     public ResponseEntity<String> updateTransactionStatus(@RequestBody TransactionStatusRequest request) {
-        boolean updated = transactionService.updateTransactionStatus(request.getTransactionId(), request.getStatus());
-        if (updated) {
+        String response = transactionService.updateTransactionStatus(request.getTransactionId(), request.getStatus());
+        if (response != null && response.equals("success")) {
         	return ResponseEntity.ok().body("Successfully updated");
         }
-        return ResponseEntity.badRequest().body("Exception during updating transaction status");
+        return ResponseEntity.badRequest().body("invalid status, status Should be PENDING OR SUCCESS");
     }
 	
 	@GetMapping("/transaction/getTransactionStatusLogs/{id}")

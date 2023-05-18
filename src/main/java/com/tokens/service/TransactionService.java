@@ -19,7 +19,7 @@ public interface TransactionService {
 	
 	String validateCloudRequest(CloudRequest req);
 
-	Boolean updateTransactionStatus(String transactionId, String status);
+	String updateTransactionStatus(String transactionId, String status);
 	
 	TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated, String systemId);
 	
@@ -28,6 +28,6 @@ public interface TransactionService {
 	List<Transaction> logsTransactionToken(int userId);
 	
 	List<Location> getTopLocations(String username);
-	
+		
 }
 

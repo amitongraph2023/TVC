@@ -32,7 +32,7 @@ import com.tokens.utils.JwtUtil;
 public class TransactionServiceImpl implements TransactionService {
 
 	Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
-	
+
 	@Autowired
 	TvsCsvReader reader;
 
@@ -61,7 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
 		try {
 			String token = "";
 
-			if(request.getStationId() != null) {
+			if (request.getStationId() != null) {
 				int merchantId = Integer.parseInt(request.getStationId());
 				Location location = locationRepository.findByMerchantId(merchantId);
 				if (location == null) {
@@ -79,14 +79,14 @@ public class TransactionServiceImpl implements TransactionService {
 
 			// saving transactions in DB
 			transaction = saveTransaction(request, token);
-			
+
 			if (transaction != null) {
 				response = new CloudResponse(token, transaction.getTransactionId(), "");
 			} else {
 				return new CloudResponse("", " ", "Exception Occurred while saving Transaction");
 			}
 		} catch (Exception e) {
-			logger.error("Exception occurred while generation Token, Error : "+e.getMessage());
+			logger.error("Exception occurred while generation Token, Error : " + e.getMessage());
 		}
 		return response;
 	}
@@ -100,21 +100,19 @@ public class TransactionServiceImpl implements TransactionService {
 		if (exceptionMessage.length() == 0) {
 			try {
 
-				transaction = new Transaction(req.getTransactionId(),token, req.getCustomerId(),
-						Double.parseDouble(req.getAmount()), req.getCreatedDate(),
-						Integer.parseInt(req.getStationId()), Integer.parseInt(req.getPosId()),
-						req.getCardNumber(), req.getSourceIp(), req.getGpsLocation(), req.getSystemId());
-
+				transaction = new Transaction(req.getTransactionId(), token, req.getCustomerId(),
+						Double.parseDouble(req.getAmount()), req.getCreatedDate(), Integer.parseInt(req.getStationId()),
+						Integer.parseInt(req.getPosId()), req.getCardNumber(), req.getSourceIp(), req.getGpsLocation(),
+						req.getSystemId());
 
 				if (checkLocationIfExsists(transaction.getMerchantId())) {
 					transaction = transactionRepository.save(transaction);
-					//savePos(transaction.getMerchantId(), transaction.getPosId());
+					// savePos(transaction.getMerchantId(), transaction.getPosId());
 
 					return transaction;
 				} else {
 					throw new Exception("Location doesn't exist");
 				}
-
 
 			} catch (Exception ex) {
 				logger.error("Exception occurred while saving Transaction, Error :" + ex.getMessage());
@@ -169,7 +167,6 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	public void savePos(int merchantId, int posID) {
-		
 
 	}
 
@@ -184,12 +181,11 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Transactional
-	public Boolean updateTransactionStatus(String transactionId, String status) {
+	public String updateTransactionStatus(String transactionId, String status) {
 
-		boolean isUpdated = false;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		Transaction transaction = transactionRepository.findByTransactionId(transactionId);
-
+        String response = "";
 		if (transaction == null) {
 			transaction = new Transaction();
 			transaction.setStatus(TransactionStatus.FAILED.name());
@@ -200,25 +196,31 @@ public class TransactionServiceImpl implements TransactionService {
 				if (status.equalsIgnoreCase("Success")) {
 					transaction.setStatus(TransactionStatus.COMPLETED.name());
 				} else if (transaction.getStatus() == null || !transaction.getStatus().equalsIgnoreCase("COMPLETED")) {
-					transaction.setStatus(TransactionStatus.PENDING.name());
+					if (status.equalsIgnoreCase("PENDING")) {
+						transaction.setStatus(TransactionStatus.PENDING.name());
+					} else {
+						return null;
+					}
 				}
 				transaction.setLastUpdated(dateFormat.format(new Date()));
 				if (!transaction.getStatus().equalsIgnoreCase("failed")) {
 					transactionRepository.save(transaction);
 				}
-				saveTransactionStatusLogs(transactionId, transaction.getStatus().toString(),
-						transaction.getLastUpdated(), transaction.getSystemId());
-				isUpdated = true;
+				saveTransactionStatusLogs(transactionId, transaction.getStatus(), transaction.getLastUpdated(),
+						transaction.getSystemId());
+				
+				response = "success";
 			}
 		} catch (Exception e) {
 			logger.error("Transaction not found for ID: " + transactionId);
 		}
-		return isUpdated;
+		return response;
 	}
 
 	@Override
 	@Transactional
-	public TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated, String systemId) {
+	public TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated,
+			String systemId) {
 		TransactionStatusLogs transactionStatusLogs = null;
 
 		try {
@@ -234,7 +236,8 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public List<TransactionStatusLogs> getTransactionStatusLogs(int userId) {
 		User user = userRepository.findById(userId).get();
-		List<TransactionStatusLogs> transactionLog = transactionStatusLogsRepository.findTransactionStatusLogs(user.getSystemId());
+		List<TransactionStatusLogs> transactionLog = transactionStatusLogsRepository
+				.findTransactionStatusLogs(user.getSystemId());
 		return transactionLog;
 	}
 
@@ -245,7 +248,7 @@ public class TransactionServiceImpl implements TransactionService {
 		try {
 			locationList = locationRepository.findTopLocations(user.getSystemId());
 		} catch (Exception ex) {
-            logger.error("Exception while getting Top Locations: "+ex.getMessage());
+			logger.error("Exception while getting Top Locations: " + ex.getMessage());
 		}
 		return locationList;
 	}
@@ -254,14 +257,13 @@ public class TransactionServiceImpl implements TransactionService {
 	public int countAllTransactionofSystem(String username) {
 		int count = 0;
 		try {
-		User user = userRepository.findByUserName(username);
-		 count = (int) transactionRepository.findTransactionCountofSystem(user.getSystemId());
-		}catch(Exception ex) {
-		  logger.error("Exception while counting transaction, Error : "+ex.getMessage());
+			User user = userRepository.findByUserName(username);
+			count = (int) transactionRepository.findTransactionCountofSystem(user.getSystemId());
+		} catch (Exception ex) {
+			logger.error("Exception while counting transaction, Error : " + ex.getMessage());
 		}
 		return count;
 	}
-	
 
 	public void saveLocationFromCSV() {
 		List<Location> locationList = reader.saveLocations();
