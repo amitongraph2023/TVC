@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<section>
+		<div class="container">
+			<div class="card" style="position: absolute; top: 25%;">
+				<div>
+					<h3 class = "regDetails">Add Merchant!!</h3>
+				</div>
+				<form class = "register">
+					<!-- Email input -->
+					<div class="mb-4">
+						<label for="merchantId">MerchantId</label> <input type="number"
+							name="merchantId" class="form-control" id="merchantId"
+							aria-describedby="emailHelp" REQUIRED
+							th:value="${location.merchantId}">
+					</div>
+					
+					<!-- Password input -->
+					<div class="mb-4">
+						<label for="merchantName" class="form-label">Merchant Name</label> <input
+							name="merchantName" type="text" class="form-control"
+							id="merchantName" required th:value="${location.merchantName}">
+					</div>
+
+					<button id="addMerchant" type="submit" value = "Add">Add</button>
+
+				</form>
+			</div>
+		</div>
+		
+	</section>
+</body>
+</html>

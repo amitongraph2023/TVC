@@ -14,12 +14,14 @@ import org.springframework.stereotype.Service;
 
 import com.tokens.models.Location;
 import com.tokens.models.MasterKey;
+import com.tokens.models.Pos;
 import com.tokens.models.Transaction;
 import com.tokens.models.TransactionStatus;
 import com.tokens.models.TransactionStatusLogs;
 import com.tokens.models.User;
 import com.tokens.repository.LocationRepository;
 import com.tokens.repository.MasterKeyRepository;
+import com.tokens.repository.PosRepository;
 import com.tokens.repository.TransactionRepository;
 import com.tokens.repository.TrasactionStatusLogsRepository;
 import com.tokens.repository.UserRepository;
@@ -54,6 +56,9 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	TrasactionStatusLogsRepository transactionStatusLogsRepository;
 
+	@Autowired
+	PosRepository posRepository;
+	
 	@Override
 	public CloudResponse generateTransactionToken(CloudRequest request) {
 		CloudResponse response = null;
@@ -107,7 +112,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 				if (checkLocationIfExsists(transaction.getMerchantId())) {
 					transaction = transactionRepository.save(transaction);
-					// savePos(transaction.getMerchantId(), transaction.getPosId());
+					savePos(transaction.getMerchantId(), transaction.getPosId());
 
 					return transaction;
 				} else {
@@ -167,8 +172,10 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	public void savePos(int merchantId, int posID) {
-
+		Pos pos = new Pos(posID, merchantId);
+		posRepository.save(pos);
 	}
+
 
 	public Boolean checkLocationIfExsists(Integer merchantId) {
 

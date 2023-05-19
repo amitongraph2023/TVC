@@ -2,14 +2,10 @@ package com.tokens.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Pos {
@@ -21,10 +17,17 @@ public class Pos {
 	@Column(name="terminal_id")
 	private Integer terminalId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "merchantId",referencedColumnName = "merchant_id", nullable = false)
-	@JsonBackReference
-	private Location location;
+
+	@Column(name="merchant_id")
+	private Integer merchantId;
+	/*
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "merchantId",referencedColumnName = "merchant_id",
+	 * nullable = false)
+	 * 
+	 * @JsonBackReference private Location location;
+	 */
 
 	public Integer getInternalPosId() {
 		return internalPosId;
@@ -42,12 +45,23 @@ public class Pos {
 		this.terminalId = terminalId;
 	}
 
-	public Location getLocation() {
-		return location;
+	public Integer getMerchantId() {
+		return merchantId;
 	}
 
-	public void setLocation(Location location) {
-		this.location = location;
+	public void setMerchantId(Integer merchantId) {
+		this.merchantId = merchantId;
 	}
+
+	/**
+	 * @param terminalId
+	 * @param merchantId
+	 */
+	public Pos(Integer terminalId, Integer merchantId) {
+		super();
+		this.terminalId = terminalId;
+		this.merchantId = merchantId;
+	}
+
 
 }

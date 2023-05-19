@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class=" transaction-count">
+			<p>Location</p>
+			<table class="table" style="width: 80%;">
+				<thead>
+					<tr>
+						<th>Merchant Id</th>
+						<th>Merchant Name</th>
+						<th><a id="addLocation" class="login text-bg-success" th:href="@{/addLocation}">Add</a></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="lc : ${Location}">
+						<td th:text="${lc.merchantId}"></td>
+						<td th:text="${lc.merchantName}"></td>
+						<td><button class="btn btn-danger" th:onclick="'deleteMerchant(\'' + ${lc.internalMerchantId} + '\');'">
+                       		Delete</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</section>
+</body>
+</html>

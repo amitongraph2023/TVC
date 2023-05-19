@@ -152,3 +152,102 @@ $('#registerUser').click(function(e) {
 
 
 });
+
+$('#addMerchant').click(function(e) {
+	debugger;
+	e.preventDefault();
+
+	let merchantId = document.getElementById('merchantId').value;
+	let merchantName = document.getElementById('merchantName').value;
+
+	if (merchantId != null && merchantId != "" && merchantName != null && merchantName != "") {
+		$.ajax({
+			url: "/addMerchant",
+			type: 'POST',
+			data: JSON.stringify({ merchantId: merchantId, merchantName: merchantName }),
+			contentType: 'application/json',
+			success: function() {
+				alert("Merchant successfully added");
+				window.location.href = "/getLocation";
+
+			},
+			error: function() {
+				alert("Failed to add Merchant");
+			}
+		});
+		return false;
+
+	} else {
+		alert("Please Enter Merchant details");
+	}
+
+
+});
+
+function deleteMerchant(merchantId) {
+	$.ajax({
+		url: "/deleteMerchant/" + merchantId,
+		type: 'GET',
+		success: function() {
+			alert("Merchant successfully removed");
+			window.location.href = "/getLocation";
+		},
+		error: function() {
+			alert("Failed to remove Merchant");
+		}
+	});
+}
+
+
+const configurationButton = document.getElementById("key");
+const modal = document.getElementById("myModal");
+
+configurationButton.addEventListener("click", function() {
+  modal.style.display = "block";
+});
+
+window.addEventListener("click", function(event) {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
+
+/*let systemRunning = false;
+
+function startSystem() {
+  console.log("Starting the system...");
+   $('#stopButton').show();
+   $('#startButton').hide();
+  setTimeout(function() {
+    console.log("System started");
+    systemRunning = true;
+    reinitializeDatabase();
+  }, 2000);
+  
+}
+
+function stopSystem() {
+  console.log("Stopping the system...");
+  $('#stopButton').hide();
+   $('#startButton').show();
+  setTimeout(function() {
+    console.log("System stopped");
+    systemRunning = false;
+  }, 2000);
+}
+
+function reinitializeDatabase() {
+    console.log("Reinitializing the database...");
+    setTimeout(function() {
+      console.log("Database reinitialized");
+    }, 2000);
+  
+}
+
+function openNav() {
+  document.getElementById("mySidepanel").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidepanel").style.width = "0";
+}*/

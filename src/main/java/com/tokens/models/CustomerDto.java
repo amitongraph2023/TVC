@@ -3,21 +3,21 @@ package com.tokens.models;
 
 public class CustomerDto {
 
-	public Integer customerId;
+	public String customerId;
 	public Double totalAmount;
     
 	public CustomerDto() {}
 	
-	public CustomerDto(Integer customerId, Double totalAmount) {
+	public CustomerDto(String customerId, Double totalAmount) {
 		this.customerId = customerId;
 		this.totalAmount = totalAmount;
 	}
 
-	public Integer getCustomerId() {
+	public String getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(Integer customerId) {
+	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
 

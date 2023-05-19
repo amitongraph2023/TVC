@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tokens.models.Location;
 import com.tokens.models.MasterKey;
 import com.tokens.models.User;
 import com.tokens.repository.MasterKeyRepository;
@@ -15,6 +16,7 @@ import com.tokens.request.AuthRequest;
 import com.tokens.service.TransactionService;
 import com.tokens.service.UserService;
 import com.tokens.service.CustomerService;
+import com.tokens.service.LocationDtoService;
 import com.tokens.service.LocationService;
 
 @Controller
@@ -33,6 +35,9 @@ public class DashBoardController {
 	
 	@Autowired
 	CustomerService customerService;
+	
+	@Autowired
+	LocationDtoService locationDtoService;
 	
 	@Autowired
 	LocationService locationService;
@@ -115,7 +120,25 @@ public class DashBoardController {
 	public ModelAndView amountPerLocation(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("amountPerLocation.html");
-		modelView.addObject("AmountPerLocation", locationService.getAmountPerLocation(userId));
+		modelView.addObject("AmountPerLocation", locationDtoService.getAmountPerLocation(userId));
 		return modelView;
 	}
+	
+	@GetMapping("/addLocation")
+	public ModelAndView addMerchant() {
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("AddLocation.html");
+		modelView.addObject("location", new Location());
+		return modelView;
+	}
+	
+	@GetMapping("/getLocation")
+	public ModelAndView getMerchant() {
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("showLocation.html");
+		modelView.addObject("Location", locationService.getLocations());
+		return modelView;
+	}
+
+
 }

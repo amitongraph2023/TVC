@@ -17,8 +17,8 @@
 </head>
 <body>
 <!-- navbar -->
-<nav class="p-2 navbar navbar-expand-lg bg-success shadow">
-	<div class="container-fluid">
+<nav class="p-2 navbar navbar-expand-lg bg-success shadow">	
+		<div class="container-fluid">
 		<div class = "me-auto" >
 			<ul class="navbar-nav">
 				<li class="navbar-text"><a style = "font-weight:bold" class="fa-1x nav-link text-white">TOKEN VERIFICATION SYSTEM</a></li>
@@ -26,8 +26,6 @@
 		</div>
 		<div>
 			<ul class="navbar-nav gap-3">
-				<li class="align-self-sm-center"><a id = "key" style = "display:none" class = "login text-success" 
-					th:href = "@{/addMasterKey/{userId}(userId=${userId})}">Add Master Key</a></li>			
 				<li class="navbar-text"><a id ="home" style="font-weight:bold; display:none" class="nav-link text-white" href="/home">HOME</a></li>
 				<li class = "align-self-sm-center"><a id = "reg" style = "display:none" class = "login text-success" 
 					th:href = "@{'/register'}">Register</a></li>
@@ -35,8 +33,21 @@
 				<li class = "align-self-sm-center"><button id = "out" class = "login" style = "display:none">Log Out</button></li>
 			</ul>
 		</div>
-	</div>
-</nav>
+
+		</div>
+
+		<div class="modal" id="myModal">
+			<div class="modal-content">
+				<div class="modal-buttons">
+					<a class="addKey text-white m-2" th:href="@{/addMasterKey/{userId}(userId=${userId})}">Add Master Key</a> 
+					<a id="addLocation" class="addKey text-white m-2" th:href="@{/getLocation}">Show Locations</a>
+					<!-- <button id="startButton" style = "display:none" class = "addKey text-white m-2" onclick="startSystem()">Start System</button>
+					<button id="stopButton" class = "addKey text-white m-2" onclick="stopSystem()">Stop System</button> -->
+				</div>
+			</div>
+		</div>
+
+	</nav>
 
 <div th:replace="${content}"></div>
 

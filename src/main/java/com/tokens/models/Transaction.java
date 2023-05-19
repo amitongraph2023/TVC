@@ -18,7 +18,7 @@ import javax.persistence.ColumnResult;
 	    classes = @ConstructorResult(
 	        targetClass = CustomerDto.class,
 	        columns = {
-	            @ColumnResult(name = "customer_id", type = Integer.class),
+	            @ColumnResult(name = "customer_id", type = String.class),
 	            @ColumnResult(name = "total_amount", type = Double.class)
 	        }
 	    )
