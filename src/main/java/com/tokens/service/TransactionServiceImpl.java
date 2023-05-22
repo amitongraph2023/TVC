@@ -108,7 +108,7 @@ public class TransactionServiceImpl implements TransactionService {
 				transaction = new Transaction(req.getTransactionId(), token, req.getCustomerId(),
 						Double.parseDouble(req.getAmount()), req.getCreatedDate(), Integer.parseInt(req.getStationId()),
 						Integer.parseInt(req.getPosId()), req.getCardNumber(), req.getSourceIp(), req.getGpsLocation(),
-						req.getSystemId());
+						TransactionStatus.PENDING.name(), req.getSystemId());
 
 				if (checkLocationIfExsists(transaction.getMerchantId())) {
 					transaction = transactionRepository.save(transaction);
@@ -193,21 +193,22 @@ public class TransactionServiceImpl implements TransactionService {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		Transaction transaction = transactionRepository.findByTransactionId(transactionId);
         String response = "";
-		if (transaction == null) {
-			transaction = new Transaction();
-			transaction.setStatus(TransactionStatus.FAILED.name());
-		}
 
 		try {
 			if (transaction != null) {
 				if (status.equalsIgnoreCase("Success")) {
 					transaction.setStatus(TransactionStatus.COMPLETED.name());
-				} else if (transaction.getStatus() == null || !transaction.getStatus().equalsIgnoreCase("COMPLETED")) {
-					if (status.equalsIgnoreCase("PENDING")) {
-						transaction.setStatus(TransactionStatus.PENDING.name());
+				} else if (status.equalsIgnoreCase("FAILED")) {
+					if (!transaction.getStatus().equalsIgnoreCase("COMPLETED")) {
+						transaction.setStatus(TransactionStatus.FAILED.name());
 					} else {
-						return null;
+						response = "Transaction Status Already Completed";
+						return response;
 					}
+					
+				} else {
+					response ="invalid status, status Should be SUCCESS OR FAILED";
+					return response;
 				}
 				transaction.setLastUpdated(dateFormat.format(new Date()));
 				if (!transaction.getStatus().equalsIgnoreCase("failed")) {

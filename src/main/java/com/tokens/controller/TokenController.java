@@ -57,10 +57,10 @@ public class TokenController {
 	@PostMapping("/transaction/updateTransactionStatus")
     public ResponseEntity<String> updateTransactionStatus(@RequestBody TransactionStatusRequest request) {
         String response = transactionService.updateTransactionStatus(request.getTransactionId(), request.getStatus());
-        if (response != null && response.equals("success")) {
+        if (response != "" && response.equals("success")) {
         	return ResponseEntity.ok().body("Successfully updated");
         }
-        return ResponseEntity.badRequest().body("invalid status, status Should be PENDING OR SUCCESS");
+        return ResponseEntity.badRequest().body(response);
     }
 	
 	@GetMapping("/transaction/getTransactionStatusLogs/{id}")

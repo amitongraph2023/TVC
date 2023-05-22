@@ -81,8 +81,10 @@ public class Transaction {
 	
 	public Transaction() {}
 	
-	public Transaction(String transactionId,String token, String customerId, Double amount, String createdDate, Integer merchantId, Integer posId,
-			String cardNumber, String sourceIp, String gpsLocation, String systemId) {
+	public Transaction(String transactionId, String token, String customerId,
+			Double amount, String createdDate, Integer merchantId, Integer posId, String cardNumber, String sourceIp,
+			String gpsLocation, String status,String systemId) {
+		
 		super();
 		this.transactionId = transactionId;
 		this.token = token;
@@ -94,9 +96,10 @@ public class Transaction {
 		this.cardNumber = cardNumber;
 		this.sourceIp = sourceIp;
 		this.gpsLocation = gpsLocation;
+		this.status = status;
 		this.systemId = systemId;
 	}
-	
+
 	public String getTransactionId() {
 		return transactionId;
 	}
