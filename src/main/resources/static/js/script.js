@@ -172,7 +172,7 @@ $('#addMerchant').click(function(e) {
 
 			},
 			error: function() {
-				alert("Failed to add Merchant");
+				alert("Merchant Already Exist");
 			}
 		});
 		return false;

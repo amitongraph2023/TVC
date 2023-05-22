@@ -274,3 +274,113 @@
 2023-May-22 13:28:53.141 INFO  [http-nio-8081-exec-1] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 2023-May-22 13:28:53.142 INFO  [http-nio-8081-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2023-May-22 13:28:53.155 INFO  [http-nio-8081-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 4 ms
+2023-May-22 13:38:03.843 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 1.8.0_351 on DESKTOP-6GIO5QQ with PID 2236 (D:\TVS\target\classes started by Anjali in D:\TVS)
+2023-May-22 13:38:03.848 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-22 13:38:05.142 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-22 13:38:05.282 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 123 ms. Found 7 JPA repository interfaces.
+2023-May-22 13:38:06.731 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+2023-May-22 13:38:06.747 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-22 13:38:06.748 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.75]
+2023-May-22 13:38:07.061 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-22 13:38:07.061 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3104 ms
+2023-May-22 13:38:07.446 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-22 13:38:07.532 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-22 13:38:07.817 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-22 13:38:07.990 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-22 13:38:08.223 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-22 13:38:08.253 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-22 13:38:08.842 INFO  [main] o.h.t.PojoInstantiator - HHH000182: No default (no-argument) constructor for class: com.tokens.models.Pos (class must be instantiated by Interceptor)
+2023-May-22 13:38:09.463 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-22 13:38:09.483 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-22 13:38:10.749 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-22 13:38:11.092 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@302da330, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3568ea59, org.springframework.security.web.context.SecurityContextPersistenceFilter@7a0f06ad, org.springframework.security.web.header.HeaderWriterFilter@c82d925, org.springframework.security.web.authentication.logout.LogoutFilter@22ff1372, com.tokens.security.JwtFilter@57416e49, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@63c84d31, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@710afd47, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1488a861, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@9f2376f, org.springframework.security.web.session.SessionManagementFilter@14df5253, org.springframework.security.web.access.ExceptionTranslationFilter@704c3bdf, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6e794f53]
+2023-May-22 13:38:11.766 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
+2023-May-22 13:38:11.783 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 8.6 seconds (JVM running for 9.256)
+2023-May-22 13:38:43.837 INFO  [http-nio-8081-exec-1] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-22 13:38:43.837 INFO  [http-nio-8081-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-22 13:38:43.842 INFO  [http-nio-8081-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 5 ms
+2023-May-22 13:46:45.729 WARN  [http-nio-8081-exec-5] o.h.e.j.s.SqlExceptionHelper - SQL Error: 1062, SQLState: 23000
+2023-May-22 13:46:45.730 ERROR [http-nio-8081-exec-5] o.h.e.j.s.SqlExceptionHelper - Duplicate entry '104' for key 'location.UK_smf8bjoi9hh2uersn108t8vyg'
+2023-May-22 13:46:45.739 ERROR [http-nio-8081-exec-5] c.t.s.LocationServiceImpl - Exception occurred while saving location to DB
+2023-May-22 13:49:08.718 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 1.8.0_351 on DESKTOP-6GIO5QQ with PID 9616 (D:\TVS\target\classes started by Anjali in D:\TVS)
+2023-May-22 13:49:08.730 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-22 13:49:10.717 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-22 13:49:10.881 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 142 ms. Found 7 JPA repository interfaces.
+2023-May-22 13:49:12.664 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+2023-May-22 13:49:12.688 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-22 13:49:12.689 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.75]
+2023-May-22 13:49:13.001 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-22 13:49:13.001 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4144 ms
+2023-May-22 13:49:13.412 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-22 13:49:13.529 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-22 13:49:13.903 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-22 13:49:14.168 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-22 13:49:14.504 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-22 13:49:14.567 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-22 13:49:15.503 INFO  [main] o.h.t.PojoInstantiator - HHH000182: No default (no-argument) constructor for class: com.tokens.models.Pos (class must be instantiated by Interceptor)
+2023-May-22 13:49:16.299 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-22 13:49:16.325 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-22 13:49:18.063 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-22 13:49:18.537 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4f0cdd0f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@22ea6051, org.springframework.security.web.context.SecurityContextPersistenceFilter@10bcbbce, org.springframework.security.web.header.HeaderWriterFilter@22ed2886, org.springframework.security.web.authentication.logout.LogoutFilter@5c20505f, com.tokens.security.JwtFilter@dbcf7c3, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6a261998, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@125a8ab6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@52d01430, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@539bb233, org.springframework.security.web.session.SessionManagementFilter@4abfa2ff, org.springframework.security.web.access.ExceptionTranslationFilter@5b643d6e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4feaa4b8]
+2023-May-22 13:49:19.419 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
+2023-May-22 13:49:19.467 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 11.817 seconds (JVM running for 13.099)
+2023-May-22 13:49:22.213 INFO  [http-nio-8081-exec-2] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-22 13:49:22.213 INFO  [http-nio-8081-exec-2] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-22 13:49:22.219 INFO  [http-nio-8081-exec-2] o.s.w.s.DispatcherServlet - Completed initialization in 6 ms
+2023-May-22 13:50:57.895 WARN  [http-nio-8081-exec-1] o.h.e.j.s.SqlExceptionHelper - SQL Error: 1062, SQLState: 23000
+2023-May-22 13:50:57.895 ERROR [http-nio-8081-exec-1] o.h.e.j.s.SqlExceptionHelper - Duplicate entry '104' for key 'location.UK_smf8bjoi9hh2uersn108t8vyg'
+2023-May-22 13:50:57.908 ERROR [http-nio-8081-exec-1] c.t.s.LocationServiceImpl - Exception occurred while saving location to DB
+2023-May-22 13:52:31.723 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 1.8.0_351 on DESKTOP-6GIO5QQ with PID 17260 (D:\TVS\target\classes started by Anjali in D:\TVS)
+2023-May-22 13:52:31.729 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-22 13:52:33.127 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-22 13:52:33.258 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 114 ms. Found 7 JPA repository interfaces.
+2023-May-22 13:52:34.478 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+2023-May-22 13:52:34.492 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-22 13:52:34.492 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.75]
+2023-May-22 13:52:34.783 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-22 13:52:34.784 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2941 ms
+2023-May-22 13:52:35.057 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-22 13:52:35.150 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-22 13:52:35.371 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-22 13:52:35.527 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-22 13:52:35.747 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-22 13:52:35.779 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-22 13:52:36.340 INFO  [main] o.h.t.PojoInstantiator - HHH000182: No default (no-argument) constructor for class: com.tokens.models.Pos (class must be instantiated by Interceptor)
+2023-May-22 13:52:36.942 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-22 13:52:36.956 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-22 13:52:38.202 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-22 13:52:38.513 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@fd87c22, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@fee881, org.springframework.security.web.context.SecurityContextPersistenceFilter@70c205bf, org.springframework.security.web.header.HeaderWriterFilter@100807ca, org.springframework.security.web.authentication.logout.LogoutFilter@6d3ad37a, com.tokens.security.JwtFilter@2f1f9515, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@500ec769, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2520aa05, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@79ba0285, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1ff463bb, org.springframework.security.web.session.SessionManagementFilter@5fc7255c, org.springframework.security.web.access.ExceptionTranslationFilter@1958c0d9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3caf5c96]
+2023-May-22 13:52:39.143 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
+2023-May-22 13:52:39.157 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 8.19 seconds (JVM running for 8.967)
+2023-May-22 13:52:42.952 INFO  [http-nio-8081-exec-1] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-22 13:52:42.953 INFO  [http-nio-8081-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-22 13:52:42.957 INFO  [http-nio-8081-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 4 ms
+2023-May-22 13:52:58.657 WARN  [http-nio-8081-exec-7] o.h.e.j.s.SqlExceptionHelper - SQL Error: 1062, SQLState: 23000
+2023-May-22 13:52:58.657 ERROR [http-nio-8081-exec-7] o.h.e.j.s.SqlExceptionHelper - Duplicate entry '104' for key 'location.UK_smf8bjoi9hh2uersn108t8vyg'
+2023-May-22 13:53:36.320 INFO  [main] c.t.TokenVerificationSystemApplication - Starting TokenVerificationSystemApplication using Java 1.8.0_351 on DESKTOP-6GIO5QQ with PID 16460 (D:\TVS\target\classes started by Anjali in D:\TVS)
+2023-May-22 13:53:36.325 INFO  [main] c.t.TokenVerificationSystemApplication - No active profile set, falling back to 1 default profile: "default"
+2023-May-22 13:53:37.816 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-May-22 13:53:37.949 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 114 ms. Found 7 JPA repository interfaces.
+2023-May-22 13:53:39.311 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+2023-May-22 13:53:39.330 INFO  [main] o.a.c.c.StandardService - Starting service [Tomcat]
+2023-May-22 13:53:39.331 INFO  [main] o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.75]
+2023-May-22 13:53:39.654 INFO  [main] o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+2023-May-22 13:53:39.654 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3218 ms
+2023-May-22 13:53:39.910 INFO  [main] o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-May-22 13:53:40.009 INFO  [main] o.h.Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-May-22 13:53:40.279 INFO  [main] o.h.a.c.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-May-22 13:53:40.441 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Starting...
+2023-May-22 13:53:40.653 INFO  [main] c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+2023-May-22 13:53:40.687 INFO  [main] o.h.d.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-May-22 13:53:41.248 INFO  [main] o.h.t.PojoInstantiator - HHH000182: No default (no-argument) constructor for class: com.tokens.models.Pos (class must be instantiated by Interceptor)
+2023-May-22 13:53:41.787 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-May-22 13:53:41.801 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-May-22 13:53:43.054 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-May-22 13:53:43.335 INFO  [main] o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@fee881, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1ff463bb, org.springframework.security.web.context.SecurityContextPersistenceFilter@43ab9ae9, org.springframework.security.web.header.HeaderWriterFilter@c67395, org.springframework.security.web.authentication.logout.LogoutFilter@26f5e45d, com.tokens.security.JwtFilter@5c8ab9de, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@37806be6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@26865b57, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6df2a206, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3b9c9b8b, org.springframework.security.web.session.SessionManagementFilter@20a47036, org.springframework.security.web.access.ExceptionTranslationFilter@d8e4250, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5b3755f4]
+2023-May-22 13:53:43.972 INFO  [main] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
+2023-May-22 13:53:43.989 INFO  [main] c.t.TokenVerificationSystemApplication - Started TokenVerificationSystemApplication in 8.374 seconds (JVM running for 9.063)
+2023-May-22 13:53:49.764 INFO  [http-nio-8081-exec-1] o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-May-22 13:53:49.764 INFO  [http-nio-8081-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-May-22 13:53:49.770 INFO  [http-nio-8081-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 6 ms
+2023-May-22 13:54:02.892 WARN  [http-nio-8081-exec-4] o.h.e.j.s.SqlExceptionHelper - SQL Error: 1062, SQLState: 23000
+2023-May-22 13:54:02.893 ERROR [http-nio-8081-exec-4] o.h.e.j.s.SqlExceptionHelper - Duplicate entry '104' for key 'location.UK_smf8bjoi9hh2uersn108t8vyg'

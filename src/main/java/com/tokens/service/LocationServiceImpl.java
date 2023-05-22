@@ -19,11 +19,11 @@ public class LocationServiceImpl implements LocationService{
 	LocationRepository locationRepository;
 	
 	@Override
-	public void addMerchant(Location location) {
+	public void addMerchant(Location location) throws Exception {
 		try {
 			locationRepository.save(location);
 		} catch (Exception e) {
-			logger.error("Exception occurred while saving location to DB");
+			throw new Exception("Exception occurred while saving location to DB");
 		}
 	}
 
