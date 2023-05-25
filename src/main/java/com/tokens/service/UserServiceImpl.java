@@ -3,12 +3,15 @@ package com.tokens.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -41,33 +44,34 @@ public class UserServiceImpl implements UserService {
 	public boolean addOrUpdateMasterKey(int userId, String masterKey) {
 		boolean isUpdated = false;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-		try {
-			User user = userRepository.findById(userId).get();
-			MasterKey key = masterKeyRepository.findById(userId).get();
-			if (key != null && user.getRole().equals("Admin")) {
-				key.setMasterKey(masterKey);
-				key.setSystemId(user.getSystemId());
-				key.setLastUpdated(dateFormat.format(new Date()));
-				masterKeyRepository.save(key);
-				saveMasterKeyLogs(key);
-				isUpdated = true;
-			} else if (key == null && user.getSystemId() != null) {
-				key = new MasterKey();
-				key.setMasterKey(masterKey);
-				key.setUserId(userId);
-				key.setCreatedOn(dateFormat.format(new Date()));
-				key.setSystemId(user.getSystemId());
-				key = masterKeyRepository.save(key);
-				saveMasterKeyLogs(key);
-				isUpdated = true;
-			} else if (user.getRole().equals("User")) {
-				logger.error("User cannot update MasterKey");
-				isUpdated = false;
-			}
 
-		} catch (Exception e) {
-			logger.error("Exception got while adding User MasterKey, Error :" + e.getMessage());
+		User user = userRepository.findById(userId).get();
+		MasterKey key = null;
+		Optional<MasterKey> masterKeyOptional = masterKeyRepository.findById(userId);
+		if (masterKeyOptional.isPresent()) {
+			key = masterKeyOptional.get();
+		} 
+		if (key != null && user.getRole().equals("Admin")) {
+			key.setMasterKey(masterKey);
+			key.setSystemId(user.getSystemId());
+			key.setLastUpdated(dateFormat.format(new Date()));
+			masterKeyRepository.save(key);
+			saveMasterKeyLogs(key);
+			isUpdated = true;
+		} else if (key == null && user.getSystemId() != null) {
+			key = new MasterKey();
+			key.setMasterKey(masterKey);
+			key.setUserId(userId);
+			key.setCreatedOn(dateFormat.format(new Date()));
+			key.setSystemId(user.getSystemId());
+			key = masterKeyRepository.save(key);
+			saveMasterKeyLogs(key);
+			isUpdated = true;
+		} else if (user.getRole().equals("User")) {
+			logger.error("User cannot update MasterKey");
+			isUpdated = false;
 		}
+
 		return isUpdated;
 	}
 
@@ -127,4 +131,43 @@ public class UserServiceImpl implements UserService {
 		}
 		return user;
 	}
+
+	@Override
+	public boolean changeAdminPassword(int userId, String oldPassword,String newPassword) {
+		boolean passwordChanged = false;
+		try {
+			User user = userRepository.findById(userId).get();
+			if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+				user.setPassword(getEncodedPassword(newPassword));
+				userRepository.save(user);
+				passwordChanged = true;
+			}			
+		} catch (Exception e) {
+			logger.error("Exception got while changing password, Error :" + e.getMessage());
+		}
+		return passwordChanged;
+	}
+
+	@Override
+	public boolean validateAdminPasswords(int userId, String admin1Password, String admin2Password) {
+		boolean isValid = false;
+		User user = userRepository.findById(userId).get();
+		String systemId = user.getSystemId();
+		
+		User admin1 = user;
+		User admin2 = null;
+		
+	    List<User> adminUsers = userRepository.findAdminUsersBySystemIdExceptUser(systemId, userId);
+	    
+		if (adminUsers.size() == 1) {
+			admin2 = adminUsers.get(0);
+
+			if (admin1 != null && passwordEncoder.matches(admin1Password, admin1.getPassword()) && admin2 != null
+					&& passwordEncoder.matches(admin2Password, admin2.getPassword())) {
+				isValid = true;
+			}
+		} 
+		return isValid;
+	}
+	
 }

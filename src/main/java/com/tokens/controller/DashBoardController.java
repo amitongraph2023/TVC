@@ -1,5 +1,7 @@
 package com.tokens.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +15,7 @@ import com.tokens.models.MasterKey;
 import com.tokens.models.User;
 import com.tokens.repository.MasterKeyRepository;
 import com.tokens.request.AuthRequest;
+import com.tokens.request.ChangePasswordRequest;
 import com.tokens.service.TransactionService;
 import com.tokens.service.UserService;
 import com.tokens.service.CustomerService;
@@ -77,10 +80,15 @@ public class DashBoardController {
 	@GetMapping("/addMasterKey/{id}")
 	public ModelAndView addMasterKey(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
-		modelView.setViewName("masterKey.html");
-		MasterKey key = masterKeyRepository.findById(userId).get();
-		modelView.addObject("userId",userId);
-		modelView.addObject("masterKey", key.getMasterKey());
+		modelView.setViewName("masterKey.html");	
+		Optional<MasterKey> masterKeyOptional = masterKeyRepository.findById(userId);
+		if(masterKeyOptional.isPresent()) {
+			modelView.addObject("masterKey", masterKeyOptional.get().getMasterKey());
+			
+		} else {
+			modelView.addObject("masterKey", "");
+		}
+		modelView.addObject("userId",userId);		
 		return modelView;
 	}
 
@@ -140,5 +148,13 @@ public class DashBoardController {
 		return modelView;
 	}
 
+	@GetMapping("/changePassword/{id}")
+	public ModelAndView changePassword(@PathVariable("id") int userId) {
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("changePassword.html");
+		modelView.addObject("userId",userId);
+		modelView.addObject("ChangePassword", new ChangePasswordRequest());
+		return modelView;
+	}
 
 }

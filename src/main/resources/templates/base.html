@@ -31,6 +31,8 @@
 					th:href = "@{'/register'}">Register</a></li>
 				<li class = "align-self-sm-center"><a id = "log" class = "login text-success" th:href = "@{'/signin'}">Login</a></li>
 				<li class = "align-self-sm-center"><button id = "out" class = "login" style = "display:none">Log Out</button></li>
+				<li class = "align-self-sm-center"><a id = "changePass" class = "login text-success" style = "display:none" 
+					th:href = "@{/changePassword/{userId}(userId=${userId})}">Change Password</a></li>
 			</ul>
 		</div>
 
@@ -41,8 +43,6 @@
 				<div class="modal-buttons">
 					<a class="addKey text-white m-2" th:href="@{/addMasterKey/{userId}(userId=${userId})}">Add Master Key</a> 
 					<a id="addLocation" class="addKey text-white m-2" th:href="@{/getLocation}">Show Locations</a>
-					<!-- <button id="startButton" style = "display:none" class = "addKey text-white m-2" onclick="startSystem()">Start System</button>
-					<button id="stopButton" class = "addKey text-white m-2" onclick="stopSystem()">Stop System</button> -->
 				</div>
 			</div>
 		</div>

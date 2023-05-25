@@ -23,7 +23,7 @@ public class LocationServiceImpl implements LocationService{
 		try {
 			locationRepository.save(location);
 		} catch (Exception e) {
-			throw new Exception("Exception occurred while saving location to DB");
+			throw new Exception("Merchant Id Already Exist");
 		}
 	}
 

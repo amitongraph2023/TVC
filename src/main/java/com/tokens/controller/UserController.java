@@ -13,7 +13,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,6 +25,7 @@ import com.tokens.models.MasterKeyLogs;
 import com.tokens.models.TransactionStatusLogs;
 import com.tokens.models.User;
 import com.tokens.request.AuthRequest;
+import com.tokens.request.ChangePasswordRequest;
 import com.tokens.request.MasterKeyRequest;
 import com.tokens.response.AuthResponse;
 import com.tokens.service.UserService;
@@ -112,5 +115,30 @@ public class UserController {
 		}
 		return ResponseEntity.badRequest().body("Exception occurred while getting master key logs");
 	}
+	
+
+	@PutMapping("/users/changeAdminPassword")
+	public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+		boolean passwordChanged = userService.changeAdminPassword(changePasswordRequest.getUserId(), changePasswordRequest.getOldPassword() 
+								, changePasswordRequest.getNewPassword());
+
+		if (passwordChanged) {
+			return ResponseEntity.ok("Password changed successfully.");
+		} else {
+			return ResponseEntity.badRequest().body("Old Password doesn't match");
+		}
+	}
+	
+	@PostMapping("/validatePasswords")
+    public ResponseEntity<?> validatePasswords(@RequestParam("userId") int userId,
+    		@RequestParam("admin1Password") String admin1Password, @RequestParam("admin2Password") String admin2Password) {
+        boolean validPasswords = userService.validateAdminPasswords(userId, admin1Password, admin2Password);
+        
+        if (validPasswords) {
+            return ResponseEntity.ok().body("Password Successfully validated");
+        } else {
+            return ResponseEntity.badRequest().body("A System must have exactly two admin users. Please make sure You have provided the correct passwords.");
+        }
+    }
 
 }

@@ -2,7 +2,6 @@
 
 $(document).ready(function() {
 	$('#login').click(function(e) {
-		debugger;
 		e.preventDefault();
 
 		let userName = document.getElementById('userName').value;
@@ -49,7 +48,6 @@ $(document).ready(function() {
 
 
 $('#out').click(function(e){
-	debugger;
 	e.preventDefault();
 	localStorage.setItem("status", "loggedOut");
 	localStorage.setItem("role", "Norole");
@@ -73,42 +71,11 @@ if (localStorage.getItem('status') == "loggedIn") {
 if (localStorage.getItem('role') == "Admin") {
 	$("#key").show();
 	$("#reg").show();
+	$("#changePass").show();
 }
-
-
-$('#addKey').click(function(e) {
-	e.preventDefault();
-
-	let userId = document.getElementById('userId').value;
-	let masterKey = document.getElementById('masterKey').value;
-
-	if (masterKey != null && masterKey != "") {
-		$.ajax({
-			url: "/user/updateMasterKey",
-			type: 'POST',
-			data: JSON.stringify({ userId: userId, masterKey: masterKey }),
-			contentType: 'application/json',
-			success: function() {
-				alert("Successfully added MasterKey");
-				window.location.href = "/home";
-			},
-			error: function() {
-				alert("User can't update MasterKey");
-			}
-		});
-
-		return false;
-		
-	} else {
-		alert("Please Enter master key");
-	}
-
-
-});
 
 $('#registerUser').click(function(e) {
 	e.preventDefault();
-	debugger;
 	let userName = document.getElementById('userName').value;
 	let password = document.getElementById('password').value;
 	let email = document.getElementById('email').value;
@@ -154,7 +121,6 @@ $('#registerUser').click(function(e) {
 });
 
 $('#addMerchant').click(function(e) {
-	debugger;
 	e.preventDefault();
 
 	let merchantId = document.getElementById('merchantId').value;
@@ -202,9 +168,11 @@ function deleteMerchant(merchantId) {
 const configurationButton = document.getElementById("key");
 const modal = document.getElementById("myModal");
 
-configurationButton.addEventListener("click", function() {
-  modal.style.display = "block";
-});
+if(configurationButton!=null) {
+	configurationButton.addEventListener("click", function() {
+	  modal.style.display = "block";
+	});	
+}
 
 window.addEventListener("click", function(event) {
   if (event.target === modal) {
@@ -212,42 +180,118 @@ window.addEventListener("click", function(event) {
   }
 });
 
-/*let systemRunning = false;
+$('#recoverKey').click(function(e) {
+	e.preventDefault();
 
-function startSystem() {
-  console.log("Starting the system...");
-   $('#stopButton').show();
-   $('#startButton').hide();
-  setTimeout(function() {
-    console.log("System started");
-    systemRunning = true;
-    reinitializeDatabase();
-  }, 2000);
-  
+	let userId = document.getElementById('userId').value;
+	initiateMasterKeyRecovery(userId);
+
+});
+
+function initiateMasterKeyRecovery(userId) {
+	var confirmation = confirm("You are about to change the Master Key. Please note that once the Master Key is changed, "
+		+ "all new transactions will be approved with the new key. "
+		+ "Consequently, any verification attempt of older transactions against this new key during reconciliation will result in a mismatch. "
+		+ "arguments You must understand this before proceeding with the Master Key recovery process. "
+		+ "If unsure, please consult your system administrator or contact our support team.");
+
+	if (confirmation) {
+		var admin1 = window.prompt("Enter the password for admin1:");
+		if (admin1) {
+			var admin2 = window.prompt("Enter the password for admin2:");
+
+		}
+
+		if (admin2) {
+			var admin1Password = window.prompt("Re Enter the password for admin1:");
+			if (admin1Password) {
+				var admin2Password = window.prompt("Re Enter the password for admin2:");
+			}
+		}
+
+		if (admin2Password) {
+			$.ajax({
+				url: "/validatePasswords",
+				type: "POST",
+				data: { userId: userId, admin1Password: admin1Password, admin2Password: admin2Password },
+				success: function() {
+					$("#label").show();
+					$("#masterKey").show();
+					$("#addKey").show();
+					$("#recoverKey").hide();
+
+				},
+				error: function() {
+					alert("A System must have exactly two admin users. Please make sure You have provided the correct passwords.");
+				}
+			});
+
+
+		} else {
+			alert("Without Entering password you can't save master key");
+		}
+
+	} else {
+		window.location.href = "/home";
+	}
 }
 
-function stopSystem() {
-  console.log("Stopping the system...");
-  $('#stopButton').hide();
-   $('#startButton').show();
-  setTimeout(function() {
-    console.log("System stopped");
-    systemRunning = false;
-  }, 2000);
-}
+$('#addKey').click(function(e) {
+	e.preventDefault();
 
-function reinitializeDatabase() {
-    console.log("Reinitializing the database...");
-    setTimeout(function() {
-      console.log("Database reinitialized");
-    }, 2000);
-  
-}
+	let userId = document.getElementById('userId').value;
+	let masterKey = document.getElementById('masterKey').value;
 
-function openNav() {
-  document.getElementById("mySidepanel").style.width = "250px";
-}
+	if (masterKey != null && masterKey != "") {
+		$.ajax({
+			url: "/user/updateMasterKey",
+			type: 'POST',
+			data: JSON.stringify({ userId: userId, masterKey: masterKey }),
+			contentType: 'application/json',
+			success: function() {
+				alert("Master Key Successfully Recovered");
+				window.location.href = "/home";
+			},
+			error: function() {
+				alert("User can't Recover MasterKey");
+			}
+		});
 
-function closeNav() {
-  document.getElementById("mySidepanel").style.width = "0";
-}*/
+		return false;
+
+	} else {
+		alert("Please Enter master key");
+	}
+
+});
+
+
+$('#change').click(function(e) {
+	e.preventDefault();
+	
+	let userId = document.getElementById('userId').value;
+	let oldPassword = document.getElementById('oldPassword').value;
+	let newPassword = document.getElementById('newPassword').value;
+	
+	if (newPassword != null && newPassword != "") {
+		$.ajax({
+			url: "/users/changeAdminPassword",
+			type: 'PUT',
+			data: JSON.stringify({ userId: userId, oldPassword: oldPassword, newPassword: newPassword }),
+			contentType: 'application/json',
+			success: function() {
+				$("#passwordCheck").hide();
+				alert("Password changed successfully");
+				window.location.href = "/home";
+			},
+			error: function() {
+				$("#passwordCheck").show();
+			}
+		});
+		return false;
+
+	} else {
+		alert("Please Enter New Password");
+	}
+	
+});
