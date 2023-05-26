@@ -17,9 +17,11 @@ import org.springframework.stereotype.Component;
 
 import com.tokens.models.MasterKey;
 import com.tokens.models.MasterKeyLogs;
+import com.tokens.models.ServerStatus;
 import com.tokens.models.User;
 import com.tokens.repository.MasterKeyLogsRepository;
 import com.tokens.repository.MasterKeyRepository;
+import com.tokens.repository.ServerStatusRepository;
 import com.tokens.repository.UserRepository;
 
 @Component
@@ -36,6 +38,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	MasterKeyLogsRepository masterKeyLogsRepository;
 
+	@Autowired
+	ServerStatusRepository serverStatusRepository;
+	
 	@Autowired(required = true)
 	BCryptPasswordEncoder passwordEncoder;
 
@@ -169,5 +174,26 @@ public class UserServiceImpl implements UserService {
 		} 
 		return isValid;
 	}
-	
+
+	@Override
+	public void startStopServer(int userId, String status) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		User user = userRepository.findById(userId).get();
+		ServerStatus serverStatus = serverStatusRepository.findBySystemId(user.getSystemId());
+
+		if (serverStatus != null) {
+			serverStatus.setLastUpdated(dateFormat.format(new Date()));
+			serverStatus.setStatus(status);
+			serverStatusRepository.save(serverStatus);
+		} else {
+			serverStatus = new ServerStatus();
+			serverStatus.setCreatedDate(dateFormat.format(new Date()));
+			serverStatus.setSystemId(user.getSystemId());
+			serverStatus.setStatus(status);
+			serverStatusRepository.save(serverStatus);
+		}
+
+	}
+
+
 }

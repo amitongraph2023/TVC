@@ -19,4 +19,5 @@ public interface UserService {
 	
 	public boolean validateAdminPasswords(int userId, String admin1Password, String admin2Password);
 
+	public void startStopServer(int userId, String status);
 }

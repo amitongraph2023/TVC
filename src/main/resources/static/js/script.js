@@ -295,3 +295,76 @@ $('#change').click(function(e) {
 	}
 	
 });
+
+function updateServerStatus(userId, status) {
+	debugger;
+	$.ajax({
+		type: "GET",
+		url: "/startStopServer/" + userId + "/" + status,
+		success: function(response) {
+			console.log(response);
+			if (status === "start") {
+				localStorage.setItem("start", "true");
+				$("#home").show();
+				$("#reg").show();
+				$("#out").show();
+				$("#changePass").show();
+				$("#addMasterKey").show();
+				$("#addLocation").show();
+				$("#slog").show();
+				$("#div").show();
+				$("#klog").show();
+				$("#tlog").show();
+                $("#startStop").text("Stop");
+                $("#startStop").attr("onclick", "updateServerStatus(" + userId + ", \'stop\')");                
+                
+            } else {
+				localStorage.setItem("start", "false");
+				$("#home").hide();
+				$("#reg").hide();
+				$("#out").hide();
+				$("#changePass").hide();
+				$("#addMasterKey").hide();
+				$("#addLocation").hide();
+				$("#slog").hide();
+				$("#div").hide();
+				$("#klog").hide();
+				$("#tlog").hide();
+                $("#startStop").text("Start");
+                $("#startStop").attr("onclick", "updateServerStatus(" + userId + ", \'start\')");              
+            }
+		},
+		error: function(error) {
+			console.log(error);
+		}
+	});
+}
+
+if (localStorage.getItem('start') == "true") {
+	$("#home").show();
+	$("#reg").show();
+	$("#out").show();
+	$("#changePass").show();
+	$("#addMasterKey").show();
+	$("#addLocation").show();
+	$("#slog").show();
+	$("#div").show();
+	$("#klog").show();
+	$("#tlog").show();
+	$("#startStop").text("Stop");
+} else {
+	$("#home").hide();
+	$("#reg").hide();
+	$("#out").hide();
+	$("#changePass").hide();
+	$("#addMasterKey").hide();
+	$("#addLocation").hide();
+	$("#slog").hide();
+	$("#div").hide();
+	$("#klog").hide();
+	$("#tlog").hide();
+	$("#startStop").text("Start");
+}
+
+
+

@@ -2,6 +2,8 @@ package com.tokens.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.tokens.exceptions.CredentialValidationException;
 import com.tokens.models.MasterKeyLogs;
+import com.tokens.models.ServerStatus;
 import com.tokens.models.TransactionStatusLogs;
 import com.tokens.models.User;
 import com.tokens.request.AuthRequest;
@@ -31,6 +34,7 @@ import com.tokens.response.AuthResponse;
 import com.tokens.service.UserService;
 import com.tokens.utils.JwtCookieUtil;
 import com.tokens.utils.JwtUtil;
+import com.tokens.utils.ServerStatusUtil;
 
 @RestController
 public class UserController {
@@ -39,7 +43,7 @@ public class UserController {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -48,7 +52,6 @@ public class UserController {
 
 	@PostMapping("/user/registerUser")
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
-
 		try {
 			userService.registerAdminOrUser(user);
 		} catch (Exception ex) {
@@ -97,7 +100,6 @@ public class UserController {
 
 	@PostMapping("/user/updateMasterKey")
 	public ResponseEntity<String> addOrUpdateMasterKey(@RequestBody MasterKeyRequest request) {
-
 		Boolean isAdded = userService.addOrUpdateMasterKey(Integer.parseInt(request.getUserId()),
 				request.getMasterKey());
 		if (isAdded) {
@@ -140,5 +142,16 @@ public class UserController {
             return ResponseEntity.badRequest().body("A System must have exactly two admin users. Please make sure You have provided the correct passwords.");
         }
     }
+	
+	@GetMapping("/startStopServer/{id}/{status}")
+	public ResponseEntity<?> startServer(@PathVariable("id") int userId, @PathVariable("status") String status) {
+		try {
+			userService.startStopServer(userId, status);
+		} catch (Exception ex) {
+			return ResponseEntity.badRequest().body(ex.getMessage());
+		}
+
+		return ResponseEntity.ok().body("Success");
+	}
 
 }
