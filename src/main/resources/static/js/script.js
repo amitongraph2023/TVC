@@ -306,6 +306,8 @@ function updateServerStatus(userId, status) {
 			console.log(response);
 			if (status === "start") {
 				localStorage.setItem("start", "true");
+				$("#stop").show();   
+				$("#start").hide();
 				$("#home").show();
 				$("#reg").show();
 				$("#out").show();
@@ -315,12 +317,12 @@ function updateServerStatus(userId, status) {
 				$("#slog").show();
 				$("#div").show();
 				$("#klog").show();
-				$("#tlog").show();
-                $("#startStop").text("Stop");
-                $("#startStop").attr("onclick", "updateServerStatus(" + userId + ", \'stop\')");                
+				$("#tlog").show();              
                 
             } else {
 				localStorage.setItem("start", "false");
+				$("#start").show();   
+				$("#stop").hide();
 				$("#home").hide();
 				$("#reg").hide();
 				$("#out").hide();
@@ -330,9 +332,7 @@ function updateServerStatus(userId, status) {
 				$("#slog").hide();
 				$("#div").hide();
 				$("#klog").hide();
-				$("#tlog").hide();
-                $("#startStop").text("Start");
-                $("#startStop").attr("onclick", "updateServerStatus(" + userId + ", \'start\')");              
+				$("#tlog").hide(); 				       
             }
 		},
 		error: function(error) {
@@ -341,19 +341,9 @@ function updateServerStatus(userId, status) {
 	});
 }
 
-if (localStorage.getItem('start') == "true") {
-	$("#home").show();
-	$("#reg").show();
-	$("#out").show();
-	$("#changePass").show();
-	$("#addMasterKey").show();
-	$("#addLocation").show();
-	$("#slog").show();
-	$("#div").show();
-	$("#klog").show();
-	$("#tlog").show();
-	$("#startStop").text("Stop");
-} else {
+if (localStorage.getItem('start') == "false") {
+	$("#start").show();   
+	$("#stop").hide();
 	$("#home").hide();
 	$("#reg").hide();
 	$("#out").hide();
@@ -363,8 +353,7 @@ if (localStorage.getItem('start') == "true") {
 	$("#slog").hide();
 	$("#div").hide();
 	$("#klog").hide();
-	$("#tlog").hide();
-	$("#startStop").text("Start");
+	$("#tlog").hide();      
 }
 
 

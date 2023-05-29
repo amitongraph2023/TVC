@@ -41,7 +41,9 @@
 				<div class="modal-buttons">
 					<a id = "addMasterKey" class="addKey text-white m-2" th:href="@{/addMasterKey/{userId}(userId=${userId})}">Add Master Key</a> 
 					<a id="addLocation" class="addKey text-white m-2" th:href="@{/getLocation}">Show Locations</a>
-					<button id="startStop" class="addKey text-white m-2" style="width: 70%; text-align: center" 
+					<button id="start" class="addKey text-white m-2" style="width: 70%; text-align: center; display:none" 
+        					th:onclick="'updateServerStatus(' + ${userId} + ', \'start\')'">Start</button>
+					<button id="stop" class="addKey text-white m-2" style="width: 70%; text-align: center" 
         					th:onclick="'updateServerStatus(' + ${userId} + ', \'stop\')'">Stop</button>
 
 				</div>
