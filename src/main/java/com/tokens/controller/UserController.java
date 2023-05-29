@@ -30,6 +30,7 @@ import com.tokens.models.User;
 import com.tokens.request.AuthRequest;
 import com.tokens.request.ChangePasswordRequest;
 import com.tokens.request.MasterKeyRequest;
+import com.tokens.request.ValidatePasswordRequest;
 import com.tokens.response.AuthResponse;
 import com.tokens.service.UserService;
 import com.tokens.utils.JwtCookieUtil;
@@ -49,6 +50,9 @@ public class UserController {
 
 	@Autowired 
 	UserService userService;
+
+	@Autowired
+	ServerStatusUtil serverStatusUtil;
 
 	@PostMapping("/user/registerUser")
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
@@ -100,17 +104,25 @@ public class UserController {
 
 	@PostMapping("/user/updateMasterKey")
 	public ResponseEntity<String> addOrUpdateMasterKey(@RequestBody MasterKeyRequest request) {
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body("Curently System is stopped");
+		}
 		Boolean isAdded = userService.addOrUpdateMasterKey(Integer.parseInt(request.getUserId()),
 				request.getMasterKey());
 		if (isAdded) {
 			return ResponseEntity.ok().body("Successfully added User MasterKey");
 		}
 
-		return ResponseEntity.badRequest().body("MasterKey not found for userId");
+		return ResponseEntity.badRequest().body("User cannot update MasterKey");
 	}
 
 	@GetMapping("/user/getMasterKeyLogs/{id}")
 	public ResponseEntity<?> getMasterKeyLogs(@PathVariable("id") int userId) {
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body("Curently System is stopped");
+		}
 		List<MasterKeyLogs> masterKeyLogs = userService.getAllMasterKeyLogs(userId);
 		if (masterKeyLogs != null) {
 			return ResponseEntity.ok().body(masterKeyLogs);
@@ -124,6 +136,10 @@ public class UserController {
 		boolean passwordChanged = userService.changeAdminPassword(changePasswordRequest.getUserId(), changePasswordRequest.getOldPassword() 
 								, changePasswordRequest.getNewPassword());
 
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body("Curently System is stopped");
+		}
 		if (passwordChanged) {
 			return ResponseEntity.ok("Password changed successfully.");
 		} else {
@@ -132,9 +148,14 @@ public class UserController {
 	}
 	
 	@PostMapping("/validatePasswords")
-    public ResponseEntity<?> validatePasswords(@RequestParam("userId") int userId,
-    		@RequestParam("admin1Password") String admin1Password, @RequestParam("admin2Password") String admin2Password) {
-        boolean validPasswords = userService.validateAdminPasswords(userId, admin1Password, admin2Password);
+    public ResponseEntity<?> validatePasswords(@RequestBody ValidatePasswordRequest validatePasswordRequest) {
+		
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body("Curently System is stopped");
+		}
+        boolean validPasswords = userService.validateAdminPasswords(validatePasswordRequest.getUserId(), 
+        		validatePasswordRequest.getAdmin1Password(), validatePasswordRequest.getAdmin2Password());
         
         if (validPasswords) {
             return ResponseEntity.ok().body("Password Successfully validated");

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tokens.models.Location;
 import com.tokens.service.LocationService;
+import com.tokens.utils.ServerStatusUtil;
 
 @RestController
 public class LocationController {
@@ -21,8 +22,16 @@ public class LocationController {
 	@Autowired
 	LocationService locationService;
 	
+	@Autowired
+	ServerStatusUtil serverStatusUtil;
+	
 	@PostMapping("/addMerchant")
 	public ResponseEntity<String> addMerchant(@RequestBody Location location) {
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body("Curently System is stopped");
+		}
+		
 		if (location.getMerchantId() == null) {
 	        return ResponseEntity.badRequest().body("Merchant ID is null");
 	    }
@@ -43,7 +52,11 @@ public class LocationController {
 	
 	@GetMapping("/deleteMerchant/{merchantId}")
 	public ResponseEntity<String> removeMerchant(@PathVariable("merchantId") int merchantId) {
-
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body("Curently System is stopped");
+		}
+		
 		try {
 			locationService.removeMerchantById(merchantId);
 		} catch (Exception e) {

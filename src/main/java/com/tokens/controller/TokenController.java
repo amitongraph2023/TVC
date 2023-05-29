@@ -19,6 +19,7 @@ import com.tokens.request.CloudRequest;
 import com.tokens.request.TransactionStatusRequest;
 import com.tokens.response.CloudResponse;
 import com.tokens.service.TransactionService;
+import com.tokens.utils.ServerStatusUtil;
 
 @RestController
 public class TokenController {
@@ -26,9 +27,15 @@ public class TokenController {
 	@Autowired
 	TransactionService transactionService;
 	
+	@Autowired
+	ServerStatusUtil serverStatusUtil;
 	
 	@PostMapping("/transaction/generateToken")
 	public ResponseEntity<CloudResponse> generateTransactionToken(@Validated @RequestBody CloudRequest cloudRequest, BindingResult result){
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body(new CloudResponse("", "", "Curently System is stopped"));
+		}
 		
 		if (result.hasErrors()) {
             // Build error message and return bad request response
@@ -46,6 +53,11 @@ public class TokenController {
 
 	@GetMapping("/transaction/getLogsTransactionToken/{id}")
 	public ResponseEntity<?> logsTransactionToken(@PathVariable("id") int userId){
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body("Curently System is stopped");
+		}
+		
 		List<Transaction> transactionTokenLog = transactionService.logsTransactionToken(userId);
 		if (transactionTokenLog != null && transactionTokenLog.size() > 0) {
 			return ResponseEntity.ok().body(transactionTokenLog);
@@ -56,6 +68,11 @@ public class TokenController {
 	
 	@PostMapping("/transaction/updateTransactionStatus")
     public ResponseEntity<String> updateTransactionStatus(@RequestBody TransactionStatusRequest request) {
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body("Curently System is stopped");
+		}
+		
         String response = transactionService.updateTransactionStatus(request.getTransactionId(), request.getStatus());
         if (response != "" && response.equals("success")) {
         	return ResponseEntity.ok().body("Successfully updated");
@@ -65,6 +82,11 @@ public class TokenController {
 	
 	@GetMapping("/transaction/getTransactionStatusLogs/{id}")
 	public ResponseEntity<?> getTransactionStatusLogs(@PathVariable("id") int userId){
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body("Curently System is stopped");
+		}
+		
 		List<TransactionStatusLogs> transactionLog = transactionService.getTransactionStatusLogs(userId);
 		if (transactionLog != null) {
 			return ResponseEntity.ok().body(transactionLog);

@@ -213,7 +213,8 @@ function initiateMasterKeyRecovery(userId) {
 			$.ajax({
 				url: "/validatePasswords",
 				type: "POST",
-				data: { userId: userId, admin1Password: admin1Password, admin2Password: admin2Password },
+				data: JSON.stringify({ userId: userId, admin1Password: admin1Password, admin2Password: admin2Password }),
+				contentType: 'application/json',
 				success: function() {
 					$("#label").show();
 					$("#masterKey").show();
@@ -273,7 +274,7 @@ $('#change').click(function(e) {
 	let oldPassword = document.getElementById('oldPassword').value;
 	let newPassword = document.getElementById('newPassword').value;
 	
-	if (newPassword != null && newPassword != "") {
+	if (newPassword != null && newPassword != "" && oldPassword != null && oldPassword != "") {
 		$.ajax({
 			url: "/users/changeAdminPassword",
 			type: 'PUT',

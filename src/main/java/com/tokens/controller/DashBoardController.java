@@ -3,6 +3,7 @@ package com.tokens.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import com.tokens.request.AuthRequest;
 import com.tokens.request.ChangePasswordRequest;
 import com.tokens.service.TransactionService;
 import com.tokens.service.UserService;
+import com.tokens.utils.ServerStatusUtil;
 import com.tokens.service.CustomerService;
 import com.tokens.service.LocationDtoService;
 import com.tokens.service.LocationService;
@@ -48,6 +50,8 @@ public class DashBoardController {
 	@Autowired
 	MasterKeyRepository masterKeyRepository;
 	
+	@Autowired
+	ServerStatusUtil serverStatusUtil;
 
     public User getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -58,13 +62,18 @@ public class DashBoardController {
 	
 	@GetMapping({ "/", "/home" })
 	public ModelAndView home() {
-		ModelAndView modelView = new ModelAndView();
-		User user = getUser();
+		ModelAndView modelView = new ModelAndView();		    		
 		modelView.setViewName("home.html");
+		User user = getUser();
+		modelView.addObject("userId", user.getUserId());
+		boolean serverStart = serverStatusUtil.checkStatus();
+	    if (!serverStart) {
+	        return modelView;
+	    }		    
 		modelView.addObject("transactionCount", transactionService.countAllTransactionofSystem(user.getUserName()));
 		modelView.addObject("Customer",customerService.getTopCustomer(user.getUserName()));
 		modelView.addObject("topLocation",transactionService.getTopLocations(user.getUserName()));
-		modelView.addObject("userId", user.getUserId());
+		
 		return modelView;
 	}
 	
@@ -80,7 +89,11 @@ public class DashBoardController {
 	@GetMapping("/addMasterKey/{id}")
 	public ModelAndView addMasterKey(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
-		modelView.setViewName("masterKey.html");	
+		modelView.setViewName("masterKey.html");
+		boolean serverStart = serverStatusUtil.checkStatus();
+	    if (!serverStart) {
+	        return modelView;
+	    }				
 		Optional<MasterKey> masterKeyOptional = masterKeyRepository.findById(userId);
 		if(masterKeyOptional.isPresent()) {
 			modelView.addObject("masterKey", masterKeyOptional.get().getMasterKey());
@@ -104,6 +117,10 @@ public class DashBoardController {
 	public ModelAndView transactionStatusLogs(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("TransactionStatusLogs.html");
+		boolean serverStart = serverStatusUtil.checkStatus();
+	    if (!serverStart) {
+	        return modelView;
+	    }
 		modelView.addObject("TransactionStatusLogs", transactionService.getTransactionStatusLogs(userId));
 		return modelView;
 	}
@@ -112,6 +129,10 @@ public class DashBoardController {
 	public ModelAndView masterKeyLogs(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("masterKeyLogs.html");
+		boolean serverStart = serverStatusUtil.checkStatus();
+	    if (!serverStart) {
+	        return modelView;
+	    }
 		modelView.addObject("MasterKeyLogs", userService.getAllMasterKeyLogs(userId));
 		return modelView;
 	}
@@ -120,6 +141,10 @@ public class DashBoardController {
 	public ModelAndView transactionLogs(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("transactionLogs.html");
+		boolean serverStart = serverStatusUtil.checkStatus();
+	    if (!serverStart) {
+	        return modelView;
+	    }
 		modelView.addObject("TransactionLogs", transactionService.logsTransactionToken(userId));
 		return modelView;
 	}
@@ -128,6 +153,10 @@ public class DashBoardController {
 	public ModelAndView amountPerLocation(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("amountPerLocation.html");
+		boolean serverStart = serverStatusUtil.checkStatus();
+	    if (!serverStart) {
+	        return modelView;
+	    }
 		modelView.addObject("AmountPerLocation", locationDtoService.getAmountPerLocation(userId));
 		return modelView;
 	}
@@ -144,6 +173,10 @@ public class DashBoardController {
 	public ModelAndView getMerchant() {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("showLocation.html");
+		boolean serverStart = serverStatusUtil.checkStatus();
+	    if (!serverStart) {
+	        return modelView;
+	    }
 		modelView.addObject("Location", locationService.getLocations());
 		return modelView;
 	}
@@ -152,8 +185,12 @@ public class DashBoardController {
 	public ModelAndView changePassword(@PathVariable("id") int userId) {
 		ModelAndView modelView = new ModelAndView();
 		modelView.setViewName("changePassword.html");
+		boolean serverStart = serverStatusUtil.checkStatus();
+	    if (!serverStart) {
+	        return modelView;
+	    }
 		modelView.addObject("userId",userId);
-		modelView.addObject("ChangePassword", new ChangePasswordRequest());
+		modelView.addObject("changePasswordRequest", new ChangePasswordRequest());
 		return modelView;
 	}
 
