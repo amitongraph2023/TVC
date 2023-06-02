@@ -88,10 +88,10 @@ public class TokenController {
 		}
 		
 		List<TransactionStatusLogs> transactionLog = transactionService.getTransactionStatusLogs(userId);
-		if (transactionLog != null) {
+		if (transactionLog != null && transactionLog.size() > 0) {
 			return ResponseEntity.ok().body(transactionLog);
 		}
-		return ResponseEntity.badRequest().body("Exception occurred while getting transaction status logs");
+		return ResponseEntity.badRequest().body("No logs exists for this user");
 	}   
 	
 

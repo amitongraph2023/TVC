@@ -47,7 +47,7 @@ tr:hover {
 
 				<div class=" transaction-count">
 					<p>Top 5 Customer:</p>
-					<table class="table" style="width: 50%;">
+					<table class="table" style="width: 70%;">
 						<thead>
 							<tr>
 								<th>Customer ID</th>
@@ -85,9 +85,8 @@ tr:hover {
 			
 			<div class="card-body p-4" >
 				<a id="slog" class="addKey text-white" th:href="@{/transactionStatusLogs/{userId}(userId=${userId})}">Transaction Status logs</a> 
-				<a id="klog" class="addKey text-white" th:href="@{/masterKeyLogs/{userId}(userId=${userId})}">Master Key Logs</a>
 				<a id="tlog" class="addKey text-white" th:href="@{/transactionLogs/{userId}(userId=${userId})}">Transaction Logs</a>
-				<button id="key" style = "display:none" class = "addKey text-white" >Configuration</button> 
+				<button id="key" class = "addKey text-white" >Configuration</button> 
 				<a id = "changePass" class = "addKey text-white m-3" style = "display:none" 
 				   th:href = "@{/changePassword/{userId}(userId=${userId})}">Change Password</a>
 			</div>

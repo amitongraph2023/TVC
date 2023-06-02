@@ -15,8 +15,8 @@ public class ServerStatus {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name="systemId")
-	private String systemId;
+	@Column(name="userId")
+	private int userId;
 	
 	@Column(name="created_date")
 	private String createdDate;
@@ -35,12 +35,12 @@ public class ServerStatus {
 		this.id = id;
 	}
 
-	public String getSystemId() {
-		return systemId;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setSystemId(String systemId) {
-		this.systemId = systemId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getStatus() {

@@ -27,16 +27,15 @@ public class LocationDtoService {
 	UserRepository userRepository;
 
 	public List<LocationDto> getAmountPerLocation(int userId) {
-		User user = userRepository.findById(userId).get();
 		List<LocationDto> locationList = new ArrayList<>();
 		String sql = "SELECT tc.merchant_id as merchant_id, SUM(tc.amount) as total_amount FROM transaction tc"
-				+ " WHERE tc.system_id = :systemId GROUP BY tc.merchant_id ORDER BY total_amount DESC";
+				+ " WHERE tc.user_id = :user_id GROUP BY tc.merchant_id ORDER BY total_amount DESC";
 		try {
 			locationList = entityManager.createNativeQuery(sql, "LocationDtoMapping")
-					.setParameter("systemId", user.getSystemId()).getResultList();
+					.setParameter("user_id", userId).getResultList();
 
 		} catch (Exception ex) {
-			logger.error("Exception while getting Top Customers: " + ex.getMessage());
+			logger.error("Exception while getting Locations: " + ex.getMessage());
 		}
 
 		return locationList;

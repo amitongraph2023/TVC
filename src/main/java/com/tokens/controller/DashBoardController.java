@@ -70,9 +70,9 @@ public class DashBoardController {
 	    if (!serverStart) {
 	        return modelView;
 	    }		    
-		modelView.addObject("transactionCount", transactionService.countAllTransactionofSystem(user.getUserName()));
-		modelView.addObject("Customer",customerService.getTopCustomer(user.getUserName()));
-		modelView.addObject("topLocation",transactionService.getTopLocations(user.getUserName()));
+		modelView.addObject("transactionCount", transactionService.countAllTransactionofSystem(user.getUserId()));
+		modelView.addObject("Customer",customerService.getTopCustomer(user.getUserId()));
+		modelView.addObject("topLocation",transactionService.getTopLocations(user.getUserId()));
 		
 		return modelView;
 	}
@@ -104,14 +104,6 @@ public class DashBoardController {
 		modelView.addObject("userId",userId);		
 		return modelView;
 	}
-
-	@GetMapping("/register")
-	public ModelAndView register() {
-		ModelAndView modelView = new ModelAndView();
-		modelView.setViewName("register.html");
-		modelView.addObject("user", new User());
-		return modelView;
-	}
 	
 	@GetMapping("/transactionStatusLogs/{id}")
 	public ModelAndView transactionStatusLogs(@PathVariable("id") int userId) {
@@ -122,18 +114,6 @@ public class DashBoardController {
 	        return modelView;
 	    }
 		modelView.addObject("TransactionStatusLogs", transactionService.getTransactionStatusLogs(userId));
-		return modelView;
-	}
-	
-	@GetMapping("/masterKeyLogs/{id}")
-	public ModelAndView masterKeyLogs(@PathVariable("id") int userId) {
-		ModelAndView modelView = new ModelAndView();
-		modelView.setViewName("masterKeyLogs.html");
-		boolean serverStart = serverStatusUtil.checkStatus();
-	    if (!serverStart) {
-	        return modelView;
-	    }
-		modelView.addObject("MasterKeyLogs", userService.getAllMasterKeyLogs(userId));
 		return modelView;
 	}
 	

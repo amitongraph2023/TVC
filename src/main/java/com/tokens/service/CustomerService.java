@@ -25,14 +25,13 @@ public class CustomerService {
 	@Autowired
 	UserRepository userRepository;
 
-	public List<CustomerDto> getTopCustomer(String username) {
-		User user = userRepository.findByUserName(username);
+	public List<CustomerDto> getTopCustomer(int userId) {
 		List<CustomerDto> customerList = new ArrayList<>();
 		String sql = "SELECT tc.customer_id as customer_id, SUM(tc.amount) as total_amount FROM transaction tc"
-				+ " WHERE tc.system_id = :systemId GROUP BY tc.customer_id ORDER BY total_amount DESC";
+				+ " WHERE tc.user_id = :user_id GROUP BY tc.customer_id ORDER BY total_amount DESC";
 		try {
 			customerList = entityManager.createNativeQuery(sql, "CustomerDtoMapping")
-					.setParameter("systemId", user.getSystemId()).setMaxResults(5).getResultList();
+					.setParameter("user_id", userId).setMaxResults(5).getResultList();
 
 		} catch (Exception ex) {
 			logger.error("Exception while getting Top Customers: " + ex.getMessage());

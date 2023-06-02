@@ -9,6 +9,6 @@ import com.tokens.models.ServerStatus;
 @Repository
 public interface ServerStatusRepository extends JpaRepository<ServerStatus, Integer>{
 	
-	@Query("SELECT s FROM ServerStatus s WHERE s.systemId = :systemId")
-    ServerStatus findBySystemId(String systemId);
+	@Query("SELECT s FROM ServerStatus s WHERE s.userId = :userId")
+    ServerStatus findByUserId(int userId);
 }

@@ -15,19 +15,19 @@ public interface TransactionService {
 	
 	Transaction saveTransaction(CloudRequest req, String token);
 	
-	int countAllTransactionofSystem(String username);
+	int countAllTransactionofSystem(int userId);
 	
 	String validateCloudRequest(CloudRequest req);
 
 	String updateTransactionStatus(String transactionId, String status);
 	
-	TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated, String systemId);
+	TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated, Integer userId);
 	
 	List<TransactionStatusLogs> getTransactionStatusLogs(int userId);
 	
 	List<Transaction> logsTransactionToken(int userId);
 	
-	List<Location> getTopLocations(String username);
+	List<Location> getTopLocations(int userId);
 		
 }
 

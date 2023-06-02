@@ -12,6 +12,6 @@ import com.tokens.models.TransactionStatusLogs;
 @Repository
 public interface TrasactionStatusLogsRepository extends JpaRepository<TransactionStatusLogs, Integer>{
 
-	@Query("Select m from TransactionStatusLogs m where m.systemId = :systemId")
-	List<TransactionStatusLogs> findTransactionStatusLogs(@Param("systemId") String systemId);
+	@Query("Select m from TransactionStatusLogs m where m.userId = :userId")
+	List<TransactionStatusLogs> findTransactionStatusLogs(@Param("userId") int userId);
 }

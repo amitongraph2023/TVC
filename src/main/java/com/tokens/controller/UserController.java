@@ -27,6 +27,7 @@ import com.tokens.models.MasterKeyLogs;
 import com.tokens.models.ServerStatus;
 import com.tokens.models.TransactionStatusLogs;
 import com.tokens.models.User;
+import com.tokens.request.AdminRequest;
 import com.tokens.request.AuthRequest;
 import com.tokens.request.ChangePasswordRequest;
 import com.tokens.request.MasterKeyRequest;
@@ -134,7 +135,7 @@ public class UserController {
 	@PutMapping("/users/changeAdminPassword")
 	public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
 		boolean passwordChanged = userService.changeAdminPassword(changePasswordRequest.getUserId(), changePasswordRequest.getOldPassword() 
-								, changePasswordRequest.getNewPassword());
+								, changePasswordRequest.getNewPassword(), changePasswordRequest.getConfirmPassword());
 
 		boolean serverStart = serverStatusUtil.checkStatus();
 		if (!serverStart) {
@@ -143,19 +144,36 @@ public class UserController {
 		if (passwordChanged) {
 			return ResponseEntity.ok("Password changed successfully.");
 		} else {
-			return ResponseEntity.badRequest().body("Old Password doesn't match");
+			return ResponseEntity.badRequest().body("Password doesn't match");
 		}
 	}
 	
-	@PostMapping("/validatePasswords")
-    public ResponseEntity<?> validatePasswords(@RequestBody ValidatePasswordRequest validatePasswordRequest) {
+	@PostMapping("/validateAdmin1Passwords")
+    public ResponseEntity<?> validateAdmin1Passwords(@RequestBody ValidatePasswordRequest validatePasswordRequest) {
 		
 		boolean serverStart = serverStatusUtil.checkStatus();
 		if (!serverStart) {
 			return ResponseEntity.badRequest().body("Curently System is stopped");
 		}
-        boolean validPasswords = userService.validateAdminPasswords(validatePasswordRequest.getUserId(), 
-        		validatePasswordRequest.getAdmin1Password(), validatePasswordRequest.getAdmin2Password());
+        boolean validPasswords = userService.validateAdmin1Passwords(validatePasswordRequest.getUserId(), 
+        		validatePasswordRequest.getAdminPassword());
+        
+        if (validPasswords) {
+            return ResponseEntity.ok().body("Password Successfully validated");
+        } else {
+            return ResponseEntity.badRequest().body("Incorrect passwords.");
+        }
+    }
+	
+	@PostMapping("/validateAdmin2Passwords")
+    public ResponseEntity<?> validateAdmin2Passwords(@RequestBody ValidatePasswordRequest validatePasswordRequest) {
+		
+		boolean serverStart = serverStatusUtil.checkStatus();
+		if (!serverStart) {
+			return ResponseEntity.badRequest().body("Curently System is stopped");
+		}
+        boolean validPasswords = userService.validateAdmin2Passwords(validatePasswordRequest.getUserId(), 
+        		validatePasswordRequest.getAdminPassword());
         
         if (validPasswords) {
             return ResponseEntity.ok().body("Password Successfully validated");
@@ -172,7 +190,20 @@ public class UserController {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
 
-		return ResponseEntity.ok().body("Success");
+		return ResponseEntity.ok().body("Success");	
 	}
 
+	@PostMapping("/IntiallizeAdmin")
+	public ResponseEntity<?> initiallizeAdmin(@RequestBody AdminRequest adminRequest) {
+		try {
+			userService.InitiallizeAdmin(adminRequest.getAdmin1Password(), adminRequest.getAdmin2Password(),
+					adminRequest.getsystemId());
+		}
+		catch (Exception ex) {
+			return ResponseEntity.badRequest().body("UserId already exists");
+		}
+		return ResponseEntity.ok().body("Success");
+	}
+	
+	
 }

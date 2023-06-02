@@ -10,7 +10,7 @@ import com.tokens.models.MasterKey;
 @Repository
 public interface MasterKeyRepository extends JpaRepository<MasterKey, Integer>{
 	
-	@Query("Select m from MasterKey m where m.systemId = :systemId")
-	MasterKey findMasterKeyBySystemId(@Param("systemId") String systemId);
+	@Query("Select m from MasterKey m where m.userId = :userId")
+	MasterKey findMasterKeyByUserId(@Param("userId") int userId);
 
 }

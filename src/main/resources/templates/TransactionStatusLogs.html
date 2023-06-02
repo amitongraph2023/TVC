@@ -14,7 +14,7 @@
 					<tr>
 						<th>Transaction ID</th>
 						<th>Status</th>
-						<th>SystemId</th>
+						<th>UserId</th>
 						<th>lastUpdated</th>
 					</tr>
 				</thead>
@@ -22,7 +22,7 @@
 					<tr th:each="tsl : ${TransactionStatusLogs}">
 						<td th:text="${tsl.transactionId}"></td>
 						<td th:text="${tsl.status}"></td>
-						<td th:text="${tsl.systemId}"></td>
+						<td th:text="${tsl.userId}"></td>
 						<td th:text="${tsl.lastUpdated}"></td>
 					</tr>
 				</tbody>

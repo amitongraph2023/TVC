@@ -69,56 +69,11 @@ if (localStorage.getItem('status') == "loggedIn") {
 }
 
 if (localStorage.getItem('role') == "Admin") {
-	$("#key").show();
-	$("#reg").show();
+	$("#addMasterKey").show();
+	$("#stop").show();
 	$("#changePass").show();
 }
 
-$('#registerUser').click(function(e) {
-	e.preventDefault();
-	let userName = document.getElementById('userName').value;
-	let password = document.getElementById('password').value;
-	let email = document.getElementById('email').value;
-	let roleSize  = document.getElementsByName('role');
-	let role = null;
-	
-	roleSize.forEach(val => {
-		if(val.checked==true) {
-			role = val.value;
-		}
-	});
-	
-	let systemId = document.getElementById('systemId').value;
-
-	if (userName != null && userName != "" && password != null && password != "" && email != null && email != ""
-		&& role != null && role != "" && systemId != null && systemId != "") {
-
-		$.ajax({
-			url: "/user/registerUser",
-			type: 'POST',
-			data: JSON.stringify({ userName: userName, password: password, email: email, role: role, systemId: systemId }),
-			contentType: 'application/json',
-			success: function() {
-				alert("Successfully Register");
-				window.location.href = "/signin";
-			},
-			error: function(xhr) {
-				if (xhr.responseText == null) {
-					alert("Error occurred during register");
-				} else {
-					alert(xhr.responseText);
-				}
-				
-			}
-		});
-		return false;
-
-	} else {
-		alert("Please Enter Register Details");
-	}
-
-
-});
 
 $('#addMerchant').click(function(e) {
 	e.preventDefault();
@@ -180,60 +135,101 @@ window.addEventListener("click", function(event) {
   }
 });
 
+window.addEventListener("click", function(event) {
+  if (event.target === modal1) {
+    modal1.style.display = "none";
+  }
+})
+
+const modal1 = document.getElementById("Modal");
+
 $('#recoverKey').click(function(e) {
+	debugger;
 	e.preventDefault();
 
 	let userId = document.getElementById('userId').value;
-	initiateMasterKeyRecovery(userId);
-
-});
-
-function initiateMasterKeyRecovery(userId) {
 	var confirmation = confirm("You are about to change the Master Key. Please note that once the Master Key is changed, "
 		+ "all new transactions will be approved with the new key. "
 		+ "Consequently, any verification attempt of older transactions against this new key during reconciliation will result in a mismatch. "
 		+ "arguments You must understand this before proceeding with the Master Key recovery process. "
 		+ "If unsure, please consult your system administrator or contact our support team.");
-
+		
 	if (confirmation) {
-		var admin1 = window.prompt("Enter the password for admin1:");
-		if (admin1) {
-			var admin2 = window.prompt("Enter the password for admin2:");
+		var count = 0;
+		initiateMasterKeyRecovery1(userId, count);
+	} else {
+		window.location.href = "/home";
+	}
 
-		}
+});
 
-		if (admin2) {
-			var admin1Password = window.prompt("Re Enter the password for admin1:");
-			if (admin1Password) {
-				var admin2Password = window.prompt("Re Enter the password for admin2:");
+function initiateMasterKeyRecovery1(userId, count) {
+	modal1.style.display = "block";
+	$('#verify').click(function(e) {
+		var adminPassword = document.getElementById('admin1Password').value;
+		validateAdmin1Passwords(userId, adminPassword, count);
+	});
+}
+
+function validateAdmin1Passwords(userId, adminPassword, count) {
+	if (adminPassword != null && adminPassword != "") {
+		$.ajax({
+			url: "/validateAdmin1Passwords",
+			type: "POST",
+			data: JSON.stringify({ userId: userId, adminPassword: adminPassword }),
+			contentType: 'application/json',
+			success: function() {
+				$("#div2").show();
+				$("#div1").hide();
+				initiateMasterKeyRecovery2(userId, count);
+				$("#admin1Password").val("");
+			},
+			error: function() {
+				alert("Please Enter Correct Passwords.");
 			}
-		}
+		});
+	} else {
+		alert("Enter Admin1 Password");
+	}
+}
 
-		if (admin2Password) {
-			$.ajax({
-				url: "/validatePasswords",
-				type: "POST",
-				data: JSON.stringify({ userId: userId, admin1Password: admin1Password, admin2Password: admin2Password }),
-				contentType: 'application/json',
-				success: function() {
+function initiateMasterKeyRecovery2(userId, count) {
+	$('#verifyadmin').click(function(e) {
+		var adminPassword = document.getElementById('admin2Password').value;
+		count++;
+		validateAdmin2Passwords(userId, adminPassword, count);
+	});
+}
+
+function validateAdmin2Passwords(userId, adminPassword, count) {
+	if (adminPassword != null && adminPassword != "") {
+		$.ajax({
+			url: "/validateAdmin2Passwords",
+			type: "POST",
+			data: JSON.stringify({ userId: userId, adminPassword: adminPassword }),
+			contentType: 'application/json',
+			success: function() {
+				if (count == 2) {
 					$("#label").show();
 					$("#masterKey").show();
 					$("#addKey").show();
 					$("#recoverKey").hide();
-
-				},
-				error: function() {
-					alert("A System must have exactly two admin users. Please make sure You have provided the correct passwords.");
+					modal1.style.display = "none";
+					$("#div2").hide();
+					$("#div1").hide();
+				} else {
+					$("#div2").hide();
+					$("#div1").show();
+					initiateMasterKeyRecovery1(userId, count);
 				}
-			});
-
-
-		} else {
-			alert("Without Entering password you can't save master key");
-		}
-
+				$("#admin2Password").val("");
+			},
+			error: function() {
+				alert("A System must have exactly two admin users. Please make sure You have provided the correct passwords.");
+			}
+		});
 	} else {
-		window.location.href = "/home";
+		alert("Enter Admin2 Password");
 	}
 }
 
@@ -273,12 +269,13 @@ $('#change').click(function(e) {
 	let userId = document.getElementById('userId').value;
 	let oldPassword = document.getElementById('oldPassword').value;
 	let newPassword = document.getElementById('newPassword').value;
+	let confirmPassword = document.getElementById('confirmPassword').value;
 	
-	if (newPassword != null && newPassword != "" && oldPassword != null && oldPassword != "") {
+	if (newPassword != null && newPassword != "" && oldPassword != null && oldPassword != "" && confirmPassword != null && confirmPassword != "") {
 		$.ajax({
 			url: "/users/changeAdminPassword",
 			type: 'PUT',
-			data: JSON.stringify({ userId: userId, oldPassword: oldPassword, newPassword: newPassword }),
+			data: JSON.stringify({ userId: userId, oldPassword: oldPassword, newPassword: newPassword, confirmPassword: confirmPassword }),
 			contentType: 'application/json',
 			success: function() {
 				$("#passwordCheck").hide();
@@ -298,7 +295,6 @@ $('#change').click(function(e) {
 });
 
 function updateServerStatus(userId, status) {
-	debugger;
 	$.ajax({
 		type: "GET",
 		url: "/startStopServer/" + userId + "/" + status,
@@ -309,7 +305,6 @@ function updateServerStatus(userId, status) {
 				$("#stop").show();   
 				$("#start").hide();
 				$("#home").show();
-				$("#reg").show();
 				$("#out").show();
 				$("#changePass").show();
 				$("#addMasterKey").show();
@@ -324,7 +319,6 @@ function updateServerStatus(userId, status) {
 				$("#start").show();   
 				$("#stop").hide();
 				$("#home").hide();
-				$("#reg").hide();
 				$("#out").hide();
 				$("#changePass").hide();
 				$("#addMasterKey").hide();
@@ -345,7 +339,6 @@ if (localStorage.getItem('start') == "false") {
 	$("#start").show();   
 	$("#stop").hide();
 	$("#home").hide();
-	$("#reg").hide();
 	$("#out").hide();
 	$("#changePass").hide();
 	$("#addMasterKey").hide();

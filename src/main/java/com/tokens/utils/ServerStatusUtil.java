@@ -5,8 +5,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import com.tokens.models.Admin;
 import com.tokens.models.ServerStatus;
 import com.tokens.models.User;
+import com.tokens.repository.AdminRepository;
 import com.tokens.repository.ServerStatusRepository;
 import com.tokens.repository.UserRepository;
 
@@ -26,7 +28,7 @@ public class ServerStatusUtil {
 		String username = authentication.getName();
 		User user = userRepository.findByUserName(username);
 
-		ServerStatus serverStatus = serverStatusRepository.findBySystemId(user.getSystemId());
+		ServerStatus serverStatus = serverStatusRepository.findByUserId(user.getUserId());
 		if (serverStatus != null && serverStatus.getStatus().equals("start")) {
 			return true;
 		}

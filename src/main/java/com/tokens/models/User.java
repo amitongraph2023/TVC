@@ -28,11 +28,6 @@ public class User {
 	
 	@Column(name="role")
 	private String role;
-	
-	@NotBlank(message = "systemId is null")
-	@Column(name="systemId")
-	
-	private String systemId;
 
 	public Integer getUserId() {
 		return userId;
@@ -72,14 +67,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getSystemId() {
-		return systemId;
-	}
-
-	public void setSystemId(String systemId) {
-		this.systemId = systemId;
 	}
 
 }

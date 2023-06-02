@@ -4,9 +4,7 @@ public class ValidatePasswordRequest {
 
 	private Integer userId;
 	
-	private String admin1Password;
-	
-	private String admin2Password;
+	private String adminPassword;
 
 	public Integer getUserId() {
 		return userId;
@@ -16,20 +14,13 @@ public class ValidatePasswordRequest {
 		this.userId = userId;
 	}
 
-	public String getAdmin1Password() {
-		return admin1Password;
+	public String getAdminPassword() {
+		return adminPassword;
 	}
 
-	public void setAdmin1Password(String admin1Password) {
-		this.admin1Password = admin1Password;
+	public void setAdminPassword(String adminPassword) {
+		this.adminPassword = adminPassword;
 	}
 
-	public String getAdmin2Password() {
-		return admin2Password;
-	}
-
-	public void setAdmin2Password(String admin2Password) {
-		this.admin2Password = admin2Password;
-	}
 
 }

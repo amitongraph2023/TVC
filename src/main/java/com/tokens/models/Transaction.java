@@ -75,15 +75,15 @@ public class Transaction {
 	
 	@Column(name="lastUpdated")
 	private String lastUpdated;
-	
-	@Column(name="system_id")
-	private String systemId;
+
+	@Column(name="userId")
+	private int userId;
 	
 	public Transaction() {}
 	
 	public Transaction(String transactionId, String token, String customerId,
 			Double amount, String createdDate, Integer merchantId, Integer posId, String cardNumber, String sourceIp,
-			String gpsLocation, String status,String systemId) {
+			String gpsLocation, String status, int userId) {
 		
 		super();
 		this.transactionId = transactionId;
@@ -97,7 +97,15 @@ public class Transaction {
 		this.sourceIp = sourceIp;
 		this.gpsLocation = gpsLocation;
 		this.status = status;
-		this.systemId = systemId;
+		this.userId = userId;
+	}
+
+	public Integer getInternalTransactionId() {
+		return internalTransactionId;
+	}
+
+	public void setInternalTransactionId(Integer internalTransactionId) {
+		this.internalTransactionId = internalTransactionId;
 	}
 
 	public String getTransactionId() {
@@ -108,23 +116,6 @@ public class Transaction {
 		this.transactionId = transactionId;
 	}
 
-
-	public String getCardNumber() {
-		return cardNumber;
-	}
-
-	public void setCardNumber(String cardNumber) {
-		this.cardNumber = cardNumber;
-	}
-
-	public String getGpsLocation() {
-		return gpsLocation;
-	}
-
-	public void setGpsLocation(String gpsLocation) {
-		this.gpsLocation = gpsLocation;
-	}
-
 	public String getToken() {
 		return token;
 	}
@@ -133,36 +124,12 @@ public class Transaction {
 		this.token = token;
 	}
 
-	public String getUserId() {
+	public String getCustomerId() {
 		return customerId;
 	}
 
-	public void setUserId(String userId) {
-		this.customerId = userId;
-	}
-
-	public Integer getLocationId() {
-		return merchantId;
-	}
-
-	public void setLocationId(Integer locationId) {
-		this.merchantId = locationId;
-	}
-
-	public Integer getPosId() {
-		return posId;
-	}
-
-	public void setPosId(Integer posId) {
-		this.posId = posId;
-	}
-
-	public String getSourceIp() {
-		return sourceIp;
-	}
-
-	public void setSourceIp(String sourceIp) {
-		this.sourceIp = sourceIp;
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
 	}
 
 	public Double getAmount() {
@@ -181,28 +148,44 @@ public class Transaction {
 		this.createdDate = createdDate;
 	}
 
-	public Integer getInternalTransactionId() {
-		return internalTransactionId;
-	}
-
-	public void setInternalTransactionId(Integer internalTransactionId) {
-		this.internalTransactionId = internalTransactionId;
-	}
-
-	public String getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
-
 	public Integer getMerchantId() {
 		return merchantId;
 	}
 
 	public void setMerchantId(Integer merchantId) {
 		this.merchantId = merchantId;
+	}
+
+	public Integer getPosId() {
+		return posId;
+	}
+
+	public void setPosId(Integer posId) {
+		this.posId = posId;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+	public String getSourceIp() {
+		return sourceIp;
+	}
+
+	public void setSourceIp(String sourceIp) {
+		this.sourceIp = sourceIp;
+	}
+
+	public String getGpsLocation() {
+		return gpsLocation;
+	}
+
+	public void setGpsLocation(String gpsLocation) {
+		this.gpsLocation = gpsLocation;
 	}
 
 	public String getStatus() {
@@ -220,11 +203,15 @@ public class Transaction {
 	public void setLastUpdated(String lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
-	public String getSystemId() {
-		return systemId;
-	}
-	public void setSystemId(String systemId) {
-		this.systemId = systemId;
+
+	public int getUserId() {
+		return userId;
 	}
 
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	
+	
 }

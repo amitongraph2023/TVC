@@ -74,12 +74,12 @@ public class TransactionServiceImpl implements TransactionService {
 				}
 			}
 
-			MasterKey key = masterKeyRepository.findMasterKeyBySystemId(request.getSystemId());
+			MasterKey key = masterKeyRepository.findMasterKeyByUserId(request.getUserId());
 			if (key != null && key.getMasterKey() != null) {
 				token = CodeGenerator.generateHashCode(key.getMasterKey());
 			} else {
 				logger.error("Cannot generate Token Without MasterKey");
-				return new CloudResponse("", "", "SystemId doesn't Exists");
+				return new CloudResponse("", "", "UserId doesn't Exists");
 			}
 
 			// saving transactions in DB
@@ -108,7 +108,7 @@ public class TransactionServiceImpl implements TransactionService {
 				transaction = new Transaction(req.getTransactionId(), token, req.getCustomerId(),
 						Double.parseDouble(req.getAmount()), req.getCreatedDate(), Integer.parseInt(req.getStationId()),
 						Integer.parseInt(req.getPosId()), req.getCardNumber(), req.getSourceIp(), req.getGpsLocation(),
-						TransactionStatus.PENDING.name(), req.getSystemId());
+						TransactionStatus.PENDING.name(), req.getUserId());
 
 				if (checkLocationIfExsists(transaction.getMerchantId())) {
 					transaction = transactionRepository.save(transaction);
@@ -132,8 +132,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public List<Transaction> logsTransactionToken(int userId) {
-		User user = userRepository.findById(userId).get();
-		List<Transaction> transactionTokenLog = transactionRepository.findTransactionLogs(user.getSystemId());
+		List<Transaction> transactionTokenLog = transactionRepository.findTransactionLogs(userId);
 		return transactionTokenLog;
 	}
 
@@ -215,7 +214,7 @@ public class TransactionServiceImpl implements TransactionService {
 					transactionRepository.save(transaction);
 				}
 				saveTransactionStatusLogs(transactionId, transaction.getStatus(), transaction.getLastUpdated(),
-						transaction.getSystemId());
+						transaction.getUserId());
 				
 				response = "success";
 			}
@@ -228,11 +227,11 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	@Transactional
 	public TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated,
-			String systemId) {
+			Integer userId) {
 		TransactionStatusLogs transactionStatusLogs = null;
 
 		try {
-			transactionStatusLogs = new TransactionStatusLogs(transactionId, status, lastUpdated, systemId);
+			transactionStatusLogs = new TransactionStatusLogs(transactionId, status, lastUpdated, userId);
 			transactionStatusLogsRepository.save(transactionStatusLogs);
 
 		} catch (Exception ex) {
@@ -243,18 +242,15 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public List<TransactionStatusLogs> getTransactionStatusLogs(int userId) {
-		User user = userRepository.findById(userId).get();
-		List<TransactionStatusLogs> transactionLog = transactionStatusLogsRepository
-				.findTransactionStatusLogs(user.getSystemId());
+		List<TransactionStatusLogs> transactionLog = transactionStatusLogsRepository.findTransactionStatusLogs(userId);
 		return transactionLog;
 	}
 
 	@Override
-	public List<Location> getTopLocations(String username) {
-		User user = userRepository.findByUserName(username);
+	public List<Location> getTopLocations(int userId) {
 		List<Location> locationList = new ArrayList<Location>();
 		try {
-			locationList = locationRepository.findTopLocations(user.getSystemId());
+			locationList = locationRepository.findTopLocations(userId);
 		} catch (Exception ex) {
 			logger.error("Exception while getting Top Locations: " + ex.getMessage());
 		}
@@ -262,11 +258,10 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public int countAllTransactionofSystem(String username) {
+	public int countAllTransactionofSystem(int userId) {
 		int count = 0;
 		try {
-			User user = userRepository.findByUserName(username);
-			count = (int) transactionRepository.findTransactionCountofSystem(user.getSystemId());
+			count = (int) transactionRepository.findTransactionCountofSystem(userId);
 		} catch (Exception ex) {
 			logger.error("Exception while counting transaction, Error : " + ex.getMessage());
 		}

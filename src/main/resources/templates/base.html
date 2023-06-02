@@ -27,8 +27,6 @@
 		<div>
 			<ul class="navbar-nav gap-3">
 				<li class="navbar-text"><a id ="home" style="font-weight:bold; display:none" class="nav-link text-white" href="/home">HOME</a></li>
-				<li class = "align-self-sm-center"><a id = "reg" style = "display:none" class = "login text-success" 
-					th:href = "@{'/register'}">Register</a></li>
 				<li class = "align-self-sm-center"><a id = "log" class = "login text-success" th:href = "@{'/signin'}">Login</a></li>
 				<li class = "align-self-sm-center"><button id = "out" class = "login" style = "display:none">Log Out</button></li>
 			</ul>
@@ -39,13 +37,30 @@
 		<div class="modal" id="myModal">
 			<div class="modal-content">
 				<div class="modal-buttons">
-					<a id = "addMasterKey" class="addKey text-white m-2" th:href="@{/addMasterKey/{userId}(userId=${userId})}">Add Master Key</a> 
+					<a id = "addMasterKey" class="addKey text-white m-2" style="display:none"
+						th:href="@{/addMasterKey/{userId}(userId=${userId})}">Add Master Key</a> 
 					<a id="addLocation" class="addKey text-white m-2" th:href="@{/getLocation}">Show Locations</a>
 					<button id="start" class="addKey text-white m-2" style="width: 70%; text-align: center; display:none" 
         					th:onclick="'updateServerStatus(' + ${userId} + ', \'start\')'">Start</button>
-					<button id="stop" class="addKey text-white m-2" style="width: 70%; text-align: center" 
+					<button id="stop" class="addKey text-white m-2" style="width: 70%; text-align: center; display:none" 
         					th:onclick="'updateServerStatus(' + ${userId} + ', \'stop\')'">Stop</button>
 
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal" id="Modal">
+			<div class="modal-content">
+				<div id ="div1" class="modal-buttons">
+					<label for="admin1Password" class="form-label">Enter Admin1 Password</label> 
+					<input name="admin1Password" type="password" class="form-control"id="admin1Password" required>
+					<button id="verify" class="btn m-3 text-bg-success text-white" style="width: 40%; text-align: center">Verify</button>				
+				</div>
+				
+				<div id= "div2" class="modal-buttons" style = "display:none">
+					<label for="admin2Password" class="form-label">Enter Admin2 Password</label> 
+					<input name="admin2Password" type="password" class="form-control" id="admin2Password" required>
+					<button id="verifyadmin" class="btn m-3 text-bg-success text-white" style="width: 40%; text-align: center">Verify</button>
 				</div>
 			</div>
 		</div>

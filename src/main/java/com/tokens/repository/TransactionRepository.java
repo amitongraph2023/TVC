@@ -16,10 +16,10 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
 			+ "tr.id = (SELECT MIN(t.id) FROM Transaction t WHERE t.transactionId = :transactionId)")
 	Transaction findByTransactionId(@Param("transactionId") String transactionId);
 	
-	@Query("Select COUNT(tr) from Transaction tr where tr.systemId = :systemId")
-	int findTransactionCountofSystem(@Param("systemId") String systemId);
+	@Query("Select COUNT(tr) from Transaction tr where tr.userId = :userId")
+	int findTransactionCountofSystem(@Param("userId") int userId);
 	
-	@Query("Select t from Transaction t where t.systemId = :systemId")
-	List<Transaction> findTransactionLogs(@Param("systemId") String systemId);
+	@Query("Select t from Transaction t where t.userId = :userId")
+	List<Transaction> findTransactionLogs(@Param("userId") int userId);
 
 }

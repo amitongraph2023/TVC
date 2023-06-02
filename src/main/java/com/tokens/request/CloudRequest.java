@@ -35,11 +35,9 @@ public class CloudRequest {
 	@NotBlank(message = "sourceIp is null")
     @Size(min = 2, max = 30)
 	private String sourceIp;
-	
-	@NotBlank(message = "systemId is null")
-    @Size(min = 2, max = 30)
-	private String systemId;
 
+	private int userId;
+	
 	// optional
 	private String gpsLocation;
 
@@ -115,12 +113,15 @@ public class CloudRequest {
 		this.gpsLocation = gpsLocation;
 	}
 
-	public String getSystemId() {
-		return systemId;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setSystemId(String systemId) {
-		this.systemId = systemId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
+
+	
+
 
 }

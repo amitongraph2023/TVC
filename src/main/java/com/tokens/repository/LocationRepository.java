@@ -16,7 +16,7 @@ public interface LocationRepository extends JpaRepository<Location, Integer>{
 	Location findByMerchantId(@Param("merchantId") int merchantId);
 	
 	@Query("SELECT lc FROM Location lc where lc.merchantId IN " 
-			+ "( Select tr.merchantId FROM Transaction tr where tr.systemId = :systemId GROUP BY tr.merchantId "
+			+ "( Select tr.merchantId FROM Transaction tr where tr.userId = :userId GROUP BY tr.merchantId "
 			+ "ORDER BY SUM(tr.amount) DESC)")
-	List<Location> findTopLocations(@Param("systemId") String systemId);
+	List<Location> findTopLocations(@Param("userId") int userId);
 }
