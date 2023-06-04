@@ -227,7 +227,7 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	@Transactional
 	public TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated,
-			Integer userId) {
+			int userId) {
 		TransactionStatusLogs transactionStatusLogs = null;
 
 		try {

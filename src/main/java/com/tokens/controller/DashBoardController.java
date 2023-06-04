@@ -94,9 +94,9 @@ public class DashBoardController {
 	    if (!serverStart) {
 	        return modelView;
 	    }				
-		Optional<MasterKey> masterKeyOptional = masterKeyRepository.findById(userId);
-		if(masterKeyOptional.isPresent()) {
-			modelView.addObject("masterKey", masterKeyOptional.get().getMasterKey());
+	    MasterKey key = masterKeyRepository.findMasterKeyByUserId(userId);
+		if(key != null) {
+			modelView.addObject("masterKey", key.getMasterKey());
 			
 		} else {
 			modelView.addObject("masterKey", "");

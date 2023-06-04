@@ -21,7 +21,7 @@ public interface TransactionService {
 
 	String updateTransactionStatus(String transactionId, String status);
 	
-	TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated, Integer userId);
+	TransactionStatusLogs saveTransactionStatusLogs(String transactionId, String status, String lastUpdated, int userId);
 	
 	List<TransactionStatusLogs> getTransactionStatusLogs(int userId);
 	

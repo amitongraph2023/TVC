@@ -25,7 +25,7 @@ public class TransactionStatusLogs {
 	private String lastUpdated;
 	
 	@Column(name="userId")
-	private Integer userId;
+	private int userId;
 	
 	public Integer getId() {
 		return id;
@@ -52,17 +52,17 @@ public class TransactionStatusLogs {
 		this.lastUpdated = lastUpdated;
 	}
 	
-	public Integer getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(Integer userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public TransactionStatusLogs() {
 		super();
 	}
 	
-	public TransactionStatusLogs(String transactionId, String status, String lastUpdated, Integer userId) {
+	public TransactionStatusLogs(String transactionId, String status, String lastUpdated, int userId) {
 		super();
 		this.transactionId = transactionId;
 		this.status = status;

@@ -156,6 +156,7 @@ $('#recoverKey').click(function(e) {
 		
 	if (confirmation) {
 		var count = 0;
+		modal1.style.display = "block";
 		initiateMasterKeyRecovery1(userId, count);
 	} else {
 		window.location.href = "/home";
@@ -164,7 +165,7 @@ $('#recoverKey').click(function(e) {
 });
 
 function initiateMasterKeyRecovery1(userId, count) {
-	modal1.style.display = "block";
+	debugger;
 	$('#verify').click(function(e) {
 		var adminPassword = document.getElementById('admin1Password').value;
 		validateAdmin1Passwords(userId, adminPassword, count);
@@ -172,6 +173,7 @@ function initiateMasterKeyRecovery1(userId, count) {
 }
 
 function validateAdmin1Passwords(userId, adminPassword, count) {
+	debugger;
 	if (adminPassword != null && adminPassword != "") {
 		$.ajax({
 			url: "/validateAdmin1Passwords",
@@ -194,6 +196,7 @@ function validateAdmin1Passwords(userId, adminPassword, count) {
 }
 
 function initiateMasterKeyRecovery2(userId, count) {
+	debugger;
 	$('#verifyadmin').click(function(e) {
 		var adminPassword = document.getElementById('admin2Password').value;
 		count++;
@@ -202,6 +205,7 @@ function initiateMasterKeyRecovery2(userId, count) {
 }
 
 function validateAdmin2Passwords(userId, adminPassword, count) {
+	debugger;
 	if (adminPassword != null && adminPassword != "") {
 		$.ajax({
 			url: "/validateAdmin2Passwords",

@@ -7,12 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.tokens.models.MasterKey;
 import com.tokens.models.MasterKeyLogs;
 
 @Repository
 public interface MasterKeyLogsRepository extends JpaRepository<MasterKeyLogs,Integer>{
 
-	@Query("Select m from MasterKeyLogs m where m.systemId = :systemId")
-	List<MasterKeyLogs> findMasterKeyLogs(@Param("systemId") String systemId);
+	@Query("Select m from MasterKeyLogs m where m.userId = :userId")
+	List<MasterKeyLogs> findMasterKeyLogs(@Param("userId") int userId);
+	
 
 }

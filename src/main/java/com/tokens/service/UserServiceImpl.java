@@ -56,10 +56,7 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(userId).get();
 		Admin admin = adminRepository.findByUserId(userId);
 		MasterKey key = null;
-		Optional<MasterKey> masterKeyOptional = masterKeyRepository.findById(userId);
-		if (masterKeyOptional.isPresent()) {
-			key = masterKeyOptional.get();
-		} 
+		key = masterKeyRepository.findMasterKeyByUserId(userId);
 		if (key != null && user.getRole().equals("Admin")) {
 			key.setMasterKey(masterKey);
 			key.setSystemId(admin.getSystemId());
@@ -67,7 +64,15 @@ public class UserServiceImpl implements UserService {
 			masterKeyRepository.save(key);
 			saveMasterKeyLogs(key);
 			isUpdated = true;
-		} else if (key == null && admin.getSystemId() != null) {
+		} else if (key == null && user.getRole().equals("User")) {
+			key = new MasterKey();
+			key.setMasterKey(masterKey);
+			key.setUserId(userId);
+			key.setCreatedOn(dateFormat.format(new Date()));
+			key = masterKeyRepository.save(key);
+			saveMasterKeyLogs(key);
+			isUpdated = true;
+		}else if (key == null && user.getRole().equals("Admin")) {
 			key = new MasterKey();
 			key.setMasterKey(masterKey);
 			key.setUserId(userId);
@@ -76,7 +81,7 @@ public class UserServiceImpl implements UserService {
 			key = masterKeyRepository.save(key);
 			saveMasterKeyLogs(key);
 			isUpdated = true;
-		} else if (user.getRole().equals("User")) {
+		}else if (user.getRole().equals("User")) {
 			logger.error("User cannot update MasterKey");
 			isUpdated = false;
 		}
@@ -112,6 +117,7 @@ public class UserServiceImpl implements UserService {
 		logs.setMasterKey(masterKey.getMasterKey());
 		logs.setSystemId(masterKey.getSystemId());
 		logs.setCreatedOn(dateFormat.format(new Date()));
+		logs.setUserId(masterKey.getUserId());
 		try {
 			masterKeyLogsRepository.save(logs);			
 		} catch (Exception e) {
@@ -122,8 +128,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<MasterKeyLogs> getAllMasterKeyLogs(int userId) {
-		Admin admin = adminRepository.findByUserId(userId);
-		List<MasterKeyLogs> list = masterKeyLogsRepository.findMasterKeyLogs(admin.getSystemId());
+		List<MasterKeyLogs> list = masterKeyLogsRepository.findMasterKeyLogs(userId);
 		return list;
 	}
 
